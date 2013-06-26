@@ -84,10 +84,11 @@ namespace MAPlayer
 		{
 			
 			GameObject go 		= Resources.Load("Defenders/"+GetDefenderType() ) as GameObject;
-			Defender defender 	= go.GetComponent<Defender>();
 			
-			if( defender == null )
-				Debug.LogError("Unable to load resource: Defenders/"+GetDefenderType() );
+			if( go == null )
+				Debug.LogError("Unable to load resource: Defenders/"+GetDefenderType() );			
+			
+			Defender defender 	= go.GetComponent<Defender>();
 			
 			// Apply all the talents
 			Talent [] talents 	= defender.GetComponents<Talent>();

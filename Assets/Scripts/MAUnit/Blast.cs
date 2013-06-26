@@ -13,7 +13,7 @@ namespace MAUnit
 			ConstructBlast(1000);
 	    }
 		
-		public float ConstructBlast(float range)
+		public void ConstructBlast(float range)
 		{
 	        gameObject.AddComponent("MeshFilter");
 	        gameObject.AddComponent("MeshRenderer");

@@ -77,7 +77,9 @@ namespace MAUnit
 	public enum EDefender
 	{
 		Sniper,
+		Guardian,
 		Berserker,
+		Engineer
 		
 	}
 }

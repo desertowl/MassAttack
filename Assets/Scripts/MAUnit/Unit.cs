@@ -7,7 +7,7 @@ namespace MAUnit
 	public abstract class Unit : MonoBehaviour
 	{
 		public Texture icon;
-		public string name;
+		public new string name;
 		public string desc;		
 		
 		protected float hp;

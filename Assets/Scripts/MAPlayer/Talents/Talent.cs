@@ -13,7 +13,7 @@ namespace MAPlayer
 	[System.Serializable]
 	public abstract class Talent : MonoBehaviour
 	{
-		public string name;
+		public new string name;
 		public string desc;
 		public Texture icon;
 		public int cost;

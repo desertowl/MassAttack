@@ -186,10 +186,11 @@ $RECYCLE.BIN/
 #############
 ## Unity
 #############
-Library/
-ProjectSettings/
+#Library/
+Library/metadata/
+#ProjectSettings/
 Assets/Standard Assets/
-*.sln
-*.userprefs
-*.csproj
-*.unityproj
+#*.sln
+#*.userprefs
+#*.csproj
+#*.unityproj
