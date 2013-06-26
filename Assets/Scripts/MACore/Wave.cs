@@ -6,7 +6,8 @@ namespace MACore
 	public enum EMonsterType
 	{
 		Weenie,
-		Solider
+		Solider,
+		Disruptor
 	}
 	
 	[System.Serializable]

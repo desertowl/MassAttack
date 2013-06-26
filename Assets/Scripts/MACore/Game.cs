@@ -190,17 +190,15 @@ namespace MACore
 		{
 			Monster monster = null;
 			
-			if( type == EMonsterType.Weenie )
-			{
-				GameObject obj = Instantiate(Resources.Load ("Monsters/Weenie")) as GameObject;
-				monster = obj.GetComponent<Monster>();
-			}
+			GameObject obj = Instantiate(Resources.Load ("Monsters/"+type)) as GameObject;
 			
-			if( monster == null )
+			if( obj == null )
 			{
 				Debug.LogError("Unable to load monster of type " + type );
 				return null;
-			}
+			}			
+			
+			monster = obj.GetComponent<Monster>();
 			
 			// Find a spawn point
 			SpawnPoint spawn = GetRandomSpawnPoint();
