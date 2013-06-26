@@ -188,6 +188,7 @@ $RECYCLE.BIN/
 #############
 Library/
 ProjectSettings/
+Assets/Standard Assets/
 *.sln
 *.userprefs
 *.csproj
