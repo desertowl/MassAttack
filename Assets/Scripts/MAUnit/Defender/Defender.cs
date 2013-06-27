@@ -42,17 +42,27 @@ namespace MAUnit
 				Debug.DrawLine(transform.position, target.transform.position, Color.green);
 		}
 		
+		/// <summary>
+		/// Picks the random target.
+		/// </summary>
 		protected void PickRandomTarget()
 		{
 			// Get the active defenders
 			List<Monster> monsters = Game.Instance.Monsters;
 			
-			if( monsters.Count > 0 )
-				target = monsters[(int)(UnityEngine.Random.value*monsters.Count)];	
-			else
-				target = null;
-			
-			//Debug.Log("PICKED TARGET: " + target );
+			// The combat area!
+			CombatArea area = Game.Instance.level.area;
+
+			for( int x=0;x< monsters.Count;x ++ )
+			{
+				Monster monster = monsters[x];
+				if( area.IsWithin(monster.transform.position) )
+				{
+					target = monster;
+					return;
+				}
+			}
+			target = null;
 		}	
 		
 		/// <summary>

@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\MACore\CombatArea.cs" />
      <Compile Include="Assets\Scripts\MACore\FakeFactory.cs" />
      <Compile Include="Assets\Scripts\MACore\Game.cs" />
      <Compile Include="Assets\Scripts\MACore\Level.cs" />

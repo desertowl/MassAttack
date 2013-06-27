@@ -5,6 +5,9 @@ namespace MACore
 {
 	public class SpawnRing : SpawnPoint
 	{		
+		/// <summary>
+		/// Raises the draw gizmos selected event.
+		/// </summary>
 	    void OnDrawGizmosSelected()
 		{
 			float inc = 10.0f;
@@ -24,6 +27,15 @@ namespace MACore
 			}
 	    }
 		
+		/// <summary>
+		/// Gets the position at angle.
+		/// </summary>
+		/// <returns>
+		/// The position at angle.
+		/// </returns>
+		/// <param name='deg'>
+		/// Deg.
+		/// </param>
 		private Vector3 GetPositionAtAngle(float deg)
 		{
 			// Get the angle
@@ -33,6 +45,12 @@ namespace MACore
 			return new Vector3( Mathf.Sin(a) * transform.localScale.x, 0.0f, Mathf.Cos(a) * transform.localScale.z) + transform.position;
 		}
 		
+		/// <summary>
+		/// Gets the next spawn.
+		/// </summary>
+		/// <returns>
+		/// The next spawn.
+		/// </returns>
 		public override Vector3 GetNextSpawn()
 		{
 			return GetPositionAtAngle(360.0f * UnityEngine.Random.value);

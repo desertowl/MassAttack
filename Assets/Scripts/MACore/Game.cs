@@ -114,9 +114,7 @@ namespace MACore
 			
 			if( def == null )
 				Debug.LogError("UNABLE TO SPAWN DEFENDER " + data.GetDefenderType() );			
-			
 
-			
 			// Register them with the HUD
 			GetComponent<GameHUD>().Add(def);
 			

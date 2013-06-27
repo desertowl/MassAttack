@@ -125,6 +125,12 @@ namespace MAUnit
 		public virtual void MoveTowards()
 		{
 			transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime*speed);			
+			
+			if( animation != null )
+			{
+				Debug.Log("I HAVE ANImATIONS: " + animation.GetClipCount() );
+				animation.Play("Run");
+			}
 		}
 		
 		public virtual void AttackTarget()

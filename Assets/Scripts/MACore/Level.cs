@@ -11,6 +11,7 @@ namespace MACore
 		public List<Wave> waves;
 		
 		private List<Wave> remaining;
+		public CombatArea area;
 		public Level ()
 		{
 		}
@@ -18,6 +19,10 @@ namespace MACore
 		public void Start()
 		{
 			remaining = new List<Wave>(waves);
+			
+			// get the combat area
+			GameObject obj 	= GameObject.FindGameObjectWithTag("Combat Area");
+			area 			= obj.GetComponent<CombatArea>();
 		}
 		
 		public bool AllWavesSent()
