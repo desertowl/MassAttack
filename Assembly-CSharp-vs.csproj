@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,20 +67,13 @@
      <Compile Include="Assets\Scripts\MAPlayer\Talents\Talent.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Blast.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Defender\Defender.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\IPower.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Monster\Monster.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Unit.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Weapon.cs" />
- <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
- </Reference>
- <Reference Include="JsonFx.Json">
+ <Reference Include="Assets\JsonFX\JsonFx.Json">
  <HintPath>Assets\JsonFX\JsonFx.Json.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{D72B27D7-778C-FD25-22AC-8DAEA0875F7D}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

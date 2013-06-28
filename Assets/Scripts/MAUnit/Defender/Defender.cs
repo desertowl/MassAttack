@@ -9,6 +9,15 @@ namespace MAUnit
 	public class Defender : Unit
 	{
 		public EDefender type;
+		public Power power;
+		
+		public void Awake()
+		{
+			base.Awake();
+			
+			// Accessor!
+			power = GetComponent<Power>();
+		}		
 		
 		/// <summary>
 		/// Picks the target.

@@ -38,13 +38,12 @@ namespace MAUnit
 			lastAttack = Time.fixedTime;
 			if( attack != null )
 				UnityEngine.AudioSource.PlayClipAtPoint(attack, transform.position);
-			Debug.Log("GOING To spawn weapon fx..." + weaponFX );
+			
 			// If I have a line FX, show it
 			if( weaponFX != null )
 			{
 				
 				FX effect = (Instantiate(weaponFX, transform.position, Quaternion.identity) as GameObject).GetComponent<FX>();
-				Debug.Log("SPAwning weapon effect " + effect );
 				effect.SetTarget(target);
 			}
 		}	

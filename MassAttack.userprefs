@@ -1,5 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MACore\CombatArea.cs">
     <Files>
       <File FileName="Assets\Scripts\MACore\Spawn\SpawnRing.cs" Line="1" Column="1" />
@@ -11,6 +12,14 @@
       <File FileName="Assets\Scripts\MAPlayer\GameData.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MAUnit\Defender\Defender.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MACore\CombatArea.cs" Line="63" Column="1" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MAUnit/Defender/Defender.cs">
+    <Files>
+      <File FileName="Assets/Scripts/MAGUI/GameHUD.cs" Line="89" Column="9" />
+      <File FileName="Assets/Scripts/MAGUI/Status.cs" Line="22" Column="49" />
+      <File FileName="Assets/Scripts/MAUnit/Defender/Defender.cs" Line="12" Column="15" />
+      <File FileName="Assets/Scripts/MAUnit/Power.cs" Line="6" Column="18" />
+>>>>>>> 9e5b8af2e691e68dc45001aa64fb7714978c3ded
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

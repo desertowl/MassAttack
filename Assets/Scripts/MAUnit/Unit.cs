@@ -149,7 +149,6 @@ namespace MAUnit
 				return;
 			 
 			ParticleSystem effect = Instantiate(hurt, transform.position, Quaternion.identity) as ParticleSystem;
-			Debug.Log("OBJ: " + effect );
 			Destroy(effect.gameObject, hurt.duration);
 		}
 		
