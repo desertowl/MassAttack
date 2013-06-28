@@ -28,6 +28,17 @@ namespace MAUnit
 			if( defenders.Count > 0 ) 
 				target = defenders[(int)(UnityEngine.Random.value*defenders.Count)];
 		}
+		
+		/// <summary>
+		/// Sets the target.
+		/// </summary>
+		/// <param name='target'>
+		/// Target.
+		/// </param>
+		public void SetTarget(Unit target)
+		{
+			this.target = target;
+		}
 	}
 }
 

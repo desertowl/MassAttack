@@ -4,40 +4,19 @@ using MAFX;
 
 namespace MAUnit
 {
-	public class Weapon : MonoBehaviour
+	public class Weapon : Attack
 	{
-		public float damage;
 		public float range;
-		public float rate;
-		public float force = 0.0f;
-		private float lastAttack;
-		public AudioClip attack;
 		public GameObject weaponFX;
-		
-		public void Awake()
-		{
-			lastAttack = 0;
-		}
-		
-		/// <summary>
-		/// Gets the cooldown.
-		/// </summary>
-		/// <returns>
-		/// The cooldown.
-		/// </returns>
-		private float GetCooldown()
-		{
-			return Mathf.Max(0, lastAttack+rate - Time.fixedTime);
-		}
+
 		
 		/// <summary>
 		/// Plays the attack.
 		/// </summary>
 		public void Attack(Unit target)
 		{
-			lastAttack = Time.fixedTime;
-			if( attack != null )
-				UnityEngine.AudioSource.PlayClipAtPoint(attack, transform.position);
+			CooldownBegin();
+			PlaySound();
 			
 			// If I have a line FX, show it
 			if( weaponFX != null )

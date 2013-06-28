@@ -188,6 +188,7 @@ $RECYCLE.BIN/
 #############
 #Library/
 Temp/
+Temp\
 Library/metadata/
 #ProjectSettings/
 Assets/Standard Assets/

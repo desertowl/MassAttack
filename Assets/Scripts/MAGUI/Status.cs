@@ -19,12 +19,24 @@ namespace MAGUI
 			if( unit == null ) return;
 			
 			// THe icon
+			Power power = GetPower();
+			GUI.enabled = !IsOnCooldown();
+			
 			if( GUI.RepeatButton(    	new Rect(offset.x,offset.y,64,64), unit.icon ) )
 			{
 				ActivatePower();
 			}
+			
+			if( IsOnCooldown() )
+			{
+				string cd =  "";
+				if( power != null )
+					cd = power.GetCooldown().ToString("n2");
+				GUI.Label( 		new Rect( offset.x + 4, offset.y + 4 , 60, 64), cd );
+			}
 			GUI.Label( 		new Rect( offset.x + 70, offset.y + 0 , 200, 30), unit.name );
 			GUI.TextArea(	new Rect( offset.x + 70, offset.y + 30, 100, 20), unit.desc, GUI.skin.customStyles[0] );
+			GUI.enabled = true;
 			
 			if( unit.IsReady() )
 			{
@@ -47,16 +59,42 @@ namespace MAGUI
 		}
 		
 		/// <summary>
+		/// Gets the power.
+		/// </summary>
+		/// <returns>
+		/// The power.
+		/// </returns>
+		private Power GetPower()
+		{
+			if( unit is Defender )
+				return ((Defender)unit).power;
+			
+			return null;
+		}
+		
+		/// <summary>
+		/// Determines whether this instance is on cooldown.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance is on cooldown; otherwise, <c>false</c>.
+		/// </returns>
+		private bool IsOnCooldown()
+		{
+			Power power = GetPower();
+			
+			if( power == null )
+				return true;
+			return power.GetCooldown()>0;
+		}
+		
+		/// <summary>
 		/// Activates the power.
 		/// </summary>
 		private void ActivatePower()
 		{
-			Power power = null;
-
-			if( unit is Defender )
-				power = ((Defender)unit).power;
+			Power power = GetPower();
 			
-			if( power == null )
+			if( power == null || power.GetCooldown()>0 ) 
 				return;
 				
 			// Living ready units can activate a power!

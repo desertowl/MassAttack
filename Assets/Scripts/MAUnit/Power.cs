@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace MAUnit
 {
-	public abstract class Power : MonoBehaviour
+	public abstract class Power : Attack
 	{
 		// Use this for initialization
 		public abstract void OnActivateBegin ();
@@ -12,6 +12,18 @@ namespace MAUnit
 		public abstract void OnActivateUpdate ();
 		
 		// Use this for execution
-		public abstract void OnActivateEnd ();		
+		public abstract void OnActivateEnd ();	
+		
+		
+		/// <summary>
+		/// Gets the defender.
+		/// </summary>
+		/// <returns>
+		/// The defender.
+		/// </returns>
+		protected Defender GetDefender()
+		{
+			return GetComponent<Defender>();
+		}
 	}
 }

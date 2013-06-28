@@ -35,7 +35,7 @@ namespace MAPlayer
 					GetNewStat(ref defender.weapon.damage);
 					break;
 				case EStatType.WeaponSpeed:
-					GetNewStat(ref defender.weapon.rate);
+					GetNewStat(ref defender.weapon.cooldown);
 					break;
 				case EStatType.WeaponRange:
 					GetNewStat(ref defender.weapon.range);

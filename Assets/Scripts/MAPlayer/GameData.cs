@@ -35,9 +35,9 @@ namespace MAPlayer
 				PlayerPrefs.DeleteKey("data");
 					
 			// Unlock the first two defenders by default
-			roster.Add( ""+EDefender.Sniper, 	new DefenderData(EDefender.Sniper, false) );
-			roster.Add( ""+EDefender.Guardian,	new DefenderData(EDefender.Guardian, false) );
-			//roster.Add( ""+EDefender.Berserker,	new DefenderData(EDefender.Berserker, false) );
+			//roster.Add( ""+EDefender.Sniper, 	new DefenderData(EDefender.Sniper, false) );
+			//roster.Add( ""+EDefender.Guardian,	new DefenderData(EDefender.Guardian, false) );
+			roster.Add( ""+EDefender.Berserker,	new DefenderData(EDefender.Berserker, false) );
 			//roster.Add( ""+EDefender.Engineer,	new DefenderData(EDefender.Engineer, false) );
 		}
 		
