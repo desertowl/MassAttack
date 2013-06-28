@@ -3,15 +3,15 @@ using System.Collections;
 
 namespace MAUnit
 {
-	public interface IPower
+	public abstract class Power : MonoBehaviour
 	{
 		// Use this for initialization
-		void OnActivateBegin ();
+		public abstract void OnActivateBegin ();
 		
 		// Update is called once per frame
-		void OnActivateUpdate ();
+		public abstract void OnActivateUpdate ();
 		
 		// Use this for execution
-		void OnActivateEnd ();		
+		public abstract void OnActivateEnd ();		
 	}
 }
