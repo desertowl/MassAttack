@@ -107,6 +107,12 @@ namespace MACore
 				Spawn (data);
 		}
 		
+		/// <summary>
+		/// Spawn the specified data.
+		/// </summary>
+		/// <param name='data'>
+		/// Data.
+		/// </param>
 		public Defender Spawn(DefenderData data)
 		{
 			// Spawn the game object
@@ -114,9 +120,7 @@ namespace MACore
 			
 			if( def == null )
 				Debug.LogError("UNABLE TO SPAWN DEFENDER " + data.GetDefenderType() );			
-			
 
-			
 			// Register them with the HUD
 			GetComponent<GameHUD>().Add(def);
 			
@@ -136,15 +140,14 @@ namespace MACore
 			return def;
 		}
 		
+		/// <summary>
+		/// Update this instance.
+		/// </summary>
 		public void Update()
 		{
 			// Dont pump anymore unless you need to
 			if( state != EGameState.Playing )
-			{
-				if( state == EGameState.Victory || state == EGameState.Defeat )
-					Time.timeScale = Math.Max( Time.timeScale - 0.002f, 0 );
 				return;
-			}
 			
 			// Get the current time
 			float now = Time.fixedTime - start;
@@ -236,10 +239,14 @@ namespace MACore
 		/// <param name='target'>
 		/// If set to <c>true</c> target.
 		/// </param>
-		public bool DoDamage(Unit source, Weapon weapon, Unit target)
+		public bool DoDamage(Unit source, Attack attack, Unit target)
 		{
+			// If the attack is not active, do nothing!
+			if( !attack.Active )
+				return false;
+			
 			// Get the damage to be done
-			float damage = weapon.damage - target.armor;
+			float damage = attack.damage - target.armor;
 			if( damage < 0 )
 				return false;
 			
@@ -250,7 +257,7 @@ namespace MACore
 			// Get the force & direction of the murder!
 			Vector3 force = target.transform.position - source.transform.position;
 			force.Normalize();
-			force *= weapon.force;
+			force *= attack.force;
 			
 			if( target.CurrentHealth <= 0 && !target.IsDead() )
 			{

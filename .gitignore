@@ -187,6 +187,8 @@ $RECYCLE.BIN/
 ## Unity
 #############
 #Library/
+Temp/
+Temp\
 Library/metadata/
 #ProjectSettings/
 Assets/Standard Assets/

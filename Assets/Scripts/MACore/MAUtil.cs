@@ -4,7 +4,8 @@ using JsonFx.Json;
 namespace MACore
 {
 	public class MAUtil
-	{
+	{	
+		
 		/// <summary>
 		/// Jsons the encode.
 		/// </summary>

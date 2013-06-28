@@ -1,0 +1,42 @@
+using System;
+using MAUnit;
+using MACore;
+using MAPlayer;
+using UnityEngine;
+using System.Collections.Generic;
+
+namespace MAUnit
+{
+	public class Suicide : Power
+	{
+		private List<Defender> sentries = new List<Defender>();
+		// Use this for initialization
+		public override void OnActivateBegin ()
+		{
+		}
+		
+		// Update is called once per frame
+		public override void OnActivateUpdate ()
+		{
+		}
+		
+		// Use this for execution
+		public override void OnActivateEnd ()
+		{
+		}
+		
+		
+		public override void OnAvailable()
+		{
+			Debug.LogWarning("IM AVAILABLE!");
+			PlaySound();
+			CooldownBegin();
+			
+			// Kill myself
+			Defender def = GetDefender();
+			Game.Instance.Kill( def, Vector3.up );
+			Destroy(def, cooldown/3);
+		}
+	}
+}
+
