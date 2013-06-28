@@ -67,15 +67,17 @@
      <Compile Include="Assets\Scripts\MAPlayer\Talents\StatBoostTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\Talent.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Blast.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Defender\Defender.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Monster\Monster.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Power.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Provoke.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\RadialPower.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\Blast.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\Power.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\Provoke.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\RadialPower.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\SpawnSentry.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\Suicide.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Power\Whirlwind.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Unit.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Weapon.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Whirlwind.cs" />
  <Reference Include="JsonFx.Json">
  <HintPath>Assets\JsonFX\JsonFx.Json.dll</HintPath>
  </Reference>

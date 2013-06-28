@@ -14,6 +14,8 @@ namespace MAUnit
 		// Use this for execution
 		public abstract void OnActivateEnd ();	
 		
+		public abstract void OnAvailable();
+		
 		
 		/// <summary>
 		/// Gets the defender.

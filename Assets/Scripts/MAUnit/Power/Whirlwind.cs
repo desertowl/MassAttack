@@ -63,6 +63,8 @@ namespace MAUnit
 			me.speed 	/= speedBonusPercent;
 			Destroy(instance);
 		}		
+		
+		public override void OnAvailable(){}
 	}
 }
 

@@ -49,6 +49,8 @@ namespace MAUnit
 			
 			GameObject.Destroy(instance);
 		}
+		
+		public override void OnAvailable(){}
 	}
 }
 

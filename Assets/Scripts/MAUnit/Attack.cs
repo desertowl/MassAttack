@@ -16,7 +16,7 @@ namespace MAUnit
 		/// <summary>
 		/// Begins the cooldown
 		/// </summary>
-		protected void CooldownBegin()
+		public void CooldownBegin()
 		{
 			lastAttack = Time.fixedTime;			
 		}			

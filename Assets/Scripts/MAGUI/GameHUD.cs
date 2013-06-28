@@ -83,9 +83,13 @@ public class GameHUD : MAHUD
 		return Game.Instance.GetGoldEarned();
 	}	
 	
+	/// <summary>
+	/// Draws the in game U.
+	/// </summary>
 	void DrawInGameUI()
 	{
-		foreach( Status s in status )
+		List<Status> statues = new List<Status>(status);
+		foreach( Status s in statues )
 			s.Draw();		
 	}
 		

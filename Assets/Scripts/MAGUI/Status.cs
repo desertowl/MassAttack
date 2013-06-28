@@ -10,6 +10,7 @@ namespace MAGUI
 		private Unit unit = null;
 		private readonly float HP_BAR_WIDTH = 128;
 		private bool init = false;
+		private bool wasOnCD = false;
 		
 		/// <summary>
 		/// Draw this instance.
@@ -18,9 +19,20 @@ namespace MAGUI
 		{
 			if( unit == null ) return;
 			
+			
 			// THe icon
-			Power power = GetPower();
-			GUI.enabled = !IsOnCooldown();
+			Power power 	= GetPower();
+			bool onCooldown = IsOnCooldown();
+			
+			// Clear the availibty
+			if( wasOnCD && !onCooldown && power != null )
+				power.OnAvailable();
+			
+			
+			wasOnCD = onCooldown;			
+			GUI.enabled = !onCooldown;
+			
+			
 			
 			if( GUI.RepeatButton(    	new Rect(offset.x,offset.y,64,64), unit.icon ) )
 			{

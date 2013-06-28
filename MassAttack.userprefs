@@ -1,14 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MAUnit\Whirlwind.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MAGUI\Status.cs">
     <Files>
-      <File FileName="Assets\Scripts\MAUnit\Blast.cs" Line="29" Column="15" />
-      <File FileName="Assets\Scripts\MAUnit\Provoke.cs" Line="56" Column="1" />
-      <File FileName="Assets\Scripts\MACore\Spawn\SpawnRing.cs" Line="30" Column="1" />
-      <File FileName="Assets\Scripts\MACore\Game.cs" Line="119" Column="30" />
-      <File FileName="Assets\Scripts\MAPlayer\GameData.cs" Line="40" Column="4" />
-      <File FileName="Assets\Scripts\MAUnit\RadialPower.cs" Line="82" Column="5" />
-      <File FileName="Assets\Scripts\MAUnit\Whirlwind.cs" Line="38" Column="37" />
+      <File FileName="Assets\Scripts\MACore\Game.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MACore\Spawn\SpawnRing.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MAPlayer\GameData.cs" Line="40" Column="6" />
+      <File FileName="Assets\Scripts\MAUnit\Attack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MAPlayer\Talents\StatBoostTalent.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MAPlayer\DefenderData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MAUnit\Unit.cs" Line="53" Column="1" />
+      <File FileName="Assets\Scripts\MAUnit\Power\SpawnSentry.cs" Line="29" Column="4" />
+      <File FileName="Assets\Scripts\MAUnit\Power\Provoke.cs" Line="30" Column="1" />
+      <File FileName="Assets\Scripts\MAUnit\Defender\Defender.cs" Line="96" Column="14" />
+      <File FileName="Assets\Scripts\MAGUI\GameHUD.cs" Line="88" Column="16" />
+      <File FileName="Assets\Scripts\MAUnit\Power\Power.cs" Line="17" Column="38" />
+      <File FileName="Assets\Scripts\MAUnit\Power\Whirlwind.cs" Line="33" Column="4" />
+      <File FileName="Assets\Scripts\MAUnit\Power\Suicide.cs" Line="10" Column="27" />
+      <File FileName="Assets\Scripts\MAGUI\Status.cs" Line="26" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

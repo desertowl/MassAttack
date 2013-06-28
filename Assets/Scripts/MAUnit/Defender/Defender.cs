@@ -98,8 +98,8 @@ namespace MAUnit
 		Sniper,
 		Guardian,
 		Berserker,
-		Engineer
-		
+		Engineer,
+		Sentry,
 	}
 }
 

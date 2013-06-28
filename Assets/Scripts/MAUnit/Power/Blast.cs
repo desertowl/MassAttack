@@ -100,6 +100,8 @@ namespace MAUnit
 			foreach( Monster target in targets )
 				Game.Instance.DoDamage(defender, this, target);
 		}
+		
+		public override void OnAvailable(){}
 	}
 }
 
