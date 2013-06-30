@@ -7,17 +7,19 @@ namespace MAUnit
 	[RequireComponent(typeof (CapsuleCollider))]
 	public abstract class Unit : MonoBehaviour
 	{
+		
 		public GameObject DefaultTarget;
 		public GameObject weaponParent;
 		public Texture icon;
 		public new string name;
 		public string desc;		
-		
+
 		protected float hp;
 		public float CurrentHealth { get { return hp; } set { hp = value; } }
 		public int health;
 		public int armor;
 		public float speed;
+		
 		public Weapon weapon;
 		public ParticleSystem hurt;
 		
@@ -25,7 +27,13 @@ namespace MAUnit
 		protected bool bReady;
 		protected Unit target;
 		private float radius;
+		
+		
+		// Stateful variables
 		private bool spinningUp;
+		[HideInInspector]
+		public bool Feared;
+		[HideInInspector]
 		public bool powerTargeting;
 		
 		public bool SpinningUp { get { return spinningUp; } set { spinningUp = value; } }
@@ -33,6 +41,7 @@ namespace MAUnit
 
 		public virtual void Awake()
 		{
+			Feared			= false;
 			powerTargeting 	= false;
 			spinningUp 		= false;
 			if( DefaultTarget == null )
@@ -127,7 +136,7 @@ namespace MAUnit
 				return;
 			
 			// Check to see if I can attack my target!
-			if( weapon.IsInRange(this,target) )
+			if( weapon.IsInRange(this,target) && !Feared)
 			{
 				AttackTarget();
 				return;			
@@ -142,7 +151,8 @@ namespace MAUnit
 		/// </summary>
 		public virtual void MoveTowards()
 		{
-			transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*speed);			
+			float s = Feared?-speed/2:speed;
+			transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*s);			
 
 		}
 		

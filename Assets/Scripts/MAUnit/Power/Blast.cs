@@ -155,9 +155,6 @@ namespace MAUnit
 			{
 				ParticleSystem effect = Instantiate(blastColumn, cone.origin, transform.rotation) as ParticleSystem;
 				effect.transform.Rotate( new Vector3(270, angle, 0) );
-				//effect.transform.Rotate(Vector3.right, 270 );
-				//effect.transform.RotateAround(Vector3.up, angle);
-
 				Destroy(effect.gameObject, blastColumn.duration);
 			}
 		}

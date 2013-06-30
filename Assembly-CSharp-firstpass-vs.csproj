@@ -52,6 +52,7 @@
      <None Include="Assets\Shaders\AddingMove.shader" />
      <None Include="Assets\Shaders\TheWorks.shader" />
      <None Include="Assets\Shaders\DiffuseNormalSpecEmis.shader" />
+     <None Include="Assets\Shaders\VRStyle-Double.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\TextureCopy.shader" />
  <Reference Include="JsonFx.Json">
  <HintPath>Assets\JsonFX\JsonFx.Json.dll</HintPath>
