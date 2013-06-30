@@ -16,8 +16,9 @@ namespace MAFX
 		
 		public Color EndSourceColor;
 		public Color EndDestColor;
-
-		public float width = 0.2f;
+		
+		public float startWidth = 0.1f;
+		public float endWidth 	= 0.2f;
 
 		
 		public override void SetTarget(Unit target)
@@ -26,10 +27,10 @@ namespace MAFX
 			
         	line.material = new Material(material);
         	line.SetColors(BeginSourceColor, BeginDestColor);
-        	line.SetWidth(width, width);
+        	line.SetWidth(startWidth, endWidth);
         	line.SetVertexCount(2);
 			line.SetPosition(0, transform.position);
-			line.SetPosition(1, target.transform.position);
+			line.SetPosition(1, target.DefaultTarget.transform.position);
 			
 			// Set when this should be removed
 			Destroy(this.gameObject, duration);	

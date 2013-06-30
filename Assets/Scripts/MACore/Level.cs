@@ -22,7 +22,6 @@ namespace MACore
 			
 			// get the combat area
 			GameObject obj 	= GameObject.FindGameObjectWithTag("Combat Area");
-			area 			= obj.GetComponent<CombatArea>();
 		}
 		
 		public bool AllWavesSent()

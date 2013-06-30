@@ -7,10 +7,10 @@ namespace MAUnit
 	{
 		public float damage;
 		public float force = 0.0f;
+		public float spinup;
 		public float cooldown;
 		public bool Active = true;
-		public AudioClip attack;
-		
+		public AudioClip attack;		
 		private float lastAttack;
 		
 		/// <summary>

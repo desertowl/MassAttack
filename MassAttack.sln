@@ -5,6 +5,8 @@ Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-CSha
 EndProject
 Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-CSharp.csproj", "{007A3E61-DC73-1C42-51D2-D42E4B273764}"
 EndProject
+Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-CSharp-Editor.csproj", "{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}"
+EndProject
 Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-UnityScript-firstpass.unityproj", "{4BDBF1CB-90BB-0A29-2E59-C9560C5084D5}"
 EndProject
 Global
@@ -21,6 +23,10 @@ Global
 		{007A3E61-DC73-1C42-51D2-D42E4B273764}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{007A3E61-DC73-1C42-51D2-D42E4B273764}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{007A3E61-DC73-1C42-51D2-D42E4B273764}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4BDBF1CB-90BB-0A29-2E59-C9560C5084D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BDBF1CB-90BB-0A29-2E59-C9560C5084D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BDBF1CB-90BB-0A29-2E59-C9560C5084D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,7 +35,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																							GlobalSection(MonoDevelopProperties) = preSolution
+																																				GlobalSection(MonoDevelopProperties) = preSolution
 								GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0

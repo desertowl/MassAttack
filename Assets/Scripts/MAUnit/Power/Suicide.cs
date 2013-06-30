@@ -28,14 +28,13 @@ namespace MAUnit
 		
 		public override void OnAvailable()
 		{
-			Debug.LogWarning("IM AVAILABLE!");
 			PlaySound();
 			CooldownBegin();
 			
 			// Kill myself
 			Defender def = GetDefender();
-			Game.Instance.Kill( def, Vector3.up );
-			Destroy(def, cooldown/3);
+			Game.Instance.Kill( def, Vector3.up*100 );
+			Destroy(def.gameObject, cooldown/3);
 		}
 	}
 }

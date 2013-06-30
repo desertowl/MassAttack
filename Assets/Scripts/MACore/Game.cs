@@ -255,7 +255,7 @@ namespace MACore
 			
 			
 			// Get the force & direction of the murder!
-			Vector3 force = target.transform.position - source.transform.position;
+			Vector3 force = target.DefaultTarget.transform.position - source.transform.position;
 			force.Normalize();
 			force *= attack.force;
 			
