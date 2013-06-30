@@ -1,20 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Temp\Compiled-Mobile-BumpSpec.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MAUnit\Unit.cs">
     <Files>
-      <File FileName="Temp\Compiled-DiffuseNormalSpecEmis.shader" Line="1" Column="1" />
-      <File FileName="Temp\Compiled-Mobile-BumpSpec.shader" Line="11" Column="13" />
-      <File FileName="Assets\Scripts\MACore\Session.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAPlayer\GameData.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAUnit\Defender\Defender.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MACore\Level.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAUnit\Unit.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAUnit\Animation\SentryAnimationController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAUnit\Animation\UnitAnimationController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAUnit\Animation\AbstractUnitAnimationController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MACore\Game.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAFX\LineRendererFade.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MAUnit\Power\Suicide.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MAUnit\Unit.cs" Line="117" Column="12" />
+      <File FileName="Assets\Scripts\MACore\Game.cs" Line="258" Column="50" />
+      <File FileName="Assets\Scripts\MAUnit\Weapon.cs" Line="16" Column="21" />
+      <File FileName="Assets\Scripts\MAFX\FX.cs" Line="6" Column="24" />
+      <File FileName="Assets\Scripts\MAFX\LineRendererFade.cs" Line="33" Column="45" />
+      <File FileName="Assets\Scripts\MAUnit\Attack.cs" Line="13" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
