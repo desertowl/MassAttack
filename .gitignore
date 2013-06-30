@@ -189,6 +189,7 @@ $RECYCLE.BIN/
 #Library/
 Temp/
 Temp\
+MassAttack0/
 Library/metadata/
 #ProjectSettings/
 Assets/Standard Assets/
@@ -196,3 +197,6 @@ Assets/Standard Assets/
 #*.userprefs
 #*.csproj
 #*.unityproj
+Library/expandedItems
+
+Library/guidmapper
