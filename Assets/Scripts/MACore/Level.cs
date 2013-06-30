@@ -21,7 +21,7 @@ namespace MACore
 			remaining = new List<Wave>(waves);
 			
 			// get the combat area
-			GameObject obj 	= GameObject.FindGameObjectWithTag("Combat Area");
+			//GameObject obj 	= GameObject.FindGameObjectWithTag("Combat Area");
 		}
 		
 		public bool AllWavesSent()

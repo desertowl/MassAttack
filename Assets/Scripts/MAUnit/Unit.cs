@@ -26,13 +26,15 @@ namespace MAUnit
 		protected Unit target;
 		private float radius;
 		private bool spinningUp;
+		public bool powerTargeting;
 		
 		public bool SpinningUp { get { return spinningUp; } set { spinningUp = value; } }
 
 
-		public void Awake()
+		public virtual void Awake()
 		{
-			spinningUp = false;
+			powerTargeting 	= false;
+			spinningUp 		= false;
 			if( DefaultTarget == null )
 				DefaultTarget = gameObject;
 			
@@ -115,7 +117,7 @@ namespace MAUnit
 			if( bDead ) return;
 			
 			
-			if( spinningUp ) 
+			if( spinningUp || powerTargeting ) 
 				return;
 			
 			// Pick a target
@@ -171,11 +173,11 @@ namespace MAUnit
 		/// </summary>
 		private void ExecuteAttack()
 		{
-			if( IsDead() )
-				return;
-			
-			weapon.Attack(target);
-			Game.Instance.DoDamage(this, weapon, target);	
+			if( !IsDead() && !powerTargeting )
+			{
+				weapon.Attack(target);
+				Game.Instance.DoDamage(this, weapon, target);	
+			}
 			spinningUp = false;
 		}
 		
@@ -185,7 +187,7 @@ namespace MAUnit
 		/// <returns>
 		/// The target position.
 		/// </returns>
-		public Vector3 GetTargetPosition()
+		public virtual Vector3 GetTargetPosition()
 		{
 			if( target == null )
 				return transform.position;

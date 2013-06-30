@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\MAPlayer\Talents\StatBoostTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\Talent.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\AbstractUnitAnimationController.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Animation\LocalSpin.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\SentryAnimationController.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\UnitAnimationController.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack.cs" />
@@ -83,12 +84,20 @@
      <Compile Include="Assets\Scripts\MAUnit\Unit.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Weapon.cs" />
      <None Include="Assets\Shaders\DiffuseNormalEmis.shader" />
+     <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\Temp\TempShader.shader" />
      <None Include="Assets\Shaders\AddingMove.shader" />
+     <None Include="Assets\Shaders\TheWorks.shader" />
      <None Include="Assets\Shaders\DiffuseNormalSpecEmis.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\TextureCopy.shader" />
- <Reference Include="Assets\JsonFX\JsonFx.Json">
+ <Reference Include="JsonFx.Json">
  <HintPath>Assets\JsonFX\JsonFx.Json.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{D72B27D7-778C-FD25-22AC-8DAEA0875F7D}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
+      <Project>{4BDBF1CB-90BB-0A29-2E59-C9560C5084D5}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

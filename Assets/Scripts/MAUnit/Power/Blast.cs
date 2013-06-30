@@ -11,10 +11,12 @@ namespace MAUnit
 	/// </summary>
 	public class Blast : Power
 	{
+		public ParticleSystem blastColumn;
+		
+		public float spread = 90.0f;
 		public Material aiming;
 		private GameObject sub;
 		private MeshFilter filter;
-		private MeshRenderer renderer;
 		
 		public Cone cone;
 		
@@ -48,31 +50,57 @@ namespace MAUnit
 			
 			sub.renderer.material = aiming;
 			
-			sub.transform.parent = gameObject.transform;
+			sub.transform.parent 		= gameObject.transform;
 			sub.transform.localPosition = new Vector3(0,0,0);
-			
-			GetDefender().SpinningUp = true;
 		}
+		
+		/*
+		public void Update()
+		{
+			Debug.DrawRay(GetDefender().weaponParent.transform.position, Vector3.forward, Color.cyan);
+
+			// get all the targets
+			Debug.Log("MONSETERS: " + Game.Instance.Monsters.Count );
+			foreach( Monster monster in Game.Instance.Monsters )
+			{
+				if( cone.IsWithin(monster.transform.position) )
+					Debug.DrawLine(GetDefender().weaponParent.transform.position, monster.transform.position, Color.green);
+				else
+					Debug.DrawLine(GetDefender().weaponParent.transform.position, monster.transform.position, Color.red);
+			}
+		}
+		*/
 		
 		// Use this for initialization
 		public override void OnActivateBegin ()
 		{
 			Time.timeScale = 0.3f;
-			ConstructBlast(1000, 25.0f);
+
+			transform.forward = Vector3.forward;
+			ConstructBlast(1000, spread);
+			
+			
+			Defender defender = GetDefender();
+			
+			defender.weapon.CooldownBegin();
+			defender.powerTargeting = true;
+			
+			GetComponent<Animator>().SetBool("Aiming", true);
 		}
 		
 		// Update is called once per frame
 		public override void OnActivateUpdate ()
 		{
-			sub.transform.RotateAround(Vector3.up, 10*Time.deltaTime);
-			Vector3 angles 	= sub.transform.localRotation.eulerAngles;
+			transform.RotateAround(Vector3.up, 10*Time.deltaTime);
+			Vector3 angles 	= transform.localRotation.eulerAngles;
 			cone.dir 		= angles.y;
-			cone.origin		= transform.position;
+			cone.origin		= GetDefender().weaponParent.transform.position;//transform.position;
 			
 			// Draw the cone
-			Vector3 mag			= new Vector3(0,0,cone.range);
-			Vector3 endpoint	= Quaternion.Euler(0, cone.dir, 0)  * mag;
-			Debug.DrawLine(transform.position, endpoint);
+			//Vector3 mag			= new Vector3(0,0,cone.range);
+			//Vector3 endpoint	= Quaternion.Euler(0, cone.dir, 0)  * mag;
+			
+			sub.transform.position = cone.origin;//GetDefender().weaponParent.transform.position;		
 		}
 		
 		/// <summary>
@@ -83,16 +111,26 @@ namespace MAUnit
 			CooldownBegin();
 			PlaySound();
 			Time.timeScale = 1;
+			
+			// Show the blast column
+			PlayBlastColumns();			
+			
 			GameObject.Destroy(sub);
 
 			// initialize my list
 			List<Monster> targets = new List<Monster>();
-			
+
 			// get all the targets
 			foreach( Monster monster in Game.Instance.Monsters )
 			{
+				
 				if( cone.IsWithin(monster.transform.position) )
+				{
+					Debug.DrawLine(cone.origin, monster.transform.position, Color.green);
 					targets.Add(monster);
+				}
+				else
+					Debug.DrawLine(cone.origin, monster.transform.position, Color.red);
 			}
 			
 			// Do damage to them
@@ -100,8 +138,28 @@ namespace MAUnit
 
 			foreach( Monster target in targets )
 				Game.Instance.DoDamage(defender, this, target);
+
+			defender.powerTargeting = false;
+			GetComponent<Animator>().SetBool("Aiming", false);
 			
-			GetDefender().SpinningUp = false;
+
+		}
+		
+		private void PlayBlastColumns()
+		{
+			if( blastColumn == null )
+				return;
+			
+			float halfSpread = spread/2;
+			for( float angle = -halfSpread; angle< halfSpread; angle+= 5 )
+			{
+				ParticleSystem effect = Instantiate(blastColumn, cone.origin, transform.rotation) as ParticleSystem;
+				effect.transform.Rotate( new Vector3(270, angle, 0) );
+				//effect.transform.Rotate(Vector3.right, 270 );
+				//effect.transform.RotateAround(Vector3.up, angle);
+
+				Destroy(effect.gameObject, blastColumn.duration);
+			}
 		}
 		
 		public override void OnAvailable(){}

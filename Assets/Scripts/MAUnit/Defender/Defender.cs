@@ -14,8 +14,10 @@ namespace MAUnit
 		[HideInInspector]
 		public Power power;
 		
-		public void Awake()
+		public override void Awake()
 		{
+			powerTargeting = false;
+			
 			base.Awake();
 			
 			// Accessor!

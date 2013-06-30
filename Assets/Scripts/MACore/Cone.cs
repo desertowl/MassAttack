@@ -67,8 +67,6 @@ namespace MACore
 			
 			// get the angle between the two !
 			float angle = Vector3.Angle(endpoint, other);
-			//Debug.Log("ANGLE BETWEEN THE TWO: " + angle );
-			//Debug.Log ( "DIRECTIOn: " + dir2 );
 			// Find out what direction im facing
 			return (angle < spread/2);
 		}

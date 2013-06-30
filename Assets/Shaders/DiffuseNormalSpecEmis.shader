@@ -6,6 +6,7 @@ _diffuse("_diffuse", 2D) = "black" {}
 _emissive("_emissive", 2D) = "black" {}
 _specular("_specular", 2D) = "black" {}
 _normal("_normal", 2D) = "black" {}
+_EmissiveColor("_EmissiveColor", Color) = (1,1,1,1)
 
 	}
 	
@@ -37,6 +38,7 @@ sampler2D _diffuse;
 sampler2D _emissive;
 sampler2D _specular;
 sampler2D _normal;
+float4 _EmissiveColor;
 
 			struct EditorSurfaceOutput {
 				half3 Albedo;
@@ -83,13 +85,13 @@ float2 uv_specular;
 
 			};
 
-			void vert (inout appdata_full v, out Input o) {
-float4 VertexOutputMaster0_0_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_1_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_2_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
-
-
+			void vert (inout appdata_full v, out Input o)
+			{
+				UNITY_INITIALIZE_OUTPUT(Input, o);
+				float4 VertexOutputMaster0_0_NoInput = float4(0,0,0,0);
+				float4 VertexOutputMaster0_1_NoInput = float4(0,0,0,0);
+				float4 VertexOutputMaster0_2_NoInput = float4(0,0,0,0);
+				float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
 			}
 			
 
@@ -105,7 +107,8 @@ float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
 float4 Tex2D0=tex2D(_diffuse,(IN.uv_diffuse.xyxy).xy);
 float4 Tex2D2=tex2D(_normal,(IN.uv_normal.xyxy).xy);
 float4 UnpackNormal0=float4(UnpackNormal(Tex2D2).xyz, 1.0);
-float4 Tex2D1=tex2D(_emissive,(IN.uv_emissive.xyxy).xy);
+float4 Tex2D4=tex2D(_emissive,(IN.uv_emissive.xyxy).xy);
+float4 Multiply0=_EmissiveColor * Tex2D4;
 float4 Tex2D3=tex2D(_specular,(IN.uv_specular.xyxy).xy);
 float4 Divide0=Tex2D3 / float4( 25,25,25,25 );
 float4 Master0_3_NoInput = float4(0,0,0,0);
@@ -114,7 +117,7 @@ float4 Master0_7_NoInput = float4(0,0,0,0);
 float4 Master0_6_NoInput = float4(1,1,1,1);
 o.Albedo = Tex2D0;
 o.Normal = UnpackNormal0;
-o.Emission = Tex2D1;
+o.Emission = Multiply0;
 o.Gloss = Divide0;
 
 				o.Normal = normalize(o.Normal);

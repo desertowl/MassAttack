@@ -9,7 +9,6 @@ namespace MAUnit
 {
 	public class Suicide : Power
 	{
-		private List<Defender> sentries = new List<Defender>();
 		// Use this for initialization
 		public override void OnActivateBegin ()
 		{

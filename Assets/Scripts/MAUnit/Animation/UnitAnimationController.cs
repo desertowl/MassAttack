@@ -7,10 +7,10 @@ namespace MAUnit
 	[RequireComponent(typeof (Rigidbody))]
 	public class UnitAnimationController  : AbstractUnitAnimationController
 	{
-		static int IdleState 	= Animator.StringToHash("Base Layer.Idle");
+		//static int IdleState 	= Animator.StringToHash("Base Layer.Idle");
 		static int AttackState 	= Animator.StringToHash("Base Layer.Attack");
-		static int RunState 	= Animator.StringToHash("Base Layer.Run");
-		static int DeathState 	= Animator.StringToHash("Base Layer.Death");
+		//static int RunState 	= Animator.StringToHash("Base Layer.Run");
+		//static int DeathState 	= Animator.StringToHash("Base Layer.Death");
 		
 		private Animator anim;
 		
@@ -44,12 +44,18 @@ namespace MAUnit
 			}
 			
 			// Set the running state
-			if( dir == Vector3.zero )
-				FaceTarget( Vector3.forward );
+			if( unit.powerTargeting )
+			{
+				anim.SetBool("Running", false);
+			}
 			else
-				FaceTarget(dir);
-			anim.SetBool("Running", delta.sqrMagnitude < 1);
-			
+			{
+				if( dir == Vector3.zero )
+					FaceTarget( Vector3.forward );
+				else
+					FaceTarget(dir);
+				anim.SetBool("Running", delta.sqrMagnitude < 1);
+			}			
 			
 			// If I am already attacking, I cant be attacking!
 			AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
@@ -63,7 +69,7 @@ namespace MAUnit
 		private void FaceTarget(Vector3 dir)
 		{			
 			// Get the dest target
-			Vector3 target 		= GetComponent<Unit>().GetTargetPosition();
+			// Vector3 target 		= GetComponent<Unit>().GetTargetPosition();
 			//yaw.transform.rotation = Quaternion.LookRotation(dir);
 			float targetAngle	= Quaternion.LookRotation(dir).eulerAngles.y;
 			float currentAngle	= transform.rotation.eulerAngles.y;

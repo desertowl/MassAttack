@@ -18,7 +18,7 @@ _speed("_speed", Float) = 1
 		}
 
 		
-Cull Back
+Cull Off
 ZWrite On
 ZTest LEqual
 ColorMask RGBA
