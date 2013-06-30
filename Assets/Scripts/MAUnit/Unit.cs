@@ -26,6 +26,8 @@ namespace MAUnit
 		protected Unit target;
 		private float radius;
 		private bool spinningUp;
+		
+		public bool SpinningUp { get { return spinningUp; } set { spinningUp = value; } }
 
 
 		public void Awake()

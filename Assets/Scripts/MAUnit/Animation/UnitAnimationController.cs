@@ -31,8 +31,8 @@ namespace MAUnit
 		{
 			Unit unit = GetComponent<Unit>();
 			
-			// Find out if im moving
-			Vector3 dir = (unit.GetTargetPosition()-unit.transform.position).normalized;
+			Vector3 delta 	= unit.GetTargetPosition()-unit.transform.position;
+			Vector3 dir 	= delta.normalized;
 			
 			if( anim == null ) 
 				return;
@@ -45,18 +45,10 @@ namespace MAUnit
 			
 			// Set the running state
 			if( dir == Vector3.zero )
-			{
-				transform.forward = Vector3.forward;
-				anim.SetBool("Running", false);
-			}
+				FaceTarget( Vector3.forward );
 			else
-			{
-				transform.forward = dir;
-				anim.SetBool("Running", true);
-			}
-			
-			
-			
+				FaceTarget(dir);
+			anim.SetBool("Running", delta.sqrMagnitude < 1);
 			
 			
 			// If I am already attacking, I cant be attacking!
@@ -67,7 +59,18 @@ namespace MAUnit
 			// Set the attacking state
 			anim.SetBool("Attacking", _attacking);
 		}
-	}
+		
+		private void FaceTarget(Vector3 dir)
+		{			
+			// Get the dest target
+			Vector3 target 		= GetComponent<Unit>().GetTargetPosition();
+			//yaw.transform.rotation = Quaternion.LookRotation(dir);
+			float targetAngle	= Quaternion.LookRotation(dir).eulerAngles.y;
+			float currentAngle	= transform.rotation.eulerAngles.y;
+			
+			transform.RotateAround(Vector3.up, (targetAngle-currentAngle) * 0.2f * Time.deltaTime);			
+		}
+	}	
 }
 
 

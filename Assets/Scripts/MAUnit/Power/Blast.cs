@@ -50,6 +50,8 @@ namespace MAUnit
 			
 			sub.transform.parent = gameObject.transform;
 			sub.transform.localPosition = new Vector3(0,0,0);
+			
+			GetDefender().SpinningUp = true;
 		}
 		
 		// Use this for initialization
@@ -95,10 +97,11 @@ namespace MAUnit
 			
 			// Do damage to them
 			Defender defender 	= GetComponent<Defender>();
-			damage 				= defender.weapon.damage * 1.5f;
-			
+
 			foreach( Monster target in targets )
 				Game.Instance.DoDamage(defender, this, target);
+			
+			GetDefender().SpinningUp = false;
 		}
 		
 		public override void OnAvailable(){}

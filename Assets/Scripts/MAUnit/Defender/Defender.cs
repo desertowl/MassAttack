@@ -9,6 +9,9 @@ namespace MAUnit
 	public class Defender : Unit
 	{
 		public EDefender type;
+		
+		
+		[HideInInspector]
 		public Power power;
 		
 		public void Awake()

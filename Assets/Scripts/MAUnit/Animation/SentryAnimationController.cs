@@ -34,12 +34,6 @@ namespace MAUnit
 			// Get my target direction
 			Vector3 dir = (unit.GetTargetPosition()-unit.transform.position).normalized;
 			
-			// Get my current direction
-			
-			Debug.DrawRay(unit.transform.position, dir, Color.blue);
-			
-			//yaw.transform.rotation.eulerAngles = Vector3.RotateTowards(current, target, 10);
-			
 			//yaw.transform.rotation = Quaternion.LookRotation(dir);
 			float targetAngle = Quaternion.LookRotation(dir).eulerAngles.y;
 			float currentAngle= yaw.transform.rotation.eulerAngles.y;
