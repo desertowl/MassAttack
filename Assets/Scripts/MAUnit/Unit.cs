@@ -4,8 +4,11 @@ using MACore;
 
 namespace MAUnit
 {
+	[RequireComponent(typeof (CapsuleCollider))]
 	public abstract class Unit : MonoBehaviour
 	{
+		public GameObject DefaultTarget;
+		public GameObject weaponParent;
 		public Texture icon;
 		public new string name;
 		public string desc;		
@@ -22,13 +25,15 @@ namespace MAUnit
 		protected bool bReady;
 		protected Unit target;
 		private float radius;
+		private bool spinningUp;
 
-		public Unit ()
-		{
-		}
-		
+
 		public void Awake()
 		{
+			spinningUp = false;
+			if( DefaultTarget == null )
+				DefaultTarget = gameObject;
+			
 			CurrentHealth = health;
 			bDead = false;
 			bReady= false;
@@ -57,19 +62,24 @@ namespace MAUnit
 
 		public void Begin(Vector3 spawn)
 		{
+			if( weaponParent == null )
+				weaponParent = gameObject;
+			
 			// Initialize its location
 			transform.position = spawn;
 			weapon = Instantiate(weapon) as Weapon;
-			weapon.transform.parent = transform;
-			weapon.transform.position = transform.position;
+			weapon.transform.parent 	= weaponParent.transform;
+			weapon.transform.localPosition = Vector3.zero;
 			bReady = true;
 		}		
 		
 		public void Kill(Vector3 force)
 		{
 			bDead = true;
-			gameObject.AddComponent<Rigidbody>();			
-			rigidbody.AddForce( force, ForceMode.Impulse );
+			//gameObject.AddComponent<Rigidbody>();			
+			
+			if( rigidbody != null )
+				rigidbody.AddForce( force, ForceMode.Impulse );
 
 			//Destroy(this);
 		}
@@ -102,6 +112,10 @@ namespace MAUnit
 			if( !bReady ) return;
 			if( bDead ) return;
 			
+			
+			if( spinningUp ) 
+				return;
+			
 			// Pick a target
 			PickTarget ();
 			
@@ -124,22 +138,56 @@ namespace MAUnit
 		/// </summary>
 		public virtual void MoveTowards()
 		{
-			transform.position = Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime*speed);			
-			
-			if( animation != null )
-			{
-				Debug.Log("I HAVE ANImATIONS: " + animation.GetClipCount() );
-				animation.Play("Run");
-			}
+			transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*speed);			
+
 		}
 		
+		/// <summary>
+		/// Attacks the target.
+		/// </summary>
 		public virtual void AttackTarget()
 		{
 			if( weapon.CanHit(this, target) )
 			{				
-				weapon.Attack(target);
-				Game.Instance.DoDamage(this, weapon, target);
+				UnitAnimationController anim = GetComponent<UnitAnimationController>();
+				if( anim != null )
+					anim.Attacking = true;
+				
+				// Execute the attack in a delayed way if needed
+				if( weapon.spinup > 0 )
+				{
+					spinningUp = true;
+					Invoke("ExecuteAttack", weapon.spinup);
+				}
+				else
+					ExecuteAttack();
 			}
+		}
+		
+		/// <summary>
+		/// Spinups the attack.
+		/// </summary>
+		private void ExecuteAttack()
+		{
+			if( IsDead() )
+				return;
+			
+			weapon.Attack(target);
+			Game.Instance.DoDamage(this, weapon, target);	
+			spinningUp = false;
+		}
+		
+		/// <summary>
+		/// Gets the target position.
+		/// </summary>
+		/// <returns>
+		/// The target position.
+		/// </returns>
+		public Vector3 GetTargetPosition()
+		{
+			if( target == null )
+				return transform.position;
+			return target.transform.position;
 		}
 		
 		

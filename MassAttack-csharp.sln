@@ -5,6 +5,8 @@ Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-CSha
 EndProject
 Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-CSharp-vs.csproj", "{007A3E61-DC73-1C42-51D2-D42E4B273764}"
 EndProject
+Project("{F30B34AF-8B8B-EA61-D800-7C5D6CDD1B15}") = "MassAttack", "Assembly-CSharp-Editor-vs.csproj", "{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,11 +21,15 @@ Global
 		{007A3E61-DC73-1C42-51D2-D42E4B273764}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{007A3E61-DC73-1C42-51D2-D42E4B273764}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{007A3E61-DC73-1C42-51D2-D42E4B273764}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A24C1A-B0E4-98FE-EFA1-249E1159A77F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																								GlobalSection(MonoDevelopProperties) = preSolution
+																																				GlobalSection(MonoDevelopProperties) = preSolution
 								GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
