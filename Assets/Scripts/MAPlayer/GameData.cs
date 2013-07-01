@@ -12,6 +12,7 @@ namespace MAPlayer
 	/// </summary>
 	public class GameData
 	{
+		public int unlocks;
 		public int gold;
 		public int level;
 		public Dictionary<string, DefenderData> roster;
@@ -23,6 +24,7 @@ namespace MAPlayer
 		{
 			roster 	= new Dictionary<string, DefenderData>();
 			level 	= 0;
+			unlocks = 1;
 			gold 	= 10000;			
 		}
 		
@@ -37,7 +39,7 @@ namespace MAPlayer
 			// Unlock the first two defenders by default
 			//roster.Add( ""+EDefender.Sniper, 	new DefenderData(EDefender.Sniper, false) );
 			//roster.Add( ""+EDefender.Guardian,	new DefenderData(EDefender.Guardian, false) );
-			roster.Add( ""+EDefender.Berserker,	new DefenderData(EDefender.Berserker, false) );
+			//roster.Add( ""+EDefender.Berserker,	new DefenderData(EDefender.Berserker, false) );
 			//roster.Add( ""+EDefender.Engineer,	new DefenderData(EDefender.Engineer, false) );
 		}
 		
@@ -51,6 +53,24 @@ namespace MAPlayer
 		{
 			return new List<DefenderData>(roster.Values);
 		}		
+		
+		/// <summary>
+		/// Gets the defender data.
+		/// </summary>
+		/// <returns>
+		/// The defender data.
+		/// </returns>
+		/// <param name='type'>
+		/// Type.
+		/// </param>
+		public DefenderData GetDefenderData(EDefender type)
+		{
+			List<DefenderData> defenders = GetDefenderData();
+			foreach( DefenderData data in defenders )
+				if( data.GetDefenderType() == type )
+					return data;
+			return null;
+		}
 		
 		/// <summary>
 		/// Save this instance.

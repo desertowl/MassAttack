@@ -26,7 +26,9 @@ namespace MAUnit
 			//GetDefender().transform.RotateAroundLocal( Vector3.up, (5*(speedBonusPercent))*Time.deltaTime);
 		}
 		
-		
+		/// <summary>
+		/// Update this instance.
+		/// </summary>
 		public void Update()
 		{
 			if( !GetDefender().powerTargeting )

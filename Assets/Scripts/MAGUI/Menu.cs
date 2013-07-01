@@ -15,6 +15,8 @@ public class Menu : MAHUD
 	public List<Level> levels;
 	public Session template;
 	
+	private Dictionary<EDefender, Defender> previews;
+	
 	private enum EMenuState
 	{
 		MainMenu,
@@ -30,6 +32,7 @@ public class Menu : MAHUD
 	{
 		if( Session.Instance == null )
 		{
+			previews = new Dictionary<EDefender, Defender>();
 			state = EMenuState.MainMenu;
 			Instantiate(template);
 		}
@@ -47,12 +50,19 @@ public class Menu : MAHUD
 		GUI.skin = skin;		
 		
 		if( state == EMenuState.UpgradeStore ) 
+		{
 			ShowUpgradeStore();
+		}
 		else if( state == EMenuState.Map )
+		{
+			ClearPreviews();
 			ShowMap();
+		}
 		else
+		{
+			ClearPreviews();
 			ShowMainMenu();
-			
+		}
 	}
 	
 	/// <summary>
@@ -119,13 +129,26 @@ public class Menu : MAHUD
 		// Get the data
 		List<DefenderData> defenders = Session.Instance.GameData.GetDefenderData();
 		
-		foreach( DefenderData defender in defenders )
+		
+		for( int id=0;id<4;id++ )
 		{
-			Vector2 pos = new Vector2(width*count, NAV_BAR_HEIGHT);
-			ShowTalentTree(pos, width, height, defender);
+			// Get the 1st four defenders
+			EDefender type 	= (EDefender)id;
+			Vector2 pos 	= new Vector2(width*count, NAV_BAR_HEIGHT);
+			
+			// Get the saved data
+			DefenderData data = Session.Instance.GameData.GetDefenderData(type);
+			
+			if( data != null )
+				ShowTalentTree(pos, width, height, data);
+			else
+				ShowDefenderUnlock(pos, width, height, new DefenderData(type, true));	
+	
 			count++;
 		}
 	}
+	
+	
 	
 	/// <summary>
 	/// Shows the talent tree.
@@ -175,6 +198,42 @@ public class Menu : MAHUD
 		}
 		
 	}
+	
+	
+
+	private void ShowDefenderUnlock(Vector2 offset, float width, float height, DefenderData defenderData)
+	{		
+		// Get an uninitanciated prefab
+		Defender template = defenderData.GetDefender();
+		
+		float iconSize = 64;
+		float buttonSize = (width-25)/2;
+		GUI.Box(new Rect(offset.x, offset.y,width,height), template.name);
+		
+		// Get the available levels
+		//GUI.Label( new Rect(offset.x + 20, offset.y+5, 100, 20), defender.name);
+		GUI.DrawTexture( new Rect(offset.x+width/2, offset.y+5, iconSize,iconSize), template.icon);
+		
+		int lastPre = 0;
+		int peers = 0;
+		int level = 0;
+		
+			Vector3 screenspace = new Vector3(offset.x + width/2, offset.y+height/2, 0);
+			GUI.Button(new Rect(screenspace.x, screenspace.y, 32,32), "test");		
+		
+		if( !previews.ContainsKey(template.type) )
+		{
+			Defender defender = Instantiate(template) as Defender;
+			
+
+			
+			
+			Vector3 pos = Camera.main.ScreenToWorldPoint(screenspace);
+			defender.transform.position = pos;
+			
+			previews.Add(template.type, defender);
+		}
+	}	
 	
 	/// <summary>
 	/// Shows the talent.
@@ -229,4 +288,16 @@ public class Menu : MAHUD
 		}		
 	}	
 	
+	
+	/// <summary>
+	/// Clears the previews.
+	/// </summary>
+	private void ClearPreviews()
+	{
+		List<Defender> preview = new List<Defender>(previews.Values);
+		
+		foreach( Defender local in preview )
+			Destroy(local.gameObject);
+		previews.Clear();
+	}	
 }
