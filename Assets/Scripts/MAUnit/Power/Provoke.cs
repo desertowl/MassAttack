@@ -54,7 +54,7 @@ namespace MAUnit
 				Invoke("Unfear", fearDuration );
 			
 			GameObject.Destroy(instance);
-			PlayEffect(healEffect);
+			Play(healEffect, transform.position, transform.rotation);
 		}
 		
 		private void Unfear()
@@ -63,18 +63,7 @@ namespace MAUnit
 				monster.Feared = false;
 		}
 		
-		protected void PlayEffect(ParticleSystem effect)
-		{
-			if( effect == null )
-				return;
-
-			ParticleSystem inst = Instantiate(effect, transform.position, transform.rotation) as ParticleSystem;
-			inst.transform.Rotate( new Vector3(270, 0, 0) );
-			Destroy(inst.gameObject, effect.duration);
-			
-			healingLight.enabled = true;
-			healingLight.intensity = 1;
-		}		
+	
 		
 		public void FixedUpdate()
 		{
@@ -86,6 +75,21 @@ namespace MAUnit
 					healingLight.enabled = false;
 			}
 		}
+		
+		/// <summary>
+		/// Plaies the effect.
+		/// </summary>
+		/// <param name='effect'>
+		/// Effect.
+		/// </param>
+		protected override ParticleSystem Play(ParticleSystem effect, Vector3 offset, Quaternion rotation)
+		{
+			ParticleSystem inst = base.Play(effect, offset, rotation);
+			healingLight.enabled = true;
+			healingLight.intensity = 1;
+			
+			return inst;
+		}			
 		
 		public override void OnAvailable(){}
 	}

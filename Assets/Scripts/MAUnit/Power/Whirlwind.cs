@@ -7,6 +7,7 @@ namespace MAUnit
 {
 	public class Whirlwind : RadialPower
 	{
+		public ParticleSystem system;
 		public float speedBonusPercent = 1.5f;
 		public float duration = 3.0f;
 		
@@ -15,13 +16,23 @@ namespace MAUnit
 		{
 			// Construct the area
 			ConstructArea();
+			GetDefender().powerTargeting = true;
 			GetDefender().weapon.Active = false;
 		}
 		
 		// Update is called once per frame
 		public override void OnActivateUpdate ()
 		{
-			GetDefender().transform.RotateAroundLocal( Vector3.up, (5*(speedBonusPercent))*Time.deltaTime);
+			//GetDefender().transform.RotateAroundLocal( Vector3.up, (5*(speedBonusPercent))*Time.deltaTime);
+		}
+		
+		
+		public void Update()
+		{
+			if( !GetDefender().powerTargeting )
+				return;
+
+			GetDefender().transform.RotateAroundLocal( Vector3.up, (15*(speedBonusPercent))*Time.deltaTime);
 		}
 		
 		// Use this for execution
@@ -30,8 +41,12 @@ namespace MAUnit
 			PlaySound();
 			CooldownBegin();
 			
+			// Play the particle!
+			Play(system, transform.position + new Vector3(0, 1.0f, 0), transform.rotation);
+			GetComponent<Animator>().SetBool("Whirl", true );
 			Invoke("EndEffect", duration);
 			InvokeRepeating("AttackEveryone", 0, GetDefender().weapon.cooldown/3 );
+			
 			GetDefender().speed *= speedBonusPercent;
 			GameObject.Destroy(instance);
 		}
@@ -57,12 +72,15 @@ namespace MAUnit
 		/// </summary>
 		private void EndEffect()
 		{
+			GetComponent<Animator>().SetBool("Whirl", false );
+			GetDefender().powerTargeting = false;
 			GetDefender().weapon.Active = true;
 			
 			Defender me = GetDefender();
 			me.speed 	/= speedBonusPercent;
 			Destroy(instance);
-		}		
+			CancelInvoke("AttackEveryone");
+		}
 		
 		public override void OnAvailable(){}
 	}

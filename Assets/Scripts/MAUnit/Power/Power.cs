@@ -27,5 +27,17 @@ namespace MAUnit
 		{
 			return GetComponent<Defender>();
 		}
+		
+		protected virtual ParticleSystem Play(ParticleSystem effect, Vector3 offset, Quaternion rotation)
+		{
+			if( effect == null )
+				return null;
+
+			ParticleSystem inst = Instantiate(effect, offset, rotation) as ParticleSystem;
+			inst.transform.Rotate( new Vector3(270, 0, 0) );
+			Destroy(inst.gameObject, effect.duration);
+			
+			return inst;
+		}			
 	}
 }
