@@ -14,6 +14,7 @@ public class Menu : MAHUD
 	public Texture playnow;
 	public List<Level> levels;
 	public Session template;
+	public GameObject splash;
 	
 	private Dictionary<EDefender, Defender> previews;
 	
@@ -33,7 +34,8 @@ public class Menu : MAHUD
 		if( Session.Instance == null )
 		{
 			previews = new Dictionary<EDefender, Defender>();
-			state = EMenuState.MainMenu;
+			state 	= EMenuState.MainMenu;
+
 			Instantiate(template);
 		}
 		else
