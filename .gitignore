@@ -10,3 +10,8 @@ Assets/Standard Assets/
 #*.csproj
 #*.unityproj
 Library/
+
+## OS Detritus
+ehthubs.db
+Thumbs.db
+.DStore
