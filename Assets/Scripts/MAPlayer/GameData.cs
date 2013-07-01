@@ -24,7 +24,7 @@ namespace MAPlayer
 		{
 			roster 	= new Dictionary<string, DefenderData>();
 			level 	= 0;
-			unlocks = 1;
+			unlocks = 4;
 			gold 	= 10000;			
 		}
 		
@@ -42,6 +42,46 @@ namespace MAPlayer
 			//roster.Add( ""+EDefender.Berserker,	new DefenderData(EDefender.Berserker, false) );
 			//roster.Add( ""+EDefender.Engineer,	new DefenderData(EDefender.Engineer, false) );
 		}
+		
+		/// <summary>
+		/// Unlock the specified type.
+		/// </summary>
+		/// <param name='type'>
+		/// If set to <c>true</c> type.
+		/// </param>
+		public bool Unlock(EDefender type)
+		{
+			// Check to see if its already unlocked
+			if( !HasUnlocks() || roster.ContainsKey(""+type) )
+				return false;
+			
+			// Add it to the roster
+			roster.Add( ""+type,	new DefenderData(type, false) );
+			unlocks--;
+			return true;
+		}
+		
+		/// <summary>
+		/// Determines whether this instance has unlocks.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance has unlocks; otherwise, <c>false</c>.
+		/// </returns>
+		public bool HasUnlocks()
+		{
+			return unlocks>0;
+		}
+		
+		/// <summary>
+		/// Determines whether this instance has unlocks.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance has unlocks; otherwise, <c>false</c>.
+		/// </returns>
+		public bool HasDefenders()
+		{
+			return roster.Count>0;
+		}		
 		
 		/// <summary>
 		/// Gets the defender data.

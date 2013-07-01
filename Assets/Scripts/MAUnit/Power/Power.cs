@@ -5,6 +5,9 @@ namespace MAUnit
 {
 	public abstract class Power : Attack
 	{
+		public string displayName;
+		public string desc;
+		
 		// Use this for initialization
 		public abstract void OnActivateBegin ();
 		

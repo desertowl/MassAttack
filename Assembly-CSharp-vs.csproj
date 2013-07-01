@@ -86,6 +86,7 @@
      <None Include="Assets\Shaders\DiffuseNormalEmis.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\Temp\TempShader.shader" />
      <None Include="Assets\Shaders\AddingMove.shader" />
+     <None Include="Assets\Shaders\DiffuseEmis.shader" />
      <None Include="Assets\Shaders\TheWorks.shader" />
      <None Include="Assets\Shaders\DiffuseNormalSpecEmis.shader" />
      <None Include="Assets\Shaders\VRStyle-Double.shader" />

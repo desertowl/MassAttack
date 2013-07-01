@@ -38,7 +38,8 @@ public class Menu : MAHUD
 		}
 		else
 		{
-			state = EMenuState.Map;
+			// Have them unlock a character first
+			state = Session.Instance.GameData.HasDefenders()?EMenuState.Map:EMenuState.UpgradeStore;
 		}
 	}
 
@@ -104,7 +105,7 @@ public class Menu : MAHUD
 		base.DrawNavBar();
 		
 		// Show the play button
-		GUI.enabled = state == EMenuState.UpgradeStore;
+		GUI.enabled = state == EMenuState.UpgradeStore && Session.Instance.GameData.HasDefenders();
 		if (GUI.Button (new Rect(0,0, NAV_BAR_HEIGHT*3, NAV_BAR_HEIGHT), new GUIContent("Play", playnow)))
 			state = EMenuState.Map;
 		
@@ -200,40 +201,88 @@ public class Menu : MAHUD
 	}
 	
 	
-
+	/// <summary>
+	/// Shows the defender unlock.
+	/// </summary>
+	/// <param name='offset'>
+	/// Offset.
+	/// </param>
+	/// <param name='width'>
+	/// Width.
+	/// </param>
+	/// <param name='height'>
+	/// Height.
+	/// </param>
+	/// <param name='defenderData'>
+	/// Defender data.
+	/// </param>
 	private void ShowDefenderUnlock(Vector2 offset, float width, float height, DefenderData defenderData)
 	{		
 		// Get an uninitanciated prefab
 		Defender template = defenderData.GetDefender();
 		
+		float yinc		= width/6;
 		float iconSize = 64;
 		float buttonSize = (width-25)/2;
-		GUI.Box(new Rect(offset.x, offset.y,width,height), template.name);
+		///GUI.Box(new Rect(offset.x, offset.y,width,height), template.name);
+		
+		Vector2 position = new Vector2(offset.x, offset.y);
+		
+		GUI.enabled = Session.Instance.GameData.HasUnlocks();
+		
+		if( GUI.Button( new Rect(position.x, position.y, width, width), "" ) )
+		{
+			DoUnlock(defenderData.GetDefenderType());
+		}
 		
 		// Get the available levels
 		//GUI.Label( new Rect(offset.x + 20, offset.y+5, 100, 20), defender.name);
-		GUI.DrawTexture( new Rect(offset.x+width/2, offset.y+5, iconSize,iconSize), template.icon);
+		
 		
 		int lastPre = 0;
 		int peers = 0;
 		int level = 0;
+		float scale = 8.0f;
 		
-			Vector3 screenspace = new Vector3(offset.x + width/2, offset.y+height/2, 0);
-			GUI.Button(new Rect(screenspace.x, screenspace.y, 32,32), "test");		
+		Vector3 screenspace = new Vector3(offset.x + width/2, offset.y, Camera.main.nearClipPlane+10);
 		
+		
+		Vector3 pos = Camera.main.ScreenToWorldPoint(screenspace);
+		Defender defender;
 		if( !previews.ContainsKey(template.type) )
 		{
-			Defender defender = Instantiate(template) as Defender;
-			
-
-			
-			
-			Vector3 pos = Camera.main.ScreenToWorldPoint(screenspace);
+			defender = Instantiate(template) as Defender;
 			defender.transform.position = pos;
+			defender.transform.localScale = new Vector3(scale,scale,scale);
 			
 			previews.Add(template.type, defender);
 		}
+		else
+		{
+			defender = previews[template.type];
+			defender.transform.position = pos;// + new Vector3(Mathf.Sin(Time.fixedTime), 0, 0);
+		}
+		
+		GUI.Label(		new Rect( position.x, position.y, 	width,  64 ),  			template.name,	 GUI.skin.customStyles[4] );
+		GUI.Label(		new Rect( position.x, position.y+yinc, width, 64 ), 		template.desc, 	 GUI.skin.customStyles[5] );		
+		
+		float sub = width-20;
+		GUI.Box( 		new Rect( position.x+10, position.y+(yinc*2)-5, sub, (yinc*2)+5 ),"" );
+		GUI.Box(		new Rect( position.x+20, position.y+(yinc*2), 64, 64 ), 	template.icon);
+		GUI.Label(		new Rect( position.x+84, position.y+(yinc*2), sub, 64 ), 	defender.power.displayName, 	 GUI.skin.customStyles[6] );
+		GUI.Label(		new Rect( position.x+20, position.y+(yinc*3), sub, 64 ), 	defender.power.desc, 	 GUI.skin.customStyles[5] );
+	
+		
+		if( GUI.enabled )
+			GUI.Label(		new Rect( position.x+10, position.y+(yinc*5), width,  64 ),  "UNLOCK NOW",	 GUI.skin.customStyles[4] );
+		GUI.enabled = true;
 	}	
+	
+	public void DoUnlock(EDefender type)
+	{
+		if( Session.Instance.GameData.Unlock(type) )
+			state = EMenuState.Map;
+	}
 	
 	/// <summary>
 	/// Shows the talent.
@@ -271,6 +320,8 @@ public class Menu : MAHUD
 		
 		// Get the available levels
 		
+		GUI.enabled = Session.Instance.GameData.HasDefenders();
+		
 		Vector2 pos;
 		int count = 0;
 		int iconSize = 128;
@@ -285,7 +336,9 @@ public class Menu : MAHUD
 				Session.Instance.TargetLevel = level;
 				Application.LoadLevel("Game");
 			}		
-		}		
+		}	
+		
+		GUI.enabled = true;
 	}	
 	
 	
@@ -294,6 +347,11 @@ public class Menu : MAHUD
 	/// </summary>
 	private void ClearPreviews()
 	{
+		if( previews == null )
+		{
+			previews = new Dictionary<EDefender, Defender>();
+			return;
+		}
 		List<Defender> preview = new List<Defender>(previews.Values);
 		
 		foreach( Defender local in preview )
