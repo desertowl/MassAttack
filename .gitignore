@@ -1,0 +1,21 @@
+#############
+## Unity
+#############
+Temp/
+Temp\
+MassAttack0/
+Assets/Standard Assets/
+#*.sln
+#*.userprefs
+#*.csproj
+#*.unityproj
+Library/
+
+## OS Detritus
+ehthubs.db
+Thumbs.db
+.DStore
+.DS_Store
+
+Library/EditorUserBuildSettings.asset
+Library/InspectorExpandedItems.asset
