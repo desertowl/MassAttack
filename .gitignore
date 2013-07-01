@@ -15,3 +15,8 @@ Library/
 ehthubs.db
 Thumbs.db
 .DStore
+.DS_Store
+
+Library/EditorUserBuildSettings.asset
+
+Library/InspectorExpandedItems.asset
