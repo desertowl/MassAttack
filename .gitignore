@@ -1,3 +1,22 @@
+#############
+## Unity
+#############
+#Library/
+Temp/
+Temp\
+MassAttack0/
+#ProjectSettings/
+Assets/Standard Assets/
+#*.sln
+#*.userprefs
+#*.csproj
+#*.unityproj
+Library/expandedItems
+Library/guidmapper
+LIbrary/ScriptAssemblies/
+
+
+
 #################
 ## Eclipse
 #################
@@ -183,6 +202,8 @@ $RECYCLE.BIN/
 .DS_Store
 
 
+<<<<<<< HEAD
+=======
 #############
 ## Unity
 #############
@@ -198,5 +219,9 @@ Assets/Standard Assets/
 #*.csproj
 #*.unityproj
 Library/expandedItems
-
 Library/guidmapper
+Library/ScriptAssemblies/
+<<<<<<< HEAD
+>>>>>>> 1cd1895e8ce056dab72f7726e779f62e1dc32180
+=======
+>>>>>>> 1cd1895e8ce056dab72f7726e779f62e1dc32180
