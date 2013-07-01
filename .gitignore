@@ -1,11 +1,9 @@
 #############
 ## Unity
 #############
-#Library/
 Temp/
 Temp\
 MassAttack0/
-#ProjectSettings/
 Assets/Standard Assets/
 #*.sln
 #*.userprefs
