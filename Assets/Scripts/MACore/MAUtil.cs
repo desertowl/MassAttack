@@ -43,6 +43,25 @@ namespace MACore
 			
 			return deserializedObject;
 		}	
+		
+		/// <summary>
+		/// Sets the layer.
+		/// </summary>
+		/// <param name='obj'>
+		/// Object.
+		/// </param>
+		/// <param name='layer'>
+		/// Layer.
+		/// </param>
+		/*
+		private void SetLayer(GameObject obj, int layer)
+		{
+			obj.layer = layer;
+			
+			foreach( Transform child in obj.transform )
+				SetLayer(child.gameObject, layer);
+		}		
+		*/
 	}
 }
 

@@ -39,6 +39,11 @@ namespace MAPlayer
 			return unlocked;
 		}
 		
+		public bool IsCompletlyUnlocked()
+		{
+			return unlocked==max;
+		}
+		
 		public abstract void Apply(Defender defender);
 		
 		public string GetHash()

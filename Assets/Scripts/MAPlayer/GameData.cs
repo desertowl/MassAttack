@@ -24,7 +24,7 @@ namespace MAPlayer
 		{
 			roster 	= new Dictionary<string, DefenderData>();
 			level 	= 0;
-			unlocks = 4;
+			unlocks = 1;
 			gold 	= 10000;			
 		}
 		
@@ -49,16 +49,17 @@ namespace MAPlayer
 		/// <param name='type'>
 		/// If set to <c>true</c> type.
 		/// </param>
-		public bool Unlock(EDefender type)
+		public DefenderData Unlock(EDefender type)
 		{
 			// Check to see if its already unlocked
 			if( !HasUnlocks() || roster.ContainsKey(""+type) )
-				return false;
+				return null;
 			
 			// Add it to the roster
-			roster.Add( ""+type,	new DefenderData(type, false) );
+			DefenderData data = new DefenderData(type, false);
+			roster.Add( ""+type, data);
 			unlocks--;
-			return true;
+			return data;
 		}
 		
 		/// <summary>

@@ -105,7 +105,7 @@ namespace MAPlayer
 			}
 			
 			return defender;
-		}
+		}	
 		
 		public override string ToString()
 		{

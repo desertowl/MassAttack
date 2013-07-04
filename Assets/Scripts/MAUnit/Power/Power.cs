@@ -5,6 +5,7 @@ namespace MAUnit
 {
 	public abstract class Power : Attack
 	{
+		public Texture label;
 		public string displayName;
 		public string desc;
 		

@@ -9,6 +9,9 @@ using JsonFx;
 
 public class Menu : MAHUD
 {
+	public LobbyDefender lobbyDefenderTemplate;
+	public Texture logo;
+	
 	public GUISkin skin;
 	public Texture upgrade;
 	public Texture playnow;
@@ -16,15 +19,43 @@ public class Menu : MAHUD
 	public Session template;
 	public GameObject splash;
 	
-	private Dictionary<EDefender, Defender> previews;
+	
+	public static readonly int GUISKIN_DESCRIPTION = 0;
+	public static readonly int GUISKIN_HPBAR_EMPTY = 1;
+	public static readonly int GUISKIN_HPBAR_FULL  = 2;
+	public static readonly int GUISKIN_TALENT_COUNT= 3;
+	public static readonly int GUISKIN_LARGE_CYAN  = 4;
+	public static readonly int GUISKIN_DESC_TEXT   = 5;
+	public static readonly int GUISKIN_LARGE_SUBTITLE = 6;
+	public static readonly int GUISKIN_WHITE_SUBTITLE = 7;
+	public static readonly int GUISKIN_SKILLBOX 	= 8;
+	public static readonly int GUISKIN_TALENTBOX 	= 9;
+	
+	
+	private List<LobbyDefender> defenders 	= null;
+	private LobbyDefender selected 			= null;
 	
 	private enum EMenuState
 	{
 		MainMenu,
 		Map,
 		UpgradeStore,
+		TalentTree
 	}
-	private EMenuState state = EMenuState.MainMenu;
+	private EMenuState _state = EMenuState.MainMenu;
+	private EMenuState State
+	{
+		get { return _state; }
+		set
+		{	
+			_state = value;
+			
+			if( _state == EMenuState.UpgradeStore )
+				InitializeDefenders();
+			else
+				HideLobbyDefenders();			
+		}
+	}
 	
 	/// <summary>
 	/// Awake this instance.
@@ -33,16 +64,27 @@ public class Menu : MAHUD
 	{
 		if( Session.Instance == null )
 		{
-			previews = new Dictionary<EDefender, Defender>();
-			state 	= EMenuState.MainMenu;
+			State 	= EMenuState.MainMenu;
 
 			Instantiate(template);
 		}
 		else
 		{
 			// Have them unlock a character first
-			state = Session.Instance.GameData.HasDefenders()?EMenuState.Map:EMenuState.UpgradeStore;
+			State = Session.Instance.GameData.HasDefenders()?EMenuState.Map:EMenuState.UpgradeStore;
 		}
+	}
+	
+	/// <summary>
+	/// Selects the lobby defender.
+	/// </summary>
+	/// <param name='defender'>
+	/// Defender.
+	/// </param>
+	public void SelectLobbyDefender(LobbyDefender defender)
+	{
+		selected 	= defender;
+		State 		= EMenuState.TalentTree;
 	}
 
 	/// <summary>
@@ -52,18 +94,22 @@ public class Menu : MAHUD
 	{
 		GUI.skin = skin;		
 		
-		if( state == EMenuState.UpgradeStore ) 
+		splash.SetActive(State == EMenuState.MainMenu);
+		
+		if( State == EMenuState.UpgradeStore ) 
 		{
-			ShowUpgradeStore();
+			ShowLobbyDefenders();
 		}
-		else if( state == EMenuState.Map )
+		else if( State == EMenuState.Map )
 		{
-			ClearPreviews();
 			ShowMap();
+		}
+		else if( State == EMenuState.TalentTree )
+		{
+			ShowTalentTree();
 		}
 		else
 		{
-			ClearPreviews();
 			ShowMainMenu();
 		}
 	}
@@ -73,26 +119,33 @@ public class Menu : MAHUD
 	/// </summary>
 	public void ShowMainMenu()
 	{
-		GUI.Box(new Rect(Screen.width/2-150,50,300,300), "Mass Attack!");
+		//GUI.Box(new Rect(Screen.width/2-150,50,300,300), "Mass Attack!");
 		
-		if (GUI.Button (new Rect (Screen.width/2-100,100, 200, 50), "New Game"))
+		float hoffset		= 100;
+		float buttonWidth 	= Screen.width/2;
+		float buttonHeight 	= buttonWidth/4;
+		float valign 		= 10 + 128;
+		
+		GUI.DrawTexture(new Rect(10,10, 512, 128), logo );
+		
+		if (GUI.Button (new Rect (valign, hoffset, buttonWidth, buttonHeight), "New Game"))
 		{
 			// Create some brand new game data
 			Session.Instance.GameData 	= new GameData();
 			Session.Instance.GameData.Clear();
-			state 						= EMenuState.Map;
+			State 						= EMenuState.Map;
 		}
 		
 		GUI.enabled = GameData.HasGameData();
-		if (GUI.Button (new Rect (Screen.width/2-100,160, 200, 50), "Continue Game"))
+		if (GUI.Button (new Rect (valign, hoffset+10+buttonHeight, buttonWidth, buttonHeight), "Continue Game"))
 		{
 			// Load up the existing game data
 			Session.Instance.GameData 	= GameData.Load();
-			state 						= EMenuState.Map;
+			State 						= EMenuState.Map;
 		}
 		GUI.enabled = true;
 		
-		if (GUI.Button (new Rect (Screen.width/2-100,280, 200, 50), "Quit"))
+		if (GUI.Button (new Rect (valign, hoffset+20+(2*buttonHeight), buttonWidth, buttonHeight), "Quit"))
 		{
 			Application.Quit();
 		}			
@@ -107,214 +160,94 @@ public class Menu : MAHUD
 		base.DrawNavBar();
 		
 		// Show the play button
-		GUI.enabled = state == EMenuState.UpgradeStore && Session.Instance.GameData.HasDefenders();
+		GUI.enabled = State == EMenuState.UpgradeStore && Session.Instance.GameData.HasDefenders();
 		if (GUI.Button (new Rect(0,0, NAV_BAR_HEIGHT*3, NAV_BAR_HEIGHT), new GUIContent("Play", playnow)))
-			state = EMenuState.Map;
+			State = EMenuState.Map;
 		
 		// Show the upgrade button
-		GUI.enabled = state == EMenuState.Map;
+		GUI.enabled = State == EMenuState.Map;
 		if (GUI.Button (new Rect(NAV_BAR_HEIGHT*3+10,0, NAV_BAR_HEIGHT*3, NAV_BAR_HEIGHT), new GUIContent("Research", upgrade)))
-			state = EMenuState.UpgradeStore;
+			State = EMenuState.UpgradeStore;
 		GUI.enabled=true;
 	}
 	
 	/// <summary>
 	/// Shows the upgrade store.
 	/// </summary>
-	public void ShowUpgradeStore()
+	public void ShowLobbyDefenders()
 	{
 		DrawNavBar();
-		
-		float count		= 0;
-		float width 	= ((Screen.width/4)+10);
+
+		float width 	= Screen.width/2;
 		float height	= Screen.height-NAV_BAR_HEIGHT;
 		
-		// Get the data
-		List<DefenderData> defenders = Session.Instance.GameData.GetDefenderData();
-		
-		
+		// Show the trees
 		for( int id=0;id<4;id++ )
 		{
 			// Get the 1st four defenders
 			EDefender type 	= (EDefender)id;
-			Vector2 pos 	= new Vector2(width*count, NAV_BAR_HEIGHT);
+
+			float offsetX   = 10;
+			float offsetY 	= Screen.height/8.0f;
+				
+			if( id >= 2 )
+				offsetY		+= Screen.height/2;
+			Vector2 pos 	= new Vector2( (width*(id%2) )+10, offsetY);	
+			
+			defenders[id].gameObject.SetActive(_state == EMenuState.UpgradeStore );
+			defenders[id].DrawPick(pos);
+		}
+	}
+	
+	private void InitializeDefenders()
+	{
+		// Get the data
+		if( defenders != null )
+			return;
+		
+		defenders = new List<LobbyDefender>();
+		for( int id=0;id<4;id++ )
+		{
+			// Get the 1st four defenders
+			EDefender type 	= (EDefender)id;
 			
 			// Get the saved data
 			DefenderData data = Session.Instance.GameData.GetDefenderData(type);
-			
-			if( data != null )
-				ShowTalentTree(pos, width, height, data);
+
+			if( data == null )
+				data = new DefenderData(type, true);
 			else
-				ShowDefenderUnlock(pos, width, height, new DefenderData(type, true));	
-	
-			count++;
-		}
+				data.bLocked = false;
+			
+			LobbyDefender defender = GameObject.Instantiate(lobbyDefenderTemplate) as LobbyDefender;
+			defender.Initialize(this, data);
+			defenders.Add(defender);
+		}		
 	}
 	
-	
-	
-	/// <summary>
-	/// Shows the talent tree.
-	/// </summary>
-	/// <param name='offset'>
-	/// Offset.
-	/// </param>
-	/// <param name='width'>
-	/// Width.
-	/// </param>
-	/// <param name='height'>
-	/// Height.
-	/// </param>
-	/// <param name='defender'>
-	/// Defender.
-	/// </param>
-	private void ShowTalentTree(Vector2 offset, float width, float height, DefenderData defenderData)
-	{		
-		// Get an uninitanciated prefab
-		Defender defender = defenderData.GetDefender();
+	public void ShowTalentTree()
+	{
+		DrawNavBar();
 		
-		float iconSize = 32;
-		float buttonSize = (width-25)/2;
-		GUI.Box(new Rect(offset.x, offset.y,width,height), defender.name);
-		
-		// Get the available levels
-		//GUI.Label( new Rect(offset.x + 20, offset.y+5, 100, 20), defender.name);
-		GUI.DrawTexture( new Rect(offset.x+5, offset.y+5, iconSize,iconSize), defender.icon);
-		
-		int lastPre = 0;
-		int peers = 0;
-		int level = 0;
-		// Render out each talent, there should never be more than 2 per "level"
-		Talent [] talents = defender.GetComponents<Talent>();
-		foreach( Talent talent in talents )
-		{
-			if( talent.prerequisite != lastPre )
-			{
-				lastPre = talent.prerequisite;
-				level++;
-				peers = 0;
-			}
-			
-			Vector2 position = new Vector2(offset.x+10 + peers * (buttonSize+10), offset.y + level * (buttonSize+10) + iconSize);
-			ShowTalent(position, buttonSize, defender, talent);
-			peers++;
-		}
-		
+		selected.gameObject.SetActive(_state == EMenuState.TalentTree );
+		selected.ShowTalentTree( new Vector2(0,NAV_BAR_HEIGHT+12), Screen.width/2, Screen.height-2*NAV_BAR_HEIGHT);
 	}
 	
-	
 	/// <summary>
-	/// Shows the defender unlock.
+	/// Dos the unlock.
 	/// </summary>
-	/// <param name='offset'>
-	/// Offset.
+	/// <returns>
+	/// The unlock.
+	/// </returns>
+	/// <param name='type'>
+	/// Type.
 	/// </param>
-	/// <param name='width'>
-	/// Width.
-	/// </param>
-	/// <param name='height'>
-	/// Height.
-	/// </param>
-	/// <param name='defenderData'>
-	/// Defender data.
-	/// </param>
-	private void ShowDefenderUnlock(Vector2 offset, float width, float height, DefenderData defenderData)
-	{		
-		// Get an uninitanciated prefab
-		Defender template = defenderData.GetDefender();
-		
-		float yinc		= width/6;
-		float iconSize = 64;
-		float buttonSize = (width-25)/2;
-		///GUI.Box(new Rect(offset.x, offset.y,width,height), template.name);
-		
-		Vector2 position = new Vector2(offset.x, offset.y);
-		
-		GUI.enabled = Session.Instance.GameData.HasUnlocks();
-		
-		if( GUI.Button( new Rect(position.x, position.y, width, width), "" ) )
-		{
-			DoUnlock(defenderData.GetDefenderType());
-		}
-		
-		// Get the available levels
-		//GUI.Label( new Rect(offset.x + 20, offset.y+5, 100, 20), defender.name);
-		
-		
-		int lastPre = 0;
-		int peers = 0;
-		int level = 0;
-		float scale = 8.0f;
-		
-		Vector3 screenspace = new Vector3(offset.x + width/2, offset.y, Camera.main.nearClipPlane+10);
-		
-		
-		Vector3 pos = Camera.main.ScreenToWorldPoint(screenspace);
-		Defender defender;
-		if( !previews.ContainsKey(template.type) )
-		{
-			defender = Instantiate(template) as Defender;
-			defender.transform.position = pos;
-			defender.transform.localScale = new Vector3(scale,scale,scale);
-			
-			previews.Add(template.type, defender);
-		}
-		else
-		{
-			defender = previews[template.type];
-			defender.transform.position = pos;// + new Vector3(Mathf.Sin(Time.fixedTime), 0, 0);
-		}
-		
-		GUI.Label(		new Rect( position.x, position.y, 	width,  64 ),  			template.name,	 GUI.skin.customStyles[4] );
-		GUI.Label(		new Rect( position.x, position.y+yinc, width, 64 ), 		template.desc, 	 GUI.skin.customStyles[5] );		
-		
-		float sub = width-20;
-		GUI.Box( 		new Rect( position.x+10, position.y+(yinc*2)-5, sub, (yinc*2)+5 ),"" );
-		GUI.Box(		new Rect( position.x+20, position.y+(yinc*2), 64, 64 ), 	template.icon);
-		GUI.Label(		new Rect( position.x+84, position.y+(yinc*2), sub, 64 ), 	defender.power.displayName, 	 GUI.skin.customStyles[6] );
-		GUI.Label(		new Rect( position.x+20, position.y+(yinc*3), sub, 64 ), 	defender.power.desc, 	 GUI.skin.customStyles[5] );
-	
-		
-		if( GUI.enabled )
-			GUI.Label(		new Rect( position.x+10, position.y+(yinc*5), width,  64 ),  "UNLOCK NOW",	 GUI.skin.customStyles[4] );
-		GUI.enabled = true;
+	public DefenderData DoUnlock(EDefender type)
+	{
+		return Session.Instance.GameData.Unlock(type);
+		//if( data != null  ) state = EMenuState.Map;
+		//return data;
 	}	
-	
-	public void DoUnlock(EDefender type)
-	{
-		if( Session.Instance.GameData.Unlock(type) )
-			state = EMenuState.Map;
-	}
-	
-	/// <summary>
-	/// Shows the talent.
-	/// </summary>
-	/// <param name='position'>
-	/// Position.
-	/// </param>
-	/// <param name='buttonSize'>
-	/// Button size.
-	/// </param>
-	/// <param name='defender'>
-	/// Defender.
-	/// </param>
-	/// <param name='talent'>
-	/// Talent.
-	/// </param>
-	private void ShowTalent(Vector2 position, float buttonSize, Defender defender, Talent talent)
-	{
-		GUI.enabled = Session.Instance.CanUnlock(talent);
-		if( GUI.Button( new Rect( position.x, position.y, buttonSize, buttonSize ), talent.icon))
-		{
-			//print ("Should unlock talent here");	
-			Session.Instance.Unlock(talent);
-		}
-		
-		GUI.Label(new Rect( position.x, position.y, buttonSize, buttonSize ), 	talent.name );
-		GUI.Label(new Rect( position.x, position.y, buttonSize, buttonSize ), 	"("+talent.GetUnlocked() + "/"+talent.max+")", GUI.skin.customStyles[3] );
-		GUI.Label(new Rect( position.x, position.y, buttonSize, buttonSize ), 	talent.desc, GUI.skin.customStyles[0] );		
-		GUI.enabled = true;
-	}
 	
 	public void ShowMap()
 	{
@@ -343,21 +276,15 @@ public class Menu : MAHUD
 		GUI.enabled = true;
 	}	
 	
-	
 	/// <summary>
-	/// Clears the previews.
+	/// Cears the trees.
 	/// </summary>
-	private void ClearPreviews()
+	private void HideLobbyDefenders()
 	{
-		if( previews == null )
-		{
-			previews = new Dictionary<EDefender, Defender>();
+		if( defenders == null )
 			return;
-		}
-		List<Defender> preview = new List<Defender>(previews.Values);
 		
-		foreach( Defender local in preview )
-			Destroy(local.gameObject);
-		previews.Clear();
+		foreach( LobbyDefender defender in defenders )
+			defender.gameObject.SetActive(false);
 	}	
 }
