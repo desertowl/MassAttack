@@ -32,7 +32,33 @@ namespace MAUnit
 		// Stateful variables
 		private bool spinningUp;
 		[HideInInspector]
-		public bool Feared;
+		private bool _feared;
+		private ParticleSystem _fearedEffect = null;
+		public bool Feared
+		{
+			get { return _feared; }
+			set
+			{
+				_feared = value;
+
+				if( _feared && _fearedEffect == null )
+				{
+					GameObject template = Resources.Load("Particles/Feared") as GameObject;
+					_fearedEffect = (Instantiate( template ) as GameObject).GetComponent<ParticleSystem>();
+					_fearedEffect.transform.parent = this.DefaultTarget.transform;
+					_fearedEffect.transform.localPosition = Vector3.zero;
+				}
+				
+				
+				else if( !_feared && _fearedEffect != null )
+				{
+					Destroy(_fearedEffect);
+					_fearedEffect = null;
+				}
+			}
+		}
+		
+		
 		[HideInInspector]
 		public bool powerTargeting;
 		
@@ -88,15 +114,16 @@ namespace MAUnit
 		
 		public void Kill(Vector3 force)
 		{
-			
+			// The dead have no fear...
+			Feared = false;
 			bDead = true;
 			//gameObject.AddComponent<Rigidbody>();			
 
 			if( rigidbody != null )
 			{
 				//Debug.LogWarning("FORCE: " + force );
-				//Animator anim 	= GetComponent<Animator>();
-				//anim.enabled 	= false;				
+				Animator anim 	= GetComponent<Animator>();
+				anim.applyRootMotion = false;
 				rigidbody.AddForce( force, ForceMode.Impulse );
 			}
 

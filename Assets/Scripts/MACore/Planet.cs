@@ -56,7 +56,7 @@ namespace MACore
 		private void SetRingColor(Color color)
 		{
 			ring.SetActive(true);
-			ring.renderer.material.SetColor("Tint Color", color);
+			ring.renderer.material.SetColor("_TintColor", color);
 		}
 		
 		public void Update()

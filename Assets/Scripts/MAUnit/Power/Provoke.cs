@@ -7,8 +7,8 @@ namespace MAUnit
 {
 	public class Provoke : RadialPower
 	{
+		public ParticleSystem fearedEffect;
 		public ParticleSystem healEffect;
-		public Light healingLight;
 		public float slowPercent = 0.8f;
 		public float fearDuration = 6;
 		public float heal = 10;
@@ -19,17 +19,8 @@ namespace MAUnit
 		public override void OnActivateBegin ()
 		{
 			// Construct the area
-			ConstructArea();
-		}
-		
-		// Update is called once per frame
-		public override void OnActivateUpdate ()
-		{
-		}
-		
-		// Use this for execution
-		public override void OnActivateEnd ()
-		{
+			// ConstructArea();
+			
 			PlaySound();
 			CooldownBegin();
 
@@ -48,13 +39,25 @@ namespace MAUnit
 				
 				// Fear them!
 				monster.Feared = true;
+				
 			}
 			
 			if( targets.Count > 0)
 				Invoke("Unfear", fearDuration );
 			
-			GameObject.Destroy(instance);
-			Play(healEffect, transform.position, transform.rotation);
+			//GameObject.Destroy(instance);
+			ParticleSystem system 	= Play(healEffect, transform.position, transform.rotation);
+			system.transform.parent = transform;
+		}
+		
+		// Update is called once per frame
+		public override void OnActivateUpdate ()
+		{
+		}
+		
+		// Use this for execution
+		public override void OnActivateEnd ()
+		{
 		}
 		
 		private void Unfear()
@@ -62,19 +65,7 @@ namespace MAUnit
 			foreach( Monster monster in targets )
 				monster.Feared = false;
 		}
-		
-	
-		
-		public void FixedUpdate()
-		{
-			if( healingLight.enabled )
-			{
-				healingLight.intensity -= 0.1f;
-				
-				if( healingLight.intensity <= 0 )
-					healingLight.enabled = false;
-			}
-		}
+
 		
 		/// <summary>
 		/// Plaies the effect.
@@ -84,11 +75,7 @@ namespace MAUnit
 		/// </param>
 		protected override ParticleSystem Play(ParticleSystem effect, Vector3 offset, Quaternion rotation)
 		{
-			ParticleSystem inst = base.Play(effect, offset, rotation);
-			healingLight.enabled = true;
-			healingLight.intensity = 1;
-			
-			return inst;
+			return base.Play(effect, offset, rotation);
 		}			
 		
 		public override void OnAvailable(){}

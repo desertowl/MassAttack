@@ -72,10 +72,13 @@ public class Menu : MAHUD
 		}
 	}
 	
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	public void Update()
 	{
 		// Only check for the hit levels in the map state
-		if( State != EMenuState.Map )
+		if( State != EMenuState.Map || !Session.Instance.GameData.HasDefenders() )
 			return;
 		
 		
@@ -86,7 +89,10 @@ public class Menu : MAHUD
 			RaycastHit hit;
 			if( Physics.Raycast(ray, out hit, 1000.0f) )
 			{
-				Planet planet = hit.collider.gameObject.GetComponent<Planet>();
+				Planet planet 				= hit.collider.gameObject.GetComponent<Planet>();
+				
+				if( !planet.IsAvailable() )
+					return;
 				
 				Session.Instance.TargetLevel = planet.level;
 				Application.LoadLevel("Game");
@@ -335,7 +341,6 @@ public class Menu : MAHUD
 		// Get the available levels		
 		int currentLevel 	= Session.Instance.GameData.level;
 		int count 			= 0;
-		int iconSize 		= 64;
 		Vector2 pos;
 		Vector2 level0Pos	= new Vector2();
 		

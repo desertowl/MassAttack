@@ -39,7 +39,7 @@ namespace MAUnit
 
 			ParticleSystem inst = Instantiate(effect, offset, rotation) as ParticleSystem;
 			inst.transform.Rotate( new Vector3(270, 0, 0) );
-			Destroy(inst.gameObject, effect.duration);
+			Destroy(inst.gameObject, effect.duration*2f);
 			
 			return inst;
 		}			

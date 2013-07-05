@@ -91,6 +91,7 @@
      <None Include="Assets\Shaders\SolidScrollFX.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\Temp\TempShader.shader" />
      <None Include="Assets\Shaders\AddingMove.shader" />
+     <None Include="Assets\Shaders\DronosReflective.shader" />
      <None Include="Assets\Shaders\DepthMask.shader" />
      <None Include="Assets\Shaders\DiffuseEmis.shader" />
      <None Include="Assets\Shaders\ScrollFX.shader" />

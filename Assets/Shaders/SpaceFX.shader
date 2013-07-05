@@ -6,7 +6,6 @@ _stars("_stars", 2D) = "black" {}
 _gas("_gas", 2D) = "black" {}
 _noise("_noise", 2D) = "black" {}
 _speed("_speed", Float) = 1
-_foreground("_foreground", Color) = (1,1,1,1)
 
 	}
 	
@@ -38,7 +37,6 @@ sampler2D _stars;
 sampler2D _gas;
 sampler2D _noise;
 float _speed;
-float4 _foreground;
 
 			struct EditorSurfaceOutput {
 				half3 Albedo;
@@ -81,7 +79,6 @@ return c;
 				float2 uv_gas;
 float2 uv_noise;
 float2 uv_stars;
-float4 color : COLOR;
 
 			};
 
@@ -108,13 +105,11 @@ float4 ASin0=asin(_speed.xxxx);
 float4 Multiply4=ASin0 * _Time;
 float4 UV_Pan1=float4((IN.uv_gas.xyxy).x + Multiply4.x,(IN.uv_gas.xyxy).y + Multiply4.x,(IN.uv_gas.xyxy).z,(IN.uv_gas.xyxy).w);
 float4 Tex2D1=tex2D(_gas,UV_Pan1.xy);
-float4 Multiply3=_foreground * Tex2D1;
 float4 UV_Pan2=float4((IN.uv_noise.xyxy).x + _Time.x,(IN.uv_noise.xyxy).y + _Time.x,(IN.uv_noise.xyxy).z,(IN.uv_noise.xyxy).w);
 float4 Tex2D2=tex2D(_noise,UV_Pan2.xy);
 float4 Tex2D0=tex2D(_stars,(IN.uv_stars.xyxy).xy);
-float4 Multiply1=Tex2D0 * IN.color;
-float4 Multiply5=Tex2D2 * Multiply1;
-float4 Add0=Multiply3 + Multiply5;
+float4 Multiply5=Tex2D2 * Tex2D0;
+float4 Add0=Tex2D1 + Multiply5;
 float4 Master0_1_NoInput = float4(0,0,1,1);
 float4 Master0_2_NoInput = float4(0,0,0,0);
 float4 Master0_3_NoInput = float4(0,0,0,0);

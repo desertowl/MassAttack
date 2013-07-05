@@ -256,7 +256,7 @@ namespace MACore
 			// Get the force & direction of the murder!
 			Vector3 force = target.DefaultTarget.transform.position - source.transform.position;
 			force.Normalize();
-			force *= attack.force;
+			force *= UnityEngine.Random.value * (attack.force/2) + attack.force;
 			
 			if( target.CurrentHealth <= 0 && !target.IsDead() )
 			{

@@ -192,8 +192,8 @@ ModelImporter:
       transformMask: []
     - name: Velic - Quick Attack
       takeName: Take 001
-      firstFrame: 40
-      lastFrame: 68
+      firstFrame: 1
+      lastFrame: 53
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
