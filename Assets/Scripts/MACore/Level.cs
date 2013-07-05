@@ -15,11 +15,12 @@ namespace MACore
 		
 		private List<Wave> remaining;
 		public CombatArea area;
+		
 		public Level ()
 		{
 		}
 		
-		public void Start()
+		public virtual void Start()
 		{
 			remaining = new List<Wave>(waves);
 			

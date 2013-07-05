@@ -93,7 +93,8 @@ public class Menu : MAHUD
 				
 				if( !planet.IsAvailable() )
 					return;
-				
+
+				planet.level.id 			 = planet.id;
 				Session.Instance.TargetLevel = planet.level;
 				Application.LoadLevel("Game");
 			}

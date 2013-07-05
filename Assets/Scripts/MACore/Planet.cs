@@ -44,7 +44,7 @@ namespace MACore
 			else
 				ring.SetActive(false);
 			
-			
+			level.id		= id;
 		}
 		
 		/// <summary>

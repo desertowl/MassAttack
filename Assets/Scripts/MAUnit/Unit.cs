@@ -123,7 +123,9 @@ namespace MAUnit
 			{
 				//Debug.LogWarning("FORCE: " + force );
 				Animator anim 	= GetComponent<Animator>();
-				anim.applyRootMotion = false;
+
+				if( anim != null )
+					anim.applyRootMotion = false;
 				rigidbody.AddForce( force, ForceMode.Impulse );
 			}
 
