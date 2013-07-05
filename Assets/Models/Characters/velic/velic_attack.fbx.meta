@@ -154,6 +154,7 @@ ModelImporter:
     7400000: Velic Attack
     7400002: Velic - Quick Attack
     7400004: Velic - Aim
+    7400006: Velic Aimer
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -220,6 +221,27 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      transformMask: []
+    - name: Velic Aimer
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 54.7999992
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0

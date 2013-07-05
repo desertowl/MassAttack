@@ -5,6 +5,9 @@ namespace MACore
 {
 	public class MAUtil
 	{	
+	
+		
+		
 		
 		/// <summary>
 		/// Jsons the encode.

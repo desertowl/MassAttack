@@ -8,6 +8,12 @@ namespace MAUnit
 {
 	public class Defender : Unit
 	{
+
+		private static readonly Color BERSERKER = new Color(1,0,0);
+		private static readonly Color GUARDIAN  = new Color(0,0,1);
+		private static readonly Color SNIPER  	= new Color(1,0,1);
+		private static readonly Color ENGINEER 	= new Color(0,1,0);		
+		
 		public EDefender type;
 		
 		
@@ -140,7 +146,30 @@ namespace MAUnit
 				count += t.GetUnlocked();
 			
 			return count;
-		}		
+		}	
+		
+		/// <summary>
+		/// Gets the color.
+		/// </summary>
+		/// <returns>
+		/// The color.
+		/// </returns>
+		/// <param name='type'>
+		/// Type.
+		/// </param>
+		public static Color GetDefenderColor(EDefender type)
+		{
+			switch( type )
+			{
+				case EDefender.Berserker:
+					return BERSERKER;
+				case EDefender.Guardian:
+					return GUARDIAN;
+				case EDefender.Sniper:
+					return SNIPER;				
+			}
+			return ENGINEER;
+		}			
 	}
 	
 	public enum EDefender

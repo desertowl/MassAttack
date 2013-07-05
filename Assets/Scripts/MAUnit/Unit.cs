@@ -88,11 +88,17 @@ namespace MAUnit
 		
 		public void Kill(Vector3 force)
 		{
+			
 			bDead = true;
 			//gameObject.AddComponent<Rigidbody>();			
-			
+
 			if( rigidbody != null )
+			{
+				//Debug.LogWarning("FORCE: " + force );
+				//Animator anim 	= GetComponent<Animator>();
+				//anim.enabled 	= false;				
 				rigidbody.AddForce( force, ForceMode.Impulse );
+			}
 
 			//Destroy(this);
 		}
@@ -151,7 +157,7 @@ namespace MAUnit
 		/// </summary>
 		public virtual void MoveTowards()
 		{
-			float s = Feared?-speed/2:speed;
+			float s = Feared?speed/2:speed;
 			transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*s);			
 
 		}
@@ -200,8 +206,18 @@ namespace MAUnit
 		public virtual Vector3 GetTargetPosition()
 		{
 			if( target == null )
-				return transform.position;
-			return target.transform.position;
+				return transform.position;			
+			
+			if( !Feared )
+			{
+				return target.transform.position;
+			}
+			else
+			{
+				Vector3 dir = (transform.position-target.transform.position).normalized;	
+				dir.Scale(new Vector3(100, 100, 100));
+				return transform.position + dir;
+			}
 		}
 		
 		

@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\MACore\Game.cs" />
      <Compile Include="Assets\Scripts\MACore\Level.cs" />
      <Compile Include="Assets\Scripts\MACore\MAUtil.cs" />
+     <Compile Include="Assets\Scripts\MACore\Planet.cs" />
      <Compile Include="Assets\Scripts\MACore\Session.cs" />
      <Compile Include="Assets\Scripts\MACore\Spawn\SpawnPoint.cs" />
      <Compile Include="Assets\Scripts\MACore\Spawn\SpawnRing.cs" />
@@ -86,12 +87,16 @@
      <Compile Include="Assets\Scripts\MAUnit\Unit.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Weapon.cs" />
      <None Include="Assets\Shaders\DiffuseNormalEmis.shader" />
+     <None Include="Assets\Shaders\SolidScrollFX.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\Temp\TempShader.shader" />
      <None Include="Assets\Shaders\AddingMove.shader" />
      <None Include="Assets\Shaders\DepthMask.shader" />
      <None Include="Assets\Shaders\DiffuseEmis.shader" />
+     <None Include="Assets\Shaders\ScrollFX.shader" />
+     <None Include="Assets\Icosphere\readme.txt" />
      <None Include="Assets\Shaders\Background.shader" />
      <None Include="Assets\Shaders\TheWorks.shader" />
+     <None Include="Assets\Shaders\SpaceFX.shader" />
      <None Include="Assets\Shaders\DiffuseNormalSpecEmis.shader" />
      <None Include="Assets\Shaders\VRStyle-Double.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\TextureCopy.shader" />

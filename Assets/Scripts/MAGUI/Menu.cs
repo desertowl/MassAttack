@@ -11,29 +11,19 @@ public class Menu : MAHUD
 {
 	public LobbyDefender lobbyDefenderTemplate;
 	public Texture logo;
+	public GameObject ColorPlane;
 	
 	public GUISkin skin;
 	public Texture upgrade;
 	public Texture playnow;
-	public List<Level> levels;
+	//public List<Level> levels;
 	public Session template;
 	public GameObject splash;
 	
 	
-	public static readonly int GUISKIN_DESCRIPTION = 0;
-	public static readonly int GUISKIN_HPBAR_EMPTY = 1;
-	public static readonly int GUISKIN_HPBAR_FULL  = 2;
-	public static readonly int GUISKIN_TALENT_COUNT= 3;
-	public static readonly int GUISKIN_LARGE_CYAN  = 4;
-	public static readonly int GUISKIN_DESC_TEXT   = 5;
-	public static readonly int GUISKIN_LARGE_SUBTITLE = 6;
-	public static readonly int GUISKIN_WHITE_SUBTITLE = 7;
-	public static readonly int GUISKIN_SKILLBOX 	= 8;
-	public static readonly int GUISKIN_TALENTBOX 	= 9;
-	
-	
 	private List<LobbyDefender> defenders 	= null;
 	private LobbyDefender selected 			= null;
+	private readonly float NavButtonSize 	= 60;
 	
 	private enum EMenuState
 	{
@@ -49,12 +39,22 @@ public class Menu : MAHUD
 		set
 		{	
 			_state = value;
+			ColorPlane.SetActive( _state == EMenuState.TalentTree );
 			
 			if( _state == EMenuState.UpgradeStore )
+			{
 				InitializeDefenders();
+			}
 			else
+			{
 				HideLobbyDefenders();			
+			}
 		}
+	}
+	
+	public void GetPlanets()
+	{
+		
 	}
 	
 	/// <summary>
@@ -73,6 +73,15 @@ public class Menu : MAHUD
 			// Have them unlock a character first
 			State = Session.Instance.GameData.HasDefenders()?EMenuState.Map:EMenuState.UpgradeStore;
 		}
+	}
+	
+	public void SetBackgroundColor( Color color )
+	{
+		ColorPlane.SetActive(true);
+
+		Material mat = ColorPlane.renderer.material;
+		mat.SetColor("_foreground", color );
+		
 	}
 	
 	/// <summary>
@@ -159,16 +168,34 @@ public class Menu : MAHUD
 		// Draw the background
 		base.DrawNavBar();
 		
-		// Show the play button
-		GUI.enabled = State == EMenuState.UpgradeStore && Session.Instance.GameData.HasDefenders();
-		if (GUI.Button (new Rect(0,0, NAV_BAR_HEIGHT*3, NAV_BAR_HEIGHT), new GUIContent("Play", playnow)))
-			State = EMenuState.Map;
+		GUIStyle style = GUI.skin.customStyles[GUISKIN_BACKBUTTON];
+		string label = "";
 		
-		// Show the upgrade button
-		GUI.enabled = State == EMenuState.Map;
-		if (GUI.Button (new Rect(NAV_BAR_HEIGHT*3+10,0, NAV_BAR_HEIGHT*3, NAV_BAR_HEIGHT), new GUIContent("Research", upgrade)))
-			State = EMenuState.UpgradeStore;
-		GUI.enabled=true;
+		switch( State )
+		{
+			case EMenuState.Map:
+			case EMenuState.TalentTree:
+				label = "Upgrades";
+				break;
+			case EMenuState.UpgradeStore:
+				style = GUI.skin.customStyles[GUISKIN_SPACEBUTTON];
+				label = "Map";
+				break;			
+		}
+
+		if( GUI.Button( new Rect( Screen.width - NavButtonSize - 2, Screen.height - NavButtonSize - 2, NavButtonSize, NavButtonSize), "", style ) )
+		{
+			switch( State )
+			{
+				case EMenuState.Map:
+				case EMenuState.TalentTree:
+					State = EMenuState.UpgradeStore;
+					break;
+				case EMenuState.UpgradeStore:
+					State = EMenuState.Map;
+					break;			
+			}
+		}
 	}
 	
 	/// <summary>
@@ -178,8 +205,7 @@ public class Menu : MAHUD
 	{
 		DrawNavBar();
 
-		float width 	= Screen.width/2;
-		float height	= Screen.height-NAV_BAR_HEIGHT;
+		float width 	= Screen.width * 0.45f;
 		
 		// Show the trees
 		for( int id=0;id<4;id++ )
@@ -188,10 +214,10 @@ public class Menu : MAHUD
 			EDefender type 	= (EDefender)id;
 
 			float offsetX   = 10;
-			float offsetY 	= Screen.height/8.0f;
+			float offsetY 	= NAV_BAR_HEIGHT+3;
 				
 			if( id >= 2 )
-				offsetY		+= Screen.height/2;
+				offsetY		+= Screen.height*0.45f;
 			Vector2 pos 	= new Vector2( (width*(id%2) )+10, offsetY);	
 			
 			defenders[id].gameObject.SetActive(_state == EMenuState.UpgradeStore );
@@ -229,8 +255,9 @@ public class Menu : MAHUD
 	{
 		DrawNavBar();
 		
+		SetBackgroundColor( Defender.GetDefenderColor( selected.defender.type ) );
 		selected.gameObject.SetActive(_state == EMenuState.TalentTree );
-		selected.ShowTalentTree( new Vector2(0,NAV_BAR_HEIGHT+12), Screen.width/2, Screen.height-2*NAV_BAR_HEIGHT);
+		selected.ShowTalentTree( new Vector2(0,5), Screen.width*0.6f, Screen.height-2*NAV_BAR_HEIGHT);
 	}
 	
 	/// <summary>
@@ -251,29 +278,48 @@ public class Menu : MAHUD
 	
 	public void ShowMap()
 	{
-		DrawNavBar();
+		bool hasDefenders = Session.Instance.GameData.HasDefenders();
 		
-		// Get the available levels
-		
-		GUI.enabled = Session.Instance.GameData.HasDefenders();
-		
+		// Get the available levels		
+		int currentLevel 	= Session.Instance.GameData.level;
+		int count 			= 0;
+		int iconSize 		= 64;
 		Vector2 pos;
-		int count = 0;
-		int iconSize = 128;
+		Vector2 level0Pos	= new Vector2();
+		
+		/*
 		foreach( Level level in levels )
 		{
-			pos = new Vector2(Screen.width/2-(iconSize/2), 120 + count*(iconSize+10));
+			GUI.enabled = false;//hasDefenders && count >= currentLevel;			
+			pos.x		= level.location.x * Screen.width;
+			pos.y		= level.location.y * Screen.height;
+			
+			if( count == 0 )
+				level0Pos = pos;
 			
 			count++;
-			GUI.Label( new Rect(pos.x + 20, pos.y+5, 100, 20), "Level " + count);
-			if (GUI.Button (new Rect (pos.x, pos.y, iconSize, iconSize), level.icon))
+			GUI.Label( new Rect(pos.x - 50, pos.y+10, 100, 20), "Level " + count);
+			GUI.DrawTexture(new Rect (pos.x, pos.y, iconSize, iconSize), level.icon);
+			if (GUI.Button (new Rect (pos.x, pos.y, iconSize, iconSize), level.icon, GUI.skin.customStyles[MAHUD.GUISKIN_WHITE_SUBTITLE]))
 			{
 				Session.Instance.TargetLevel = level;
 				Application.LoadLevel("Game");
-			}		
+			}
 		}	
 		
 		GUI.enabled = true;
+		
+		
+		// Show the modal
+		float ModalSize 	= 128;
+		if( Session.Instance.GameData.HasUnlocks() )
+		{
+			DrawModal ( new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!");
+		}
+		else if( currentLevel == 0 )
+			DrawModal( new Rect(level0Pos.x - (ModalSize*0.8f) , level0Pos.y - ModalSize, ModalSize, ModalSize), "Select a World!");
+		*/
+		DrawNavBar();
 	}	
 	
 	/// <summary>

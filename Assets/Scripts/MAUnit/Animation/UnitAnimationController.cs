@@ -71,7 +71,7 @@ namespace MAUnit
 			// Get the dest target
 			// Vector3 target 		= GetComponent<Unit>().GetTargetPosition();
 			//yaw.transform.rotation = Quaternion.LookRotation(dir);
-			float targetAngle	= Quaternion.LookRotation(dir).eulerAngles.y + (GetComponent<Unit>().Feared?180.0f:0.0f);
+			float targetAngle	= Quaternion.LookRotation(dir).eulerAngles.y;// + (GetComponent<Unit>().Feared?180.0f:0.0f);
 			float currentAngle	= transform.rotation.eulerAngles.y;
 			
 			transform.RotateAround(Vector3.up, (targetAngle-currentAngle) * 0.2f * Time.deltaTime);			

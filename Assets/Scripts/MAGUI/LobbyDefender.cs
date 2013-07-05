@@ -21,7 +21,7 @@ namespace MAGUI
 		private Menu parent;
 		private DefenderData data;
 
-		private float scale = 8.0f;
+		private float scale = 7.0f;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MAGUI.TalentTreeGUI"/> class.
@@ -81,10 +81,17 @@ namespace MAGUI
 			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
 
 			defender.transform.position = worldspace;
+			defender.transform.localScale = new Vector3(scale,scale,scale);
 			
+
 			
-			GUI.Label(		new Rect( position.x+40, position.y+50, 	160,  64 ),  	template.name,	 GUI.skin.customStyles[7] );
-			GUI.Label(		new Rect( position.x-40, position.y+50, 	160,  64 ),  	"LOcked? " + data.bLocked + " has Unlocks? " + hasUnlocks );
+			Vector3 center  	= Camera.main.WorldToScreenPoint( background.transform.position );
+			Vector3 hotspot  	= Camera.main.WorldToScreenPoint( background.transform.GetChild(0).position );
+			hotspot.y 			= Math.Abs(hotspot.y - Screen.height);
+			center.y 			= Math.Abs(center.y - Screen.height);
+			
+
+			//GUI.Label(		new Rect( position.x-40, position.y+50, 	160,  64 ),  	"LOcked? " + data.bLocked + " has Unlocks? " + hasUnlocks );
 			
 			// Get the proper texture
 			Texture status;
@@ -92,9 +99,12 @@ namespace MAGUI
 				status = hasUnlocks?unlockable:locked;
 			else
 				status = upgradeable;
-
-			GUI.DrawTexture( new Rect(offset.x+width-140, offset.y-8, 128, 128), status );
-			if( GUI.Button( new Rect(offset.x, offset.y-8, width, height), template.name ) )
+			
+			float size = (center.y-hotspot.y) * 2.0f;
+			
+			// Draw the status			
+			GUI.DrawTexture( new Rect(hotspot.x-size, hotspot.y, size, size), status );
+			if( GUI.Button( new Rect(offset.x+32, offset.y-8, width, height), "", GUI.skin.customStyles[0] ) )
 			{
 				if( data.bLocked && hasUnlocks )
 				{
@@ -109,6 +119,8 @@ namespace MAGUI
 						parent.SelectLobbyDefender(this);
 				}
 			}
+			
+			GUI.Label(		new Rect( position.x + 32, offset.y +22, 	100,  64 ),  	template.name,	 GUI.skin.customStyles[MAHUD.GUISKIN_WHITE_SUBTITLE] );			
 		}			
 		
 		/// <summary>
@@ -130,14 +142,15 @@ namespace MAGUI
 		{			
 			float bufferY 	= 8;
 			float bufferX 	= 0;
-			float buttonSize = (width-25)/2;
+			float buttonWidth 	= (width*0.55f);
+			float buttonHeight 	= buttonWidth * 0.4f;
 			int lastPre 	= 0;
 			int peers 		= 0;
 			int level 		= 0;
 			// Render out each talent, there should never be more than 2 per "level"
 			Talent [] talents = defender.GetComponents<Talent>();
 			
-			Vector2 line = new Vector2(offset.x + bufferX, offset.y + level * (buttonSize/2+10) + bufferY - 10);
+			Vector2 line = new Vector2(offset.x + bufferX, offset.y + level * (buttonHeight+10) + bufferY - 10);
 			foreach( Talent talent in talents )
 			{
 				if( talent.prerequisite != lastPre )
@@ -146,18 +159,18 @@ namespace MAGUI
 					level++;
 					peers = 0;
 				
-					line = new Vector2(offset.x + bufferX, offset.y + level * (buttonSize/2 + 20));
+					line = new Vector2(offset.x + bufferX, offset.y + level * (buttonHeight + 20));
 					
-					GUI.Label(			new Rect(line.x, line.y -22, width + 10, 12), "" + lastPre + "+", GUI.skin.customStyles[Menu.GUISKIN_DESCRIPTION] );		
+					GUI.Label(			new Rect(line.x, line.y -22, width + 10, 12), "" + lastPre + "+", GUI.skin.customStyles[MAHUD.GUISKIN_DESCRIPTION] );		
 					GUI.DrawTexture( 	new Rect(line.x, line.y -3, width + 10, 1), divider );
 				}
 				
-				Vector2 position = new Vector2(offset.x+10 + peers * (buttonSize+10) + bufferX, line.y);
-				ShowTalent(position, buttonSize, defender, talent);
+				Vector2 position = new Vector2(offset.x+10 + peers * (buttonWidth+10) + bufferX, line.y);
+				ShowTalent(position, buttonWidth, buttonHeight, defender, talent);
 				peers++;
 			}
 			
-			Vector3 screenspace = new Vector3(offset.x + width*1.6f, Screen.height/16.8f-offset.y, Camera.main.nearClipPlane+20);
+			Vector3 screenspace = new Vector3(offset.x + width*1.45f, Screen.height/22f-offset.y, Camera.main.nearClipPlane+20);
 			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
 			
 			defender.transform.localScale = new Vector3(18,18,18);
@@ -171,8 +184,11 @@ namespace MAGUI
 		/// <param name='position'>
 		/// Position.
 		/// </param>
-		/// <param name='buttonSize'>
-		/// Button size.
+		/// <param name='buttonWidth'>
+		/// Button width.
+		/// </param>
+		/// <param name='buttonHeight'>
+		/// Button height.
 		/// </param>
 		/// <param name='defender'>
 		/// Defender.
@@ -180,22 +196,22 @@ namespace MAGUI
 		/// <param name='talent'>
 		/// Talent.
 		/// </param>
-		private void ShowTalent(Vector2 position, float buttonSize, Defender defender, Talent talent)
+		private void ShowTalent(Vector2 position, float buttonWidth, float buttonHeight, Defender defender, Talent talent)
 		{
 			GUI.enabled = Session.Instance.CanUnlock(talent);
-			if( GUI.Button( new Rect( position.x, position.y, buttonSize, buttonSize/2 ), "", GUI.skin.customStyles[Menu.GUISKIN_SKILLBOX]))
+			if( GUI.Button( new Rect( position.x, position.y, buttonWidth, buttonHeight ), "", GUI.skin.customStyles[MAHUD.GUISKIN_SKILLBOX]))
 			{
 				//print ("Should unlock talent here");	
 				Session.Instance.Unlock(talent);
 			}
 			
-			GUI.Label(new Rect( position.x+3, position.y+3, buttonSize/2-6, buttonSize/2-6 ), talent.icon, GUI.skin.customStyles[Menu.GUISKIN_TALENTBOX] );
+			GUI.Label(new Rect( position.x+3, position.y+3, buttonHeight-6, buttonHeight-6 ), talent.icon, GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX] );
 			
-			GUI.Label(new Rect( position.x+buttonSize/2, position.y, buttonSize/2, buttonSize/2 ), talent.name, GUI.skin.customStyles[Menu.GUISKIN_LARGE_SUBTITLE] );
-			GUI.Label(new Rect( position.x, position.y, buttonSize, buttonSize/2 ), "("+talent.GetUnlocked() + "/"+talent.max+")", GUI.skin.customStyles[Menu.GUISKIN_TALENT_COUNT] );
-			GUI.Label(new Rect( position.x+buttonSize/2, position.y + 24, buttonSize/2, buttonSize/2 ), 	talent.desc, GUI.skin.customStyles[Menu.GUISKIN_DESCRIPTION] );		
+			GUI.Label(new Rect( position.x+buttonHeight, position.y, buttonHeight, buttonHeight ), talent.name, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
+			GUI.Label(new Rect( position.x, position.y, buttonWidth, buttonHeight ), "("+talent.GetUnlocked() + "/"+talent.max+")", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );
+			GUI.Label(new Rect( position.x+buttonHeight, position.y + 16, buttonWidth-buttonHeight, buttonHeight ), 	talent.desc, GUI.skin.customStyles[MAHUD.GUISKIN_DESCRIPTION] );		
 			
-			GUI.Label(new Rect( position.x+buttonSize/2, position.y + buttonSize/2 -24, buttonSize/2, buttonSize/2 ), talent.cost+"g", GUI.skin.customStyles[Menu.GUISKIN_TALENT_COUNT] );
+			GUI.Label(new Rect( position.x+buttonHeight, position.y + buttonHeight,buttonHeight, buttonHeight ), talent.cost+"g", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );
 			GUI.enabled = true;
 		}		
 	}

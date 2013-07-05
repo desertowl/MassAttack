@@ -6,7 +6,7 @@ namespace MACore
 {
 	public class Level : MonoBehaviour
 	{
-		public Texture icon;
+		public Vector2 location;
 		public float duration = 30; // THe duration of this level, in seconds
 		public List<Wave> waves;
 		
