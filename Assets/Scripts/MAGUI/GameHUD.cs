@@ -51,14 +51,12 @@ public class GameHUD : MAHUD
 	void OnGUI ()
 	{
 		GUI.skin = skin;
-		
-		// get the game state
-		EGameState state = Game.Instance.GetGameState();
-		
+
 		// Draw the nav bar
 		DrawNavBar();
 		
-		switch( state )
+		// Switch according to the game state
+		switch( Game.Instance.State )
 		{
 			case EGameState.Playing:
 				DrawInGameUI();
@@ -102,7 +100,7 @@ public class GameHUD : MAHUD
 		if (GUI.Button (new Rect (Screen.width/2-100,100, 200, 50), "Continue"))
 		{
 			// Save my earned gold
-			Session.Instance.GameData.gold += Game.Instance.GetGoldEarned();
+			Session.Instance.GameData.LevelComplete(Game.Instance);
 			Session.Instance.GameData.Save();
 			Application.LoadLevel("Menu");
 		}
@@ -110,7 +108,7 @@ public class GameHUD : MAHUD
 		if (GUI.Button (new Rect (Screen.width/2-100,160, 200, 50), "Replay"))
 		{
 			// Save my earned gold
-			Session.Instance.GameData.gold += Game.Instance.GetGoldEarned();
+			Session.Instance.GameData.LevelComplete(Game.Instance);
 			Session.Instance.GameData.Save();
 			Application.LoadLevel(Application.loadedLevel);
 		}

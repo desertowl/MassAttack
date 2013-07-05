@@ -44,6 +44,22 @@ namespace MAPlayer
 		}
 		
 		/// <summary>
+		/// Levels the complete.
+		/// </summary>
+		/// <param name='id'>
+		/// Identifier.
+		/// </param>
+		/// <param name='goldEarned'>
+		/// Gold earned.
+		/// </param>
+		public void LevelComplete(Game game)
+		{
+			if( game.State == EGameState.Victory && game.level.id <= level )
+				level++;
+			gold += game.GetGoldEarned();
+		}
+		
+		/// <summary>
 		/// Unlock the specified type.
 		/// </summary>
 		/// <param name='type'>

@@ -9,6 +9,11 @@ using JsonFx;
 
 public class Menu : MAHUD
 {
+	// Class Variables
+	private static Menu _instance;
+	public static Menu Instance { get {return _instance;} }	
+	
+	// Member bariables
 	public LobbyDefender lobbyDefenderTemplate;
 	public Texture logo;
 	public GameObject ColorPlane;
@@ -16,6 +21,7 @@ public class Menu : MAHUD
 	public GUISkin skin;
 	public Texture upgrade;
 	public Texture playnow;
+	public GameObject space; // the final frontier
 	//public List<Level> levels;
 	public Session template;
 	public GameObject splash;
@@ -25,7 +31,9 @@ public class Menu : MAHUD
 	private LobbyDefender selected 			= null;
 	private readonly float NavButtonSize 	= 60;
 	
-	private enum EMenuState
+	
+	
+	public enum EMenuState
 	{
 		MainMenu,
 		Map,
@@ -33,13 +41,17 @@ public class Menu : MAHUD
 		TalentTree
 	}
 	private EMenuState _state = EMenuState.MainMenu;
-	private EMenuState State
+	public EMenuState State
 	{
 		get { return _state; }
 		set
 		{	
 			_state = value;
 			ColorPlane.SetActive( _state == EMenuState.TalentTree );
+			
+			space.SetActive(_state == EMenuState.Map);
+			if( _state == EMenuState.Map )
+				ActivateSpace();
 			
 			if( _state == EMenuState.UpgradeStore )
 			{
@@ -52,9 +64,34 @@ public class Menu : MAHUD
 		}
 	}
 	
-	public void GetPlanets()
+	private void ActivateSpace()
 	{
+		foreach( Planet planet in space.GetComponentsInChildren<Planet>() )
+		{
+			planet.UpdateAccessable();
+		}
+	}
+	
+	public void Update()
+	{
+		// Only check for the hit levels in the map state
+		if( State != EMenuState.Map )
+			return;
 		
+		
+		if( Input.GetMouseButtonDown(0) )
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			
+			RaycastHit hit;
+			if( Physics.Raycast(ray, out hit, 1000.0f) )
+			{
+				Planet planet = hit.collider.gameObject.GetComponent<Planet>();
+				
+				Session.Instance.TargetLevel = planet.level;
+				Application.LoadLevel("Game");
+			}
+		}
 	}
 	
 	/// <summary>
@@ -73,6 +110,7 @@ public class Menu : MAHUD
 			// Have them unlock a character first
 			State = Session.Instance.GameData.HasDefenders()?EMenuState.Map:EMenuState.UpgradeStore;
 		}
+		_instance = this;
 	}
 	
 	public void SetBackgroundColor( Color color )
@@ -276,6 +314,20 @@ public class Menu : MAHUD
 		//return data;
 	}	
 	
+	/// <summary>
+	/// Gets the planets.
+	/// </summary>
+	/// <returns>
+	/// The planets.
+	/// </returns>
+	private List<Planet> GetPlanets()
+	{
+		List<Planet> planets = new List<Planet>(space.transform.GetComponentsInChildren<Planet>());
+		
+		planets.Sort( (a,b) => a.id - b.id );
+		return planets;
+	}
+	
 	public void ShowMap()
 	{
 		bool hasDefenders = Session.Instance.GameData.HasDefenders();
@@ -287,6 +339,13 @@ public class Menu : MAHUD
 		Vector2 pos;
 		Vector2 level0Pos	= new Vector2();
 		
+		
+		float ModalSize 	= 128;
+		if( Session.Instance.GameData.HasUnlocks() )
+		{
+			DrawModal ( new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!");
+		}		
+
 		/*
 		foreach( Level level in levels )
 		{

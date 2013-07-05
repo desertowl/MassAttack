@@ -10,6 +10,9 @@ namespace MACore
 		public float duration = 30; // THe duration of this level, in seconds
 		public List<Wave> waves;
 		
+		[HideInInspector]
+		public int id; // this actually comes from PLANET!!!
+		
 		private List<Wave> remaining;
 		public CombatArea area;
 		public Level ()

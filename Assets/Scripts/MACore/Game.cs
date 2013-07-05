@@ -19,7 +19,17 @@ namespace MACore
 		public Player player;
 		private int goldEarned;
 		
-		private EGameState state;
+		private EGameState _state;
+		public EGameState State
+		{
+			get { return _state; }
+			set
+			{	
+				
+				_state = value;		
+			}
+		}
+		
 		private List<Defender> defenders;
 		private List<Monster> monsters;
 		private List<SpawnPoint> spawns;
@@ -41,18 +51,7 @@ namespace MACore
 			monsters  = new List<Monster>();
 			spawns	  = new List<SpawnPoint>();
 			instance  = this;
-			state	  = EGameState.Loading;
-		}
-		
-		/// <summary>
-		/// Gets the state of the game.
-		/// </summary>
-		/// <returns>
-		/// The game state.
-		/// </returns>
-		public EGameState GetGameState()
-		{
-			return state;
+			State	  = EGameState.Loading;
 		}
 		
 		/// <summary>
@@ -90,7 +89,7 @@ namespace MACore
 			SpawnDefenders();
 			
 			// Now we are playing!
-			state	  = EGameState.Playing;
+			State	  = EGameState.Playing;
 		}
 		
 		/// <summary>
@@ -146,18 +145,18 @@ namespace MACore
 		public void Update()
 		{
 			// Dont pump anymore unless you need to
-			if( state != EGameState.Playing )
+			if( State != EGameState.Playing )
 				return;
 			
 			// Get the current time
 			float now = Time.fixedTime - start;
 			
 			if( defenders.Count == 0 )
-				state = EGameState.Defeat;
+				State = EGameState.Defeat;
 			
 			if( level.AllWavesSent() && monsters.Count == 0 )
 			{
-				state = EGameState.Victory;
+				State = EGameState.Victory;
 			}
 			
 			// Get whatever waves should be spawned now
