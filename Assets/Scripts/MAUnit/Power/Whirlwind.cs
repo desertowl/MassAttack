@@ -16,9 +16,21 @@ namespace MAUnit
 		public override void OnActivateBegin ()
 		{
 			// Construct the area
-			ConstructArea();
 			GetDefender().powerTargeting = true;
 			GetDefender().weapon.Active = false;
+			
+
+			PlaySound();
+			CooldownBegin();
+			
+			// Play the particle!
+			Play(system, transform.position + new Vector3(0, 1.0f, 0), transform.rotation);
+			GetComponent<Animator>().SetBool("Whirl", true );
+			Invoke("EndEffect", duration);
+			InvokeRepeating("AttackEveryone", 0, GetDefender().weapon.cooldown/3 );
+			
+			GetDefender().speed *= speedBonusPercent;
+			GameObject.Destroy(instance);			
 		}
 		
 		// Update is called once per frame
@@ -41,17 +53,6 @@ namespace MAUnit
 		// Use this for execution
 		public override void OnActivateEnd ()
 		{
-			PlaySound();
-			CooldownBegin();
-			
-			// Play the particle!
-			Play(system, transform.position + new Vector3(0, 1.0f, 0), transform.rotation);
-			GetComponent<Animator>().SetBool("Whirl", true );
-			Invoke("EndEffect", duration);
-			InvokeRepeating("AttackEveryone", 0, GetDefender().weapon.cooldown/3 );
-			
-			GetDefender().speed *= speedBonusPercent;
-			GameObject.Destroy(instance);
 		}
 		
 		/// <summary>

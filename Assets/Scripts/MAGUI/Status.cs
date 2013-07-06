@@ -54,6 +54,13 @@ namespace MAGUI
 			
 			
 			GUI.DrawTexture( new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), unit.icon );
+
+			if( unit.IsDead() )
+			{
+				GUI.Box( 		new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), GameHUD.Instance.dead );
+				return;
+			}			
+			
 			if( GUI.RepeatButton(    	new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), "" ) )
 			{
 				ActivatePower();
@@ -64,7 +71,7 @@ namespace MAGUI
 			{
 				//GUI.Label( 		new Rect( offset.x + 3,hpOffset.y-6, 100, 30), unit.CurrentHealth + "/"+unit.health, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
 				//GUI.Label( 		new Rect( offset.x + BUTTON_SIZE/2, offset.y + BUTTON_SIZE/2 , BUTTON_SIZE, BUTTON_SIZE/2), cd, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
-				DrawBar(new Vector2(offset.x+3, 52), power.GetCooldown(), power.cooldown, HP_BAR_WIDTH, power.GetCooldown().ToString("n2"));
+				DrawBar(new Vector2(offset.x+3, offset.y+52), power.GetCooldown(), power.cooldown, HP_BAR_WIDTH, power.GetCooldown().ToString("n2"));
 			}
 			GUI.enabled = true;
 
@@ -73,13 +80,10 @@ namespace MAGUI
 				//float hp_pos = Mathf.Max(0, unit.CurrentHealth/unit.health * HP_BAR_WIDTH);
 				//GUI.Box( 		new Rect( hpOffset.x, hpOffset.y, hp_pos, 9), "", GUI.skin.customStyles[2] );
 				//GUI.Label( 		new Rect( hpOffset.x + HP_BAR_WIDTH/3,hpOffset.y-6, 100, 30), unit.CurrentHealth + "/"+unit.health, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
-				DrawBar(new Vector2(offset.x+3, 40), unit.CurrentHealth, unit.health, HP_BAR_WIDTH, unit.CurrentHealth+"/"+unit.health);
+				DrawBar(new Vector2(offset.x+3, offset.y+40), unit.CurrentHealth, unit.health, HP_BAR_WIDTH, unit.CurrentHealth+"/"+unit.health);
 			}
 			
-			if( unit.IsDead() )
-			{
-				GUI.Box( 		new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE), GameHUD.Instance.dead );
-			}
+
 		}
 		
 		/// <summary>

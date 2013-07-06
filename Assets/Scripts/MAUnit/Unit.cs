@@ -209,7 +209,10 @@ namespace MAUnit
 			//transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*s);	
 			
 			if( target.IsDead() )
+			{
+				rigidbody.velocity = Vector3.zero;
 				return;
+			}
 			
 			Vector3 dir = (GetTargetPosition()-transform.position).normalized;
 			

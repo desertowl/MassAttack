@@ -353,40 +353,8 @@ public class Menu : MAHUD
 		if( Session.Instance.GameData.HasUnlocks() )
 		{
 			DrawModal ( new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!");
-		}		
-
-		/*
-		foreach( Level level in levels )
-		{
-			GUI.enabled = false;//hasDefenders && count >= currentLevel;			
-			pos.x		= level.location.x * Screen.width;
-			pos.y		= level.location.y * Screen.height;
-			
-			if( count == 0 )
-				level0Pos = pos;
-			
-			count++;
-			GUI.Label( new Rect(pos.x - 50, pos.y+10, 100, 20), "Level " + count);
-			GUI.DrawTexture(new Rect (pos.x, pos.y, iconSize, iconSize), level.icon);
-			if (GUI.Button (new Rect (pos.x, pos.y, iconSize, iconSize), level.icon, GUI.skin.customStyles[MAHUD.GUISKIN_WHITE_SUBTITLE]))
-			{
-				Session.Instance.TargetLevel = level;
-				Application.LoadLevel("Game");
-			}
-		}	
-		
-		GUI.enabled = true;
-		
-		
-		// Show the modal
-		float ModalSize 	= 128;
-		if( Session.Instance.GameData.HasUnlocks() )
-		{
-			DrawModal ( new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!");
 		}
-		else if( currentLevel == 0 )
-			DrawModal( new Rect(level0Pos.x - (ModalSize*0.8f) , level0Pos.y - ModalSize, ModalSize, ModalSize), "Select a World!");
-		*/
+		
 		DrawNavBar();
 	}	
 	
