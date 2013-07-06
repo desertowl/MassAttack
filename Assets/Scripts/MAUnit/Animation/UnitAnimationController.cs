@@ -44,7 +44,7 @@ namespace MAUnit
 			}
 			
 			// Set the running state
-			if( unit.powerTargeting )
+			if( unit.powerTargeting || unit.IsTargetDead() )
 			{
 				anim.SetBool("Running", false);
 			}

@@ -8,6 +8,7 @@ namespace MAUnit
 	public class Whirlwind : RadialPower
 	{
 		public ParticleSystem system;
+		public AudioClip hit;
 		public float speedBonusPercent = 1.5f;
 		public float duration = 3.0f;
 		
@@ -66,7 +67,10 @@ namespace MAUnit
 			damage 				= weapon.damage;
 			
 			foreach( Monster monster in monsters )
+			{
 				Game.Instance.DoDamage(defender, this, monster);
+				UnityEngine.AudioSource.PlayClipAtPoint(hit, transform.position);
+			}
 		}
 		
 		/// <summary>

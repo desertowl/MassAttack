@@ -39,6 +39,11 @@ namespace MAUnit
 			if( target != null && !target.IsDead() )
 				return;
 			
+			if( weapon.GetCooldown()/weapon.cooldown > 0.5 )
+			{
+				return;
+			}
+			
 			PickNearestTarget();
 		}	
 		

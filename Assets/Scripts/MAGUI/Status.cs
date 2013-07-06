@@ -6,11 +6,30 @@ namespace MAGUI
 {
 	public class Status
 	{		
-		private Vector2 offset;
-		private Unit unit = null;
-		private readonly float HP_BAR_WIDTH = 128;
+		public Vector2 offset;
+		public Unit unit = null;
+		
+		public static readonly float BUTTON_SIZE = 128;
+		public static readonly float HP_BAR_WIDTH = 120;
+		
 		private bool init = false;
 		private bool wasOnCD = false;
+		
+		
+		/// <summary>
+		/// Sets the unit.
+		/// </summary>
+		/// <param name='pos'>
+		/// Position.
+		/// </param>
+		/// <param name='unit'>
+		/// Unit.
+		/// </param>
+		public void SetUnit(Vector2 pos, ref Unit unit)
+		{
+			offset = pos;
+			this.unit = unit;
+		}		
 		
 		/// <summary>
 		/// Draw this instance.
@@ -34,40 +53,58 @@ namespace MAGUI
 			
 			
 			
-			if( GUI.RepeatButton(    	new Rect(offset.x,offset.y,64,64), unit.icon ) )
+			GUI.DrawTexture( new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), unit.icon );
+			if( GUI.RepeatButton(    	new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), "" ) )
 			{
 				ActivatePower();
 			}
 			
+			
 			if( IsOnCooldown() )
 			{
-				string cd =  "";
-				if( power != null )
-					cd = power.GetCooldown().ToString("n2");
-				GUI.Label( 		new Rect( offset.x + 4, offset.y + 4 , 60, 64), cd );
+				//GUI.Label( 		new Rect( offset.x + 3,hpOffset.y-6, 100, 30), unit.CurrentHealth + "/"+unit.health, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
+				//GUI.Label( 		new Rect( offset.x + BUTTON_SIZE/2, offset.y + BUTTON_SIZE/2 , BUTTON_SIZE, BUTTON_SIZE/2), cd, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
+				DrawBar(new Vector2(offset.x+3, 52), power.GetCooldown(), power.cooldown, HP_BAR_WIDTH, power.GetCooldown().ToString("n2"));
 			}
-			GUI.Label( 		new Rect( offset.x + 70, offset.y + 0 , 200, 30), unit.name );
-			GUI.TextArea(	new Rect( offset.x + 70, offset.y + 30, 100, 20), unit.desc, GUI.skin.customStyles[0] );
 			GUI.enabled = true;
-			
+
 			if( unit.IsReady() )
 			{
-				float hp_pos = Mathf.Max(0, unit.CurrentHealth/unit.health * HP_BAR_WIDTH);
-				GUI.Box( 		new Rect( offset.x + 70, offset.y + 50, HP_BAR_WIDTH, 12), "", GUI.skin.customStyles[1] );
-				GUI.Box( 		new Rect( offset.x + 70, offset.y + 50, hp_pos, 12), "", GUI.skin.customStyles[2] );
-				GUI.Label( 		new Rect( offset.x + 70 + HP_BAR_WIDTH/2, offset.y + 40 , 100, 30), unit.CurrentHealth + "/"+unit.health );
+				//float hp_pos = Mathf.Max(0, unit.CurrentHealth/unit.health * HP_BAR_WIDTH);
+				//GUI.Box( 		new Rect( hpOffset.x, hpOffset.y, hp_pos, 9), "", GUI.skin.customStyles[2] );
+				//GUI.Label( 		new Rect( hpOffset.x + HP_BAR_WIDTH/3,hpOffset.y-6, 100, 30), unit.CurrentHealth + "/"+unit.health, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
+				DrawBar(new Vector2(offset.x+3, 40), unit.CurrentHealth, unit.health, HP_BAR_WIDTH, unit.CurrentHealth+"/"+unit.health);
 			}
 			
 			if( unit.IsDead() )
 			{
-				GUI.Box( 		new Rect(offset.x,offset.y,64,64), GameHUD.Instance.dead );
+				GUI.Box( 		new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE), GameHUD.Instance.dead );
 			}
 		}
 		
-		public void SetUnit(Vector2 pos, ref Unit unit)
+		/// <summary>
+		/// Draws the bar.
+		/// </summary>
+		/// <param name='pos'>
+		/// Position.
+		/// </param>
+		/// <param name='currentValue'>
+		/// Current value.
+		/// </param>
+		/// <param name='maxValue'>
+		/// Max value.
+		/// </param>
+		/// <param name='maxWidth'>
+		/// Max width.
+		/// </param>
+		/// <param name='label'>
+		/// Label.
+		/// </param>
+		private void DrawBar(Vector2 pos, float currentValue, float maxValue, float maxWidth, string label )
 		{
-			offset = pos;
-			this.unit = unit;
+			float barPos = Mathf.Max(0, currentValue/maxValue * maxWidth);
+			GUI.Box( 	new Rect( pos.x, pos.y, barPos, 9), "", GUI.skin.customStyles[2] );
+			GUI.Label( 	new Rect( pos.x + maxWidth/3,pos.y-6, maxWidth, 30), label, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );			
 		}
 		
 		/// <summary>

@@ -41,8 +41,59 @@ public class GameHUD : MAHUD
 	public void Add(Unit unit)
 	{
 		Status s = new Status();
-		s.SetUnit( new Vector2(0,status.Count * 70.0f), ref unit);
+		Vector2 pos = new Vector2();
+		
+		Defender def = (Defender)unit;
+		switch( def.type )
+		{
+			case EDefender.Berserker:
+				pos.x = 5;
+				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3)*2;
+				break;
+			case EDefender.Engineer:
+				pos.x = 5;
+				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3);
+				break;			
+			case EDefender.Sniper:
+				pos.x = Screen.width - Status.BUTTON_SIZE - 5;
+				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3)*2;
+				break;
+			case EDefender.Guardian:
+				pos.x = Screen.width - Status.BUTTON_SIZE - 5;
+				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3);
+				break;	
+			case EDefender.Sentry:
+				pos = AdjustLivingSentries();
+				break;
+		}		
+		
+		s.SetUnit( pos, ref unit);
 		status.Add(s);
+	}
+	
+	private Vector2 AdjustLivingSentries()
+	{
+		Vector2 pos;
+		int count = 0;
+		
+		pos.x = 5;
+		pos.y = 5;
+		
+		foreach( Status s in status )
+		{
+			if( s.unit.IsDead() )
+				continue;
+			if( ((Defender)s.unit).type == EDefender.Sentry )
+			{
+				count++;
+				
+				s.offset = pos;
+				
+				pos.x = 5 + Status.BUTTON_SIZE +5;
+			}
+		}
+		
+		return pos;
 	}
 	
 	/// <summary>
@@ -90,7 +141,13 @@ public class GameHUD : MAHUD
 		foreach( Status s in statues )
 			s.Draw();		
 	}
-		
+	
+	/// <summary>
+	/// Draws the result.
+	/// </summary>
+	/// <param name='title'>
+	/// Title.
+	/// </param>
 	void DrawResult(string title)
 	{
 		GUI.Box(new Rect(0,0, Screen.width, Screen.height), title);

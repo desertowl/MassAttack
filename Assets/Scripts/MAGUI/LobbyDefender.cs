@@ -43,7 +43,7 @@ namespace MAGUI
 			defender.transform.localScale 		= new Vector3(scale,scale,scale);
 			defender.transform.parent 	  		= transform;
 			defender.transform.localPosition	= Vector3.zero;						
-
+			
 			// Add background object
 			background = GameObject.Instantiate(unitSelectBackground) as GameObject;
 			background.transform.parent = defender.transform;
@@ -143,10 +143,11 @@ namespace MAGUI
 			float bufferY 	= 8;
 			float bufferX 	= 0;
 			float buttonWidth 	= (width*0.55f);
-			float buttonHeight 	= buttonWidth * 0.4f;
-			int lastPre 	= 0;
-			int peers 		= 0;
-			int level 		= 0;
+			float buttonHeight 	= height * 0.18f;
+			int lastPre 		= 0;
+			int peers 			= 0;
+			int level 			= 0;
+			
 			// Render out each talent, there should never be more than 2 per "level"
 			Talent [] talents = defender.GetComponents<Talent>();
 			
@@ -205,7 +206,11 @@ namespace MAGUI
 				Session.Instance.Unlock(talent);
 			}
 			
-			GUI.Label(new Rect( position.x+3, position.y+3, buttonHeight-6, buttonHeight-6 ), talent.icon, GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX] );
+			
+			GUI.Label(		new Rect( position.x+3, position.y+3, buttonHeight-6, buttonHeight-6 ), "", GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX] );
+			
+			if( talent.icon != null )
+				GUI.DrawTexture(new Rect( position.x+3, position.y+3, buttonHeight-6, buttonHeight-6 ), talent.icon );
 			
 			GUI.Label(new Rect( position.x+buttonHeight, position.y, buttonHeight, buttonHeight ), talent.name, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
 			GUI.Label(new Rect( position.x, position.y, buttonWidth, buttonHeight ), "("+talent.GetUnlocked() + "/"+talent.max+")", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );

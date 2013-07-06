@@ -7,6 +7,7 @@ namespace MAUnit
 	[RequireComponent(typeof (CapsuleCollider))]
 	public abstract class Unit : MonoBehaviour
 	{
+		private readonly int GROUND_LAYER = 8;
 		
 		public GameObject DefaultTarget;
 		public GameObject weaponParent;
@@ -27,7 +28,7 @@ namespace MAUnit
 		protected bool bReady;
 		protected Unit target;
 		private float radius;
-		
+			
 		
 		// Stateful variables
 		private bool spinningUp;
@@ -104,12 +105,21 @@ namespace MAUnit
 			if( weaponParent == null )
 				weaponParent = gameObject;
 			
+			Vector3 testSource 	= new Vector3(spawn.x, spawn.y+5, spawn.z );
+			RaycastHit hit 		= new RaycastHit();
+			if( Physics.Raycast( testSource, Vector3.down, out hit, 500.0f) )
+			{
+				spawn = hit.point;
+			}
+				
+			//spawn.y += GetComponent<CapsuleCollider>().height/2;
+			
 			// Initialize its location
 			transform.position = spawn;
 			weapon = Instantiate(weapon) as Weapon;
-			weapon.transform.parent 	= weaponParent.transform;
-			weapon.transform.localPosition = Vector3.zero;
-			bReady = true;
+			weapon.transform.parent 		= weaponParent.transform;
+			weapon.transform.localPosition 	= Vector3.zero;
+			bReady 							= true;
 		}		
 		
 		public void Kill(Vector3 force)
@@ -121,7 +131,6 @@ namespace MAUnit
 
 			if( rigidbody != null )
 			{
-				//Debug.LogWarning("FORCE: " + force );
 				Animator anim 	= GetComponent<Animator>();
 
 				if( anim != null )
@@ -160,7 +169,6 @@ namespace MAUnit
 			if( !bReady ) return;
 			if( bDead ) return;
 			
-			
 			if( spinningUp || powerTargeting ) 
 				return;
 			
@@ -182,12 +190,30 @@ namespace MAUnit
 		}
 		
 		/// <summary>
+		/// Determines whether this instance is target dead.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance is target dead; otherwise, <c>false</c>.
+		/// </returns>
+		public bool IsTargetDead()
+		{
+			return target == null || target.IsDead();
+		}
+		
+		/// <summary>
 		/// Moves the towards.
 		/// </summary>
 		public virtual void MoveTowards()
 		{
-			float s = Feared?speed/2:speed;
-			transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*s);			
+			//float s = Feared?speed/2:speed;
+			//transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*s);	
+			
+			if( target.IsDead() )
+				return;
+			
+			Vector3 dir = (GetTargetPosition()-transform.position).normalized;
+			
+			rigidbody.velocity = dir * speed;
 
 		}
 		

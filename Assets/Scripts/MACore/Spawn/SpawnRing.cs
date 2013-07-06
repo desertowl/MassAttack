@@ -12,14 +12,14 @@ namespace MACore
 		{
 			float inc = 10.0f;
 			Vector3 last = GetPositionAtAngle(0);
-			last.y += 1;
+			//last.y += 1;
 			
 			// Set the gizmo color according to its type
 			Gizmos.color = gameObject.tag == "Spawn"?Color.cyan:Color.white;
 			for( float a=inc;a<=360.0f;a+= inc )
 			{
 				Vector3 pos = GetPositionAtAngle(a);
-				pos.y += 1;
+				//pos.y += 1;
 				
 				Gizmos.DrawLine(last, pos);
 				//Gizmos.DrawSphere(pos, 0.3f);

@@ -16,7 +16,8 @@ public class Menu : MAHUD
 	// Member bariables
 	public LobbyDefender lobbyDefenderTemplate;
 	public Texture logo;
-	public GameObject ColorPlane;
+	public Material SkyMaterial;
+	public Material StarsMaterial;
 	
 	public GUISkin skin;
 	public Texture upgrade;
@@ -29,7 +30,7 @@ public class Menu : MAHUD
 	
 	private List<LobbyDefender> defenders 	= null;
 	private LobbyDefender selected 			= null;
-	private readonly float NavButtonSize 	= 60;
+	private readonly float NavButtonSize 	= 90;
 	
 	
 	
@@ -47,7 +48,10 @@ public class Menu : MAHUD
 		set
 		{	
 			_state = value;
-			ColorPlane.SetActive( _state == EMenuState.TalentTree );
+			
+			
+			if( _state != EMenuState.TalentTree )
+				ClearBackgroundColor();
 			
 			space.SetActive(_state == EMenuState.Map);
 			if( _state == EMenuState.Map )
@@ -122,11 +126,12 @@ public class Menu : MAHUD
 	
 	public void SetBackgroundColor( Color color )
 	{
-		ColorPlane.SetActive(true);
-
-		Material mat = ColorPlane.renderer.material;
-		mat.SetColor("_foreground", color );
-		
+		SkyMaterial.SetColor("_foreground", color );
+		Camera.main.GetComponent<Skybox>().material = SkyMaterial;
+	}
+	public void ClearBackgroundColor()
+	{
+		Camera.main.GetComponent<Skybox>().material = StarsMaterial;
 	}
 	
 	/// <summary>
@@ -256,8 +261,6 @@ public class Menu : MAHUD
 		for( int id=0;id<4;id++ )
 		{
 			// Get the 1st four defenders
-			EDefender type 	= (EDefender)id;
-
 			float offsetX   = 10;
 			float offsetY 	= NAV_BAR_HEIGHT+3;
 				
@@ -301,7 +304,7 @@ public class Menu : MAHUD
 		DrawNavBar();
 		
 		SetBackgroundColor( Defender.GetDefenderColor( selected.defender.type ) );
-		selected.gameObject.SetActive(_state == EMenuState.TalentTree );
+		selected.gameObject.SetActive(_state == EMenuState.TalentTree);
 		selected.ShowTalentTree( new Vector2(0,5), Screen.width*0.6f, Screen.height-2*NAV_BAR_HEIGHT);
 	}
 	
