@@ -19,3 +19,6 @@ Thumbs.db
 
 Library/EditorUserBuildSettings.asset
 Library/InspectorExpandedItems.asset
+*.csproj
+
+*.sln
