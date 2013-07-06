@@ -6,6 +6,7 @@ namespace MACore
 {
 	public class Level : MonoBehaviour
 	{
+		public Material sky;
 		public Vector2 location;
 		public float duration = 30; // THe duration of this level, in seconds
 		public List<Wave> waves;
@@ -22,6 +23,7 @@ namespace MACore
 		
 		public virtual void Start()
 		{
+			RenderSettings.skybox = sky;
 			remaining = new List<Wave>(waves);
 			
 			// get the combat area

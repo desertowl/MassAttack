@@ -133,11 +133,11 @@ public class Menu : MAHUD
 	public void SetBackgroundColor( Color color )
 	{
 		SkyMaterial.SetColor("_foreground", color );
-		Camera.main.GetComponent<Skybox>().material = SkyMaterial;
+		RenderSettings.skybox = SkyMaterial;
 	}
 	public void ClearBackgroundColor()
 	{
-		Camera.main.GetComponent<Skybox>().material = StarsMaterial;
+		RenderSettings.skybox = StarsMaterial;
 	}
 	
 	/// <summary>
