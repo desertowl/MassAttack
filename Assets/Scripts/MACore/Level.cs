@@ -19,11 +19,18 @@ namespace MACore
 		
 		public Level ()
 		{
+			Camera.main.clearFlags = CameraClearFlags.Color;
+			if( sky != null )
+			{
+				RenderSettings.skybox = sky;
+				Camera.main.clearFlags = CameraClearFlags.Skybox;
+			}			
 		}
 		
 		public virtual void Start()
 		{
-			RenderSettings.skybox = sky;
+
+
 			remaining = new List<Wave>(waves);
 			
 			// get the combat area

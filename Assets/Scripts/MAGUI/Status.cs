@@ -69,6 +69,7 @@ namespace MAGUI
 			
 			if( IsOnCooldown() )
 			{
+				GUI.Box( 	new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), "", GUI.skin.customStyles[2] );
 				//GUI.Label( 		new Rect( offset.x + 3,hpOffset.y-6, 100, 30), unit.CurrentHealth + "/"+unit.health, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
 				//GUI.Label( 		new Rect( offset.x + BUTTON_SIZE/2, offset.y + BUTTON_SIZE/2 , BUTTON_SIZE, BUTTON_SIZE/2), cd, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
 				DrawBar(new Vector2(offset.x+3, offset.y+52), power.GetCooldown(), power.cooldown, HP_BAR_WIDTH, power.GetCooldown().ToString("n2"));

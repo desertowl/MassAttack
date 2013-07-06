@@ -103,6 +103,7 @@ float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
 				
 float4 Tex2D0=tex2D(_diffuse,(IN.uv_diffuse.xyxy).xy);
 float4 Tex2D2=tex2D(_normal,(IN.uv_normal.xyxy).xy);
+float4 UnpackNormal0=float4(UnpackNormal(Tex2D2).xyz, 1.0);
 float4 Tex2D3=tex2D(_emissive,(IN.uv_emissive.xyxy).xy);
 float4 Multiply0=_EmissiveColor * Tex2D3;
 float4 Master0_3_NoInput = float4(0,0,0,0);
@@ -111,7 +112,7 @@ float4 Master0_5_NoInput = float4(1,1,1,1);
 float4 Master0_7_NoInput = float4(0,0,0,0);
 float4 Master0_6_NoInput = float4(1,1,1,1);
 o.Albedo = Tex2D0;
-o.Normal = Tex2D2;
+o.Normal = UnpackNormal0;
 o.Emission = Multiply0;
 
 				o.Normal = normalize(o.Normal);
