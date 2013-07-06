@@ -11,11 +11,15 @@ namespace MAUnit
 		public ParticleSystem healEffect;
 		public float slowPercent = 0.8f;
 		public float fearDuration = 6;
-		public float heal = 10;
+		
+		[HideInInspector]
+		public bool healAll = false;
 		
 		private List<Monster> targets;	
 		
-		// Use this for initialization
+		/// <summary>
+		/// Raises the activate begin event.
+		/// </summary>
 		public override void OnActivateBegin ()
 		{
 			// Construct the area
@@ -28,14 +32,26 @@ namespace MAUnit
 			targets = GetMonstersInRange();
 			
 			
-			// get ME!
-			Defender me 	 = GetDefender();
-			me.CurrentHealth = Mathf.Min(me.CurrentHealth+heal, me.health);
+			// Heal Everyone!
+			if( healAll )
+			{
+				foreach( Defender def in Game.Instance.Defenders )
+				{
+					if( def.IsDead() )
+						continue;
+					
+					Heal ( def );
+				}
+			}
+			else
+			{
+				Heal ( GetDefender() );				
+			}
 			
 			foreach( Monster monster in targets )
 			{
 				// Taunt them
-				monster.SetTarget( me );
+				monster.SetTarget( GetDefender() );
 				
 				// Fear them!
 				monster.Feared = true;
@@ -44,10 +60,20 @@ namespace MAUnit
 			
 			if( targets.Count > 0)
 				Invoke("Unfear", fearDuration );
+		}
+		
+		/// <summary>
+		/// Heal the specified target.
+		/// </summary>
+		/// <param name='target'>
+		/// Target.
+		/// </param>
+		private void Heal(Defender target)
+		{
+			target.CurrentHealth = Mathf.Min(target.CurrentHealth+damage, target.health);	
 			
-			//GameObject.Destroy(instance);
-			ParticleSystem system 	= Play(healEffect, transform.position, transform.rotation);
-			system.transform.parent = transform;
+			ParticleSystem system 	= Play(healEffect, target.transform.position, target.transform.rotation);
+			system.transform.parent = target.transform;			
 		}
 		
 		// Update is called once per frame

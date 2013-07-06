@@ -18,6 +18,8 @@ namespace MAPlayer
 		public Texture icon;
 		public int cost;
 		public int prerequisite;
+		
+		[HideInInspector]
 		public int unlocked;
 		public int max;
 		

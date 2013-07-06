@@ -12,6 +12,9 @@ namespace MAPlayer
 		DefenderHealth,
 		DefenderArmor,
 		DefenderSpeed,
+		
+		PowerDamage,
+		PowerCooldown
 	}
 	
 	[System.Serializable]
@@ -50,7 +53,15 @@ namespace MAPlayer
 					break;	
 				case EStatType.DefenderSpeed:
 					GetNewStat(ref defender.speed);
-					break;					
+					break;	
+				
+				case EStatType.PowerDamage:
+					GetNewStat(ref defender.power.damage);
+					break;
+				
+				case EStatType.PowerCooldown:
+					GetNewStat(ref defender.power.cooldown);
+					break;									
 			}
 		}
 		

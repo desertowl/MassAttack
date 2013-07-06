@@ -50,8 +50,14 @@ public class Menu : MAHUD
 			_state = value;
 			
 			
-			if( _state != EMenuState.TalentTree )
+			if( _state == EMenuState.TalentTree )
+			{
+				SetBackgroundColor( Defender.GetDefenderColor( selected.defender.type ) );
+			}
+			else
+			{
 				ClearBackgroundColor();
+			}
 			
 			space.SetActive(_state == EMenuState.Map);
 			if( _state == EMenuState.Map )
@@ -302,8 +308,7 @@ public class Menu : MAHUD
 	public void ShowTalentTree()
 	{
 		DrawNavBar();
-		
-		SetBackgroundColor( Defender.GetDefenderColor( selected.defender.type ) );
+
 		selected.gameObject.SetActive(_state == EMenuState.TalentTree);
 		selected.ShowTalentTree( new Vector2(0,5), Screen.width*0.6f, Screen.height-2*NAV_BAR_HEIGHT);
 	}
