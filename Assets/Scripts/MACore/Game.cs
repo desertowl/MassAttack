@@ -265,6 +265,10 @@ namespace MACore
 				else
 					Kill((Defender)target, force);
 			}
+			else if( attack.alwaysApplyForce )
+			{
+				target.ApplyForce(force);	
+			}
 			return true;	
 		}
 		
@@ -272,7 +276,8 @@ namespace MACore
 		{
 			// Remove this from the target list
 			monsters.Remove(target);	
-			target.Kill(force);
+			target.Kill();
+			target.ApplyForce(force);
 			
 			GainGold(target.gold);
 			
@@ -282,7 +287,8 @@ namespace MACore
 		{
 			// Remove this from the target list
 			defenders.Remove(target);	
-			target.Kill(force);
+			target.Kill();
+			target.ApplyForce(force);
 		}		
 		
 		
@@ -293,6 +299,33 @@ namespace MACore
 		public int GetGoldEarned()
 		{
 			return goldEarned;
+		}
+		
+		
+		/// <summary>
+		/// Gets the monsters in range.
+		/// </summary>
+		/// <returns>
+		/// The monsters in range.
+		/// </returns>
+		/// <param name='point'>
+		/// Point.
+		/// </param>
+		/// <param name='radius'>
+		/// Radius.
+		/// </param>
+		public List<Monster> GetMonstersInRange(Vector3 point, float radius)
+		{
+			List<Monster> result = new List<Monster>();
+			
+			// Get the distance
+			foreach( Monster monster in monsters )
+			{
+				float dist = Vector3.Distance(monster.transform.position, point);
+				if( dist <= radius )
+					result.Add(monster);
+			}
+			return result;
 		}
 	}
 	

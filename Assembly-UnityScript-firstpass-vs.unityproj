@@ -50,6 +50,7 @@
      <Compile Include="Assets\Standard Assets\Scripts\General Scripts\DragRigidbody.js" />
      <None Include="Assets\Shaders\DiffuseNormalEmis.shader" />
      <None Include="Assets\Shaders\SolidScrollFX.shader" />
+     <None Include="Assets\Shaders\CutoutTint.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\Temp\TempShader.shader" />
      <None Include="Assets\Shaders\AddingMove.shader" />
      <None Include="Assets\Shaders\DronosReflective.shader" />

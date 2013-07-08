@@ -48,15 +48,22 @@ namespace MAUnit
 				Heal ( GetDefender() );				
 			}
 			
+			Defender me = GetDefender();
 			foreach( Monster monster in targets )
 			{
 				// Taunt them
-				monster.SetTarget( GetDefender() );
+				monster.SetTarget( me );
 				
 				// Fear them!
 				monster.Feared = true;
-				
 			}
+			
+			Vector3 scalar	= me.transform.localScale;
+			scalar.x 		*= 1.05f;
+			scalar.y 		*= 1.05f;
+			scalar.z 		*= 1.05f;
+			me.transform.localScale = scalar;
+			me.armor += 1;
 			
 			if( targets.Count > 0)
 				Invoke("Unfear", fearDuration );

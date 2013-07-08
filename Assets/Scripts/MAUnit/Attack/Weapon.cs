@@ -6,6 +6,8 @@ namespace MAUnit
 {
 	public class Weapon : Attack
 	{
+		[HideInInspector]
+		public Unit owner;		
 		public float range;
 		public GameObject weaponFX;
 
@@ -13,7 +15,7 @@ namespace MAUnit
 		/// <summary>
 		/// Plays the attack.
 		/// </summary>
-		public void Attack(Unit target)
+		public virtual void Attack(Unit target)
 		{
 			CooldownBegin();
 			PlaySound();
@@ -22,8 +24,21 @@ namespace MAUnit
 			if( weaponFX != null )
 			{
 				
-				FX effect = (Instantiate(weaponFX, transform.position, Quaternion.identity) as GameObject).GetComponent<FX>();
-				effect.SetTarget(target);
+				GameObject effect 	= Instantiate(weaponFX, transform.position, Quaternion.identity) as GameObject;
+				if( effect == null )return;
+				
+				FX fx 				= effect.GetComponent<FX>();
+				
+				if( fx != null )
+				{
+					fx.SetTarget(target);
+				}
+				else
+				{
+					// Rotate such that I am aiming at my target
+					effect.transform.LookAt(target.transform.position);
+				}
+				
 			}
 		}	
 		

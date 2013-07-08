@@ -14,7 +14,11 @@ namespace MAPlayer
 		DefenderSpeed,
 		
 		PowerDamage,
-		PowerCooldown
+		PowerCooldown,
+		
+		WeaponAlternate1Damage,
+		WeaponAlternate1Speed,
+		WeaponAlternate1Range,		
 	}
 	
 	[System.Serializable]
@@ -61,7 +65,17 @@ namespace MAPlayer
 				
 				case EStatType.PowerCooldown:
 					GetNewStat(ref defender.power.cooldown);
-					break;									
+					break;	
+				
+				case EStatType.WeaponAlternate1Damage:
+					GetNewStat(ref defender.alternates[0].damage);
+					break;
+				case EStatType.WeaponAlternate1Speed:
+					GetNewStat(ref defender.alternates[0].cooldown);
+					break;
+				case EStatType.WeaponAlternate1Range:
+					GetNewStat(ref defender.alternates[0].range);
+					break;
 			}
 		}
 		

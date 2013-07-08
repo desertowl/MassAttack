@@ -8,7 +8,12 @@ namespace MACore
 		Weenie,
 		Vector,
 		Heap,
-		Kobol
+		Kobol,
+		BitBoss,
+		VectorBoss,
+		HeapBoss,
+		KobolBoss,
+		MegaBoss
 	}
 	
 	[System.Serializable]

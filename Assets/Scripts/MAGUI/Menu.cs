@@ -16,8 +16,6 @@ public class Menu : MAHUD
 	// Member bariables
 	public LobbyDefender lobbyDefenderTemplate;
 	public Texture logo;
-	public Material SkyMaterial;
-	public Material StarsMaterial;
 	
 	public GUISkin skin;
 	public Texture upgrade;
@@ -132,12 +130,12 @@ public class Menu : MAHUD
 	
 	public void SetBackgroundColor( Color color )
 	{
-		SkyMaterial.SetColor("_foreground", color );
-		RenderSettings.skybox = SkyMaterial;
+		//SkyMaterial.SetColor("_foreground", color );
+		//RenderSettings.skybox = SkyMaterial;
 	}
 	public void ClearBackgroundColor()
 	{
-		RenderSettings.skybox = StarsMaterial;
+		//RenderSettings.skybox = StarsMaterial;
 	}
 	
 	/// <summary>

@@ -22,12 +22,22 @@ namespace MAUnit
 			if( target != null && !target.IsDead() )
 				return;
 			
+			target = GetRandomTarget();
+		}
+		
+		/// <summary>
+		/// Picks the random target.
+		/// </summary>
+		public override Unit GetRandomTarget()
+		{
 			// Get the active defenders
 			List<Defender> defenders = Game.Instance.Defenders;
 			
 			if( defenders.Count > 0 ) 
-				target = defenders[(int)(UnityEngine.Random.value*defenders.Count)];
-		}
+				return defenders[(int)(UnityEngine.Random.value*defenders.Count)];
+			
+			return null;
+		}			
 		
 		/// <summary>
 		/// Sets the target.

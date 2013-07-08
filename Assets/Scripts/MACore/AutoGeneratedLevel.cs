@@ -27,12 +27,12 @@ namespace MACore
 		private void Generate()
 		{
 			waves = new List<Wave>();
-			difficulty = id/MAX_DIFFICULTY;
+			difficulty = Mathf.Min(id/MAX_DIFFICULTY, 1);
 			
 			// First, determine the duration
 			duration = 15 + difficulty*10;
 			
-			float waveCount = 2 + difficulty*13;
+			float waveCount = 3 + difficulty*12;
 			
 			float diffPerWave = 1/MAX_DIFFICULTY/waveCount;
 			
@@ -41,6 +41,7 @@ namespace MACore
 			{
 				Wave wave = GenerateWave(w, waveCount, currentDifficulty);
 				currentDifficulty	+= diffPerWave;
+				currentDifficulty = Mathf.Min(1, currentDifficulty);
 				
 				waves.Add(wave);
 			}

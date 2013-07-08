@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 using MACore;
 
 namespace MAUnit
@@ -22,6 +23,8 @@ namespace MAUnit
 		public float speed;
 		
 		public Weapon weapon;
+		public List<Weapon> alternates;
+		private List<Weapon> weapons;
 		public ParticleSystem hurt;
 		
 		protected bool bDead;
@@ -112,33 +115,55 @@ namespace MAUnit
 				spawn = hit.point;
 			}
 				
-			//spawn.y += GetComponent<CapsuleCollider>().height/2;
+			weapons = new List<Weapon>();
 			
 			// Initialize its location
 			transform.position = spawn;
 			weapon = Instantiate(weapon) as Weapon;
 			weapon.transform.parent 		= weaponParent.transform;
 			weapon.transform.localPosition 	= Vector3.zero;
+			weapon.owner					= this;
+			
+			weapons.Add(weapon);
+
+			for( int x=0;x<alternates.Count;x++ )
+			{
+				Weapon alt = alternates[x];
+				alt = Instantiate(alt) as Weapon;
+				alt.transform.parent 		= weaponParent.transform;
+				alt.transform.localPosition = Vector3.zero;
+				alt.owner					= this;
+				alternates[x] 				= alt;
+				
+				weapons.Add( alt );
+			}
+			
 			bReady 							= true;
 		}		
 		
-		public void Kill(Vector3 force)
+		public void Kill()
 		{
 			// The dead have no fear...
 			Feared = false;
 			bDead = true;
-			//gameObject.AddComponent<Rigidbody>();			
+		}
+		
+		/// <summary>
+		/// Applies the force.
+		/// </summary>
+		/// <param name='force'>
+		/// Force.
+		/// </param>
+		public void ApplyForce(Vector3 force)
+		{
+			if( rigidbody == null )
+				return;
+			
+			Animator anim 	= GetComponent<Animator>();
 
-			if( rigidbody != null )
-			{
-				Animator anim 	= GetComponent<Animator>();
-
-				if( anim != null )
-					anim.applyRootMotion = false;
-				rigidbody.AddForce( force, ForceMode.Impulse );
-			}
-
-			//Destroy(this);
+			if( anim != null )
+				anim.applyRootMotion = false;
+			rigidbody.AddForce( force, ForceMode.Impulse );
 		}
 		
 		public bool IsDead()
@@ -163,8 +188,11 @@ namespace MAUnit
 		/// </summary>
 		protected abstract void PickTarget();
 		
+		public abstract Unit GetRandomTarget();
+		
 		public virtual void Update()
 		{
+			bool attacked = false;
 			// QUick sanity check
 			if( !bReady ) return;
 			if( bDead ) return;
@@ -179,14 +207,22 @@ namespace MAUnit
 				return;
 			
 			// Check to see if I can attack my target!
-			if( weapon.IsInRange(this,target) && !Feared)
+			if( !Feared )
 			{
-				AttackTarget();
-				return;			
+				foreach( Weapon weap in weapons )
+				{
+					if( weap.IsInRange(this,target) )
+					{
+						AttackTarget(weap);
+						rigidbody.velocity = Vector3.zero;
+						attacked = true;
+					}
+				}
 			}
 			
 			// Move towards that target
-			MoveTowards();
+			if( !attacked )
+				MoveTowards();
 		}
 		
 		/// <summary>
@@ -216,43 +252,57 @@ namespace MAUnit
 			
 			Vector3 dir = (GetTargetPosition()-transform.position).normalized;
 			
-			rigidbody.velocity = dir * speed;
+			Vector3 v = rigidbody.velocity;
+			
+			float currentSpeed = Feared?speed/5:speed;
+			
+			//rigidbody.velocity = dir * speed;
+			rigidbody.velocity = Vector3.Lerp(v, dir*currentSpeed, Time.deltaTime*10);
 
 		}
 		
 		/// <summary>
 		/// Attacks the target.
 		/// </summary>
-		public virtual void AttackTarget()
+		public virtual void AttackTarget(Weapon instance)
 		{
-			if( weapon.CanHit(this, target) )
+			if( instance.CanHit(this, target) )
 			{				
 				UnitAnimationController anim = GetComponent<UnitAnimationController>();
 				if( anim != null )
 					anim.Attacking = true;
 				
 				// Execute the attack in a delayed way if needed
-				if( weapon.spinup > 0 )
+				if( instance.spinup > 0 && instance == weapon )
 				{
 					spinningUp = true;
-					Invoke("ExecuteAttack", weapon.spinup);
+					Invoke("ExecuteMainAttack", instance.spinup);
 				}
 				else
-					ExecuteAttack();
+					ExecuteAttack(instance);
 			}
+		}
+		
+		private void ExecuteMainAttack()
+		{
+			ExecuteAttack(weapon);
 		}
 		
 		/// <summary>
 		/// Spinups the attack.
 		/// </summary>
-		private void ExecuteAttack()
+		private void ExecuteAttack(Weapon instance)
 		{
+			if( Feared ) return;
+			
 			if( !IsDead() && !powerTargeting )
 			{
-				weapon.Attack(target);
-				Game.Instance.DoDamage(this, weapon, target);	
+				instance.Attack(target);
+				Game.Instance.DoDamage(this, instance, target);	
 			}
-			spinningUp = false;
+			
+			if( instance == weapon )
+				spinningUp = false;
 		}
 		
 		/// <summary>

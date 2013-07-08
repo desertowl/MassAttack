@@ -9,7 +9,9 @@ namespace MAGUI
 	public class LobbyDefender : MonoBehaviour
 	{
 		public Texture unlockable, upgradeable, locked, divider;
+		public Texture VelicLabel, CretianLabel, DurusLabel, RaskerLabel;
 		public GameObject unitSelectBackground;		
+		public AudioClip unlockTalent, unlockDefender;
 
 		[HideInInspector]
 		public Defender template;
@@ -46,12 +48,42 @@ namespace MAGUI
 			
 			// Add background object
 			background = GameObject.Instantiate(unitSelectBackground) as GameObject;
+			background.renderer.material.SetColor("_Color", GetDefenderColor() );
+			//background.renderer.material.SetTexture("_MainTex", GetBackgroundTexture() );
 			background.transform.parent = defender.transform;
 			
 			background.transform.localPosition = new Vector3(-0.38f,0.7f,-2);
 			background.transform.localRotation	= Quaternion.Euler(90,0,0);	
 			background.transform.localScale		= new Vector3(0.2120589f, 0.08835784f, 0.08835784f);
 		}
+		
+		private Texture GetDefenderLabel()
+		{
+			switch( template.type )
+			{
+				case EDefender.Berserker:
+					return CretianLabel;
+				case EDefender.Engineer:
+					return RaskerLabel;
+				case EDefender.Sniper:
+					return VelicLabel;
+			}
+			return DurusLabel;
+		}
+		
+		private Color GetDefenderColor()
+		{
+			switch( template.type )
+			{
+				case EDefender.Berserker:
+					return new Color(1,0,0,1);
+				case EDefender.Engineer:
+					return new Color(0,1,0,1);
+				case EDefender.Sniper:
+					return new Color(1,0,1,1);
+			}
+			return new Color(0.1f,0,1,1);
+		}		
 		
 		public void DrawPick(Vector2 origin)
 		{			
@@ -108,6 +140,7 @@ namespace MAGUI
 			{
 				if( data.bLocked && hasUnlocks )
 				{
+					UnityEngine.AudioSource.PlayClipAtPoint(unlockDefender, Camera.main.transform.position);
 					DefenderData next = parent.DoUnlock(data.GetDefenderType());
 					
 					if( next != null )
@@ -120,7 +153,8 @@ namespace MAGUI
 				}
 			}
 			
-			GUI.Label(		new Rect( position.x + 32, offset.y +22, 	100,  64 ),  	template.name,	 GUI.skin.customStyles[MAHUD.GUISKIN_WHITE_SUBTITLE] );			
+			GUI.DrawTexture( new Rect(hotspot.x-size - size/3, hotspot.y + size/2, size, size/2), GetDefenderLabel() );
+			//GUI.Label(		new Rect( position.x + 32, offset.y +22, 	100,  64 ),  	template.name,	 GUI.skin.customStyles[MAHUD.GUISKIN_WHITE_SUBTITLE] );			
 		}			
 		
 		/// <summary>
@@ -202,7 +236,7 @@ namespace MAGUI
 			GUI.enabled = Session.Instance.CanUnlock(talent);
 			if( GUI.Button( new Rect( position.x, position.y, buttonWidth, buttonHeight ), "", GUI.skin.customStyles[MAHUD.GUISKIN_SKILLBOX]))
 			{
-				//print ("Should unlock talent here");	
+				UnityEngine.AudioSource.PlayClipAtPoint(unlockTalent, Camera.main.transform.position);
 				Session.Instance.Unlock(talent);
 			}
 			

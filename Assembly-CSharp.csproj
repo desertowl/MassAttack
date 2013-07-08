@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\MAPlayer\TalentTree.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\BlastSpreadTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\JusticeSpreadTalent.cs" />
+     <Compile Include="Assets\Scripts\MAPlayer\Talents\SentryStatBoostTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\StatBoostTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\Talent.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\AbstractUnitAnimationController.cs" />
@@ -77,7 +78,10 @@
      <Compile Include="Assets\Scripts\MAUnit\Animation\SentryAnimationController.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\SimpleSet.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\UnitAnimationController.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Attack.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Attack\Attack.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Attack\Launcher.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Attack\Projectile.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Attack\Weapon.cs" />
      <Compile Include="Assets\Scripts\MAUnit\BotControlScript.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Defender\Defender.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Monster\Monster.cs" />
@@ -89,9 +93,9 @@
      <Compile Include="Assets\Scripts\MAUnit\Power\Suicide.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Power\Whirlwind.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Unit.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Weapon.cs" />
      <None Include="Assets\Shaders\DiffuseNormalEmis.shader" />
      <None Include="Assets\Shaders\SolidScrollFX.shader" />
+     <None Include="Assets\Shaders\CutoutTint.shader" />
      <None Include="Assets\StrumpyShaderEditor\Editor\Resources\Internal\Temp\TempShader.shader" />
      <None Include="Assets\Shaders\AddingMove.shader" />
      <None Include="Assets\Shaders\DronosReflective.shader" />

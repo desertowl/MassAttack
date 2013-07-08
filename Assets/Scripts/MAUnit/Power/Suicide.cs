@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace MAUnit
 {
 	public class Suicide : Power
-	{
+	{		
 		// Use this for initialization
 		public override void OnActivateBegin ()
 		{

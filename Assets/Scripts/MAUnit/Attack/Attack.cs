@@ -9,8 +9,11 @@ namespace MAUnit
 		public float force = 0.0f;
 		public float spinup;
 		public float cooldown;
+		
+		[HideInInspector]
 		public bool Active = true;
-		public AudioClip attack;		
+		public AudioClip attack;
+		public bool alwaysApplyForce = false;
 		private float lastAttack;
 		
 		/// <summary>
@@ -44,7 +47,7 @@ namespace MAUnit
 		public float GetCooldown()
 		{
 			return Mathf.Max(0, lastAttack+cooldown - Time.fixedTime);
-		}		
+		}
 	}
 }
 

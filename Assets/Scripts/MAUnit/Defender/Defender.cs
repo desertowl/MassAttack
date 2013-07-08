@@ -90,7 +90,7 @@ namespace MAUnit
 						dist 	= nearestDist;
 						nearest = monster;
 						
-						if( dist < 2 )
+						if( dist < weapon.range+0.5f )
 							break;
 					}
 				}
@@ -115,7 +115,7 @@ namespace MAUnit
 		/// <summary>
 		/// Picks the random target.
 		/// </summary>
-		protected void PickRandomTarget()
+		public override Unit GetRandomTarget()
 		{
 			// Get the active defenders
 			List<Monster> monsters = Game.Instance.Monsters;
@@ -128,11 +128,10 @@ namespace MAUnit
 				Monster monster = monsters[x];
 				if( area.IsWithin(monster.transform.position) )
 				{
-					target = monster;
-					return;
+					return monster;
 				}
 			}
-			target = null;
+			return null;
 		}	
 		
 		/// <summary>

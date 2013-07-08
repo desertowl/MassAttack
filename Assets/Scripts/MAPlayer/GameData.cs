@@ -23,7 +23,7 @@ namespace MAPlayer
 		public GameData ()
 		{
 			roster 	= new Dictionary<string, DefenderData>();
-			level 	= 0;
+			level 	= 25;
 			unlocks = 4;
 			gold 	= 10000;			
 		}
@@ -55,7 +55,12 @@ namespace MAPlayer
 		public void LevelComplete(Game game)
 		{
 			if( game.State == EGameState.Victory && game.level.id <= level )
+			{
 				level++;
+				
+				if( game.level.unlockDefenderReward )
+					unlocks++;
+			}
 			gold += game.GetGoldEarned();
 		}
 		

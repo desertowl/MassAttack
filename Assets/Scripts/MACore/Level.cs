@@ -8,6 +8,7 @@ namespace MACore
 	{
 		public Material sky;
 		public Vector2 location;
+		public bool unlockDefenderReward = false;
 		public float duration = 30; // THe duration of this level, in seconds
 		public List<Wave> waves;
 		
@@ -18,18 +19,19 @@ namespace MACore
 		public CombatArea area;
 		
 		public Level ()
+		{			
+		}
+		
+		public virtual void Start()
 		{
+			/*
 			Camera.main.clearFlags = CameraClearFlags.Color;
 			if( sky != null )
 			{
 				RenderSettings.skybox = sky;
 				Camera.main.clearFlags = CameraClearFlags.Skybox;
-			}			
-		}
-		
-		public virtual void Start()
-		{
-
+			}
+			*/
 
 			remaining = new List<Wave>(waves);
 			
