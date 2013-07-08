@@ -9,11 +9,16 @@ namespace MACore
 		Vector,
 		Heap,
 		Kobol,
+		
+		// Bosses
 		BitBoss,
 		VectorBoss,
 		HeapBoss,
 		KobolBoss,
-		MegaBoss
+		MegaBoss,
+		
+		// Specials
+		RocketHeap,
 	}
 	
 	[System.Serializable]

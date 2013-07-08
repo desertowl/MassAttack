@@ -81,7 +81,8 @@ namespace MAUnit
 			for( int x=0;x< monsters.Count;x ++ )
 			{
 				Monster monster = monsters[x];
-				if( IsWithinCombatArea(monster) )
+				//if( Game.Instance.IsWithinCombatArea(monster) )
+				if( monster.inCombatArea )
 				{
 					float dist = Vector3.Distance(transform.position, monster.transform.position);
 					
@@ -96,20 +97,6 @@ namespace MAUnit
 				}
 			}
 			target = nearest;			
-		}
-		
-		/// <summary>
-		/// Determines whether this instance is within combat area the specified subject.
-		/// </summary>
-		/// <returns>
-		/// <c>true</c> if this instance is within combat area the specified subject; otherwise, <c>false</c>.
-		/// </returns>
-		/// <param name='subject'>
-		/// If set to <c>true</c> subject.
-		/// </param>
-		private bool IsWithinCombatArea(Unit subject)
-		{
-			return Game.Instance.level.area.IsWithin(subject.transform.position);
 		}
 		
 		/// <summary>

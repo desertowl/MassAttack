@@ -318,6 +318,20 @@ namespace MACore
 			return goldEarned;
 		}
 		
+		/// <summary>
+		/// Determines whether this instance is within combat area the specified subject.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance is within combat area the specified subject; otherwise, <c>false</c>.
+		/// </returns>
+		/// <param name='subject'>
+		/// If set to <c>true</c> subject.
+		/// </param>
+		public bool IsWithinCombatArea(Unit subject)
+		{
+			return level.area.IsWithin(subject.transform.position);
+		}		
+		
 		
 		/// <summary>
 		/// Gets the monsters in range.

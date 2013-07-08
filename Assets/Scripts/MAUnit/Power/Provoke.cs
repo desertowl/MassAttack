@@ -11,6 +11,7 @@ namespace MAUnit
 		public ParticleSystem healEffect;
 		public float slowPercent = 0.8f;
 		public float fearDuration = 6;
+		public float armorBonusScale = 1;
 		
 		[HideInInspector]
 		public bool healAll = false;
@@ -63,7 +64,8 @@ namespace MAUnit
 			scalar.y 		*= 1.05f;
 			scalar.z 		*= 1.05f;
 			me.transform.localScale = scalar;
-			me.armor += 1;
+			me.armor += armorBonusScale;
+			armorBonusScale /= 2;
 			
 			if( targets.Count > 0)
 				Invoke("Unfear", fearDuration );

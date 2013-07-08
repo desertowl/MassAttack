@@ -20,7 +20,7 @@ namespace MAUnit
 		protected float hp;
 		public float CurrentHealth { get { return hp; } set { hp = value; } }
 		public int health;
-		public int armor;
+		public float armor;
 		public float speed;
 		
 		public Weapon weapon;
@@ -32,6 +32,9 @@ namespace MAUnit
 		protected bool bReady;
 		protected Unit target;
 		private float radius;
+		
+		[HideInInspector]
+		public bool inCombatArea;
 			
 		
 		// Stateful variables
@@ -81,7 +84,8 @@ namespace MAUnit
 			CurrentHealth = health;
 			bDead = false;
 			bReady= false;
-			radius= -1.0f;			
+			radius= -1.0f;	
+			inCombatArea = false;
 		}
 		
 		public float GetCurrentHealth()
@@ -201,11 +205,14 @@ namespace MAUnit
 			if( spinningUp || powerTargeting ) 
 				return;
 			
+			// Check to see if im in the combat area
+			inCombatArea = Game.Instance.IsWithinCombatArea(this);
+			
 			// Pick a target
 			PickTarget ();
 			
 			// Check to see if I can attack my target!
-			if( !Feared  && target != null )
+			if( inCombatArea && !Feared  && target != null )
 			{
 				foreach( Weapon weap in weapons )
 				{
@@ -314,7 +321,10 @@ namespace MAUnit
 		/// </returns>
 		public virtual Vector3 GetTargetPosition()
 		{
-			if( target == null )
+			if( Game.Instance == null )
+				return transform.position;
+			
+			if( !inCombatArea || target == null )
 				return Game.Instance.GetDefenderSpawnCenter();
 				//return transform.position;			
 			

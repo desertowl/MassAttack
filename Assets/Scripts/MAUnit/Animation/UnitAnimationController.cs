@@ -44,7 +44,7 @@ namespace MAUnit
 			}
 			
 			// Set the running state
-			if( unit.powerTargeting || unit.IsTargetDead() )
+			if( unit.powerTargeting  )
 			{
 				anim.SetBool("Running", false);
 			}
@@ -54,7 +54,12 @@ namespace MAUnit
 					FaceTarget( Vector3.forward );
 				else
 					FaceTarget(dir);
-				anim.SetBool("Running", delta.sqrMagnitude > 2);
+				
+				
+				bool isRunning = unit.rigidbody.velocity.sqrMagnitude > 0.1f && delta.sqrMagnitude > 2;
+				
+				anim.SetBool("Running", isRunning );
+				//anim.SetBool("Running", delta.sqrMagnitude > 2);
 			}			
 			
 			// If I am already attacking, I cant be attacking!

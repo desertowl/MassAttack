@@ -29,12 +29,15 @@ namespace MACore
 			waves = new List<Wave>();
 			difficulty = Mathf.Min(id/MAX_DIFFICULTY, 1);
 			
+			
+			// Get the total number of waves
+			float waveCount 	= 3 + difficulty*9;
+			
 			// First, determine the duration
-			duration = 15 + difficulty*10;
+			duration = 15 + waveCount*20;
 			
-			float waveCount = 3 + difficulty*12;
 			
-			float diffPerWave = 1/MAX_DIFFICULTY/waveCount;
+			float diffPerWave 	= 1/MAX_DIFFICULTY/waveCount;
 			
 			float currentDifficulty = difficulty;
 			for( int w=0;w<waveCount;w++ )
@@ -65,10 +68,13 @@ namespace MACore
 		{
 			// Number between 0 and 1
 			float monsterId 	= Mathf.Abs(Mathf.Sin( percent * Mathf.PI));
-			EMonsterType type 	= (EMonsterType) Mathf.Round((monsterId * ((int)GetMaxMonster())));
+			//EMonsterType type 	= (EMonsterType) Mathf.Round((monsterId * ((int)GetMaxMonster())));
 			
-			Debug.LogWarning("MonserId: " + monsterId + " Type: " + type );
-			return type;
+			List<EMonsterType> types 	= GetPossibleMonsters();
+			return types[ (int)Mathf.Round(monsterId* (types.Count-1))];
+			
+			//Debug.LogWarning("MonserId: " + monsterId + " Type: " + type );
+			//return type;
 		}
 		
 		/// <summary>
@@ -92,6 +98,83 @@ namespace MACore
 			return EMonsterType.Kobol;
 		}
 		
+		private List<EMonsterType> GetPossibleMonsters()
+		{
+			List<EMonsterType> types = new List<EMonsterType>();
+			
+			// Get the max monster
+			switch( id )
+			{
+				case 0:
+				case 1:
+				case 2:
+					types.Add( EMonsterType.Weenie );
+					break;
+
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+					types.Add( EMonsterType.Weenie );
+					types.Add( EMonsterType.Vector );
+					break;
+				
+				case 8:
+				case 9:
+					types.Add( EMonsterType.Weenie );
+					types.Add( EMonsterType.Vector );
+					types.Add( EMonsterType.Heap );
+					break;
+				
+				case 10:
+				case 11:
+				case 12:
+				case 13:
+					types.Add( EMonsterType.Vector );
+					types.Add( EMonsterType.Heap );
+					break;
+				
+				case 14:
+				case 15:
+				case 16:
+					types.Add( EMonsterType.Vector );
+					types.Add( EMonsterType.Heap );
+					types.Add( EMonsterType.RocketHeap );
+					break;
+				
+				case 17:
+				case 18:
+				case 19:
+				case 20:
+					types.Add( EMonsterType.Heap );
+					types.Add( EMonsterType.RocketHeap );
+					types.Add( EMonsterType.Kobol );
+					break;
+				
+				case 21:
+				case 22:
+				case 23:
+					types.Add( EMonsterType.Kobol );
+					types.Add( EMonsterType.BitBoss );
+					break;
+				
+				case 24:
+					types.Add( EMonsterType.Kobol );
+					types.Add( EMonsterType.BitBoss );
+					types.Add( EMonsterType.VectorBoss );
+					break;
+				
+				case 25:
+					types.Add( EMonsterType.Kobol );
+					types.Add( EMonsterType.BitBoss );
+					break;				
+			}
+			
+			return types;
+				
+		}
+		
 		private int GetMonsterCount(EMonsterType type, float difficulty)
 		{
 			switch( type )
@@ -102,10 +185,13 @@ namespace MACore
 				case EMonsterType.Vector:
 					return (int)Mathf.Round(1 + (difficulty*12));
 				
+				case EMonsterType.RocketHeap:
 				case EMonsterType.Heap:
-					return (int)Mathf.Round(1 + (difficulty*6));				
+				case EMonsterType.BitBoss:
+					return (int)Mathf.Round(1 + (difficulty*6));
 				
 				case EMonsterType.Kobol:
+				case EMonsterType.VectorBoss:
 					return (int)Mathf.Round(1 + (difficulty*3));
 			}
 			return 1;

@@ -53,7 +53,7 @@ namespace MAPlayer
 					defender.CurrentHealth = defender.health;
 					break;
 				case EStatType.DefenderArmor:
-					GetNewIntStat(ref defender.armor);
+					GetNewStat(ref defender.armor);
 					break;	
 				case EStatType.DefenderSpeed:
 					GetNewStat(ref defender.speed);
