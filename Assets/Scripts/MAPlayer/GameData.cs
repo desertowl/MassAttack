@@ -23,9 +23,9 @@ namespace MAPlayer
 		public GameData ()
 		{
 			roster 	= new Dictionary<string, DefenderData>();
-			level 	= 25;
-			unlocks = 4;
-			gold 	= 10000;			
+			level 	= 0;//25;
+			unlocks = 1;//4;
+			gold 	= 0;//10000;			
 		}
 		
 		/// <summary>

@@ -344,6 +344,20 @@ namespace MACore
 			}
 			return result;
 		}
+		
+		public List<Defender> GetDefendersInRange(Vector3 point, float radius)
+		{
+			List<Defender> result = new List<Defender>();
+			
+			// Get the distance
+			foreach( Defender defender in defenders )
+			{
+				float dist = Vector3.Distance(defender.transform.position, point);
+				if( dist <= radius )
+					result.Add(defender);
+			}
+			return result;
+		}		
 	}
 	
 	public enum EGameState
