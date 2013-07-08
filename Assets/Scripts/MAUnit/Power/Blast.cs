@@ -94,11 +94,13 @@ namespace MAUnit
 			transform.RotateAround(Vector3.up, 10*Time.deltaTime);
 			Vector3 angles 	= transform.localRotation.eulerAngles;
 			cone.dir 		= angles.y;
-			cone.origin		= GetDefender().weaponParent.transform.position;//transform.position;
 			
-			// Draw the cone
-			//Vector3 mag			= new Vector3(0,0,cone.range);
-			//Vector3 endpoint	= Quaternion.Euler(0, cone.dir, 0)  * mag;
+			
+			Vector3 pos 	= transform.position;//GetDefender().weaponParent.transform.position;
+			pos.y			= GetDefender().weaponParent.transform.position.y;
+			cone.origin		= pos;
+			
+			//cone.origin		= transform.position;//GetDefender().weaponParent.transform.position;
 			
 			sub.transform.position = cone.origin;//GetDefender().weaponParent.transform.position;		
 		}

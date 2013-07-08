@@ -43,29 +43,33 @@ public class GameHUD : MAHUD
 		Status s = new Status();
 		Vector2 pos = new Vector2();
 		
-		Defender def = (Defender)unit;
-		switch( def.type )
+
+		if( unit is Defender )
 		{
-			case EDefender.Berserker:
-				pos.x = 5;
-				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3)*2;
-				break;
-			case EDefender.Engineer:
-				pos.x = 5;
-				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3);
-				break;			
-			case EDefender.Sniper:
-				pos.x = Screen.width - Status.BUTTON_SIZE - 5;
-				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3)*2;
-				break;
-			case EDefender.Guardian:
-				pos.x = Screen.width - Status.BUTTON_SIZE - 5;
-				pos.y = Screen.height - (Status.BUTTON_SIZE/2+3);
-				break;	
-			case EDefender.Sentry:
-				pos = AdjustLivingSentries();
-				break;
-		}		
+			Defender def = (Defender)unit;
+			switch( def.type )
+			{
+				case EDefender.Berserker:
+					pos.x = 5;
+					pos.y = Screen.height - (Status.BUTTON_SIZE/2+3)*2;
+					break;
+				case EDefender.Engineer:
+					pos.x = 5;
+					pos.y = Screen.height - (Status.BUTTON_SIZE/2+3);
+					break;			
+				case EDefender.Sniper:
+					pos.x = Screen.width - Status.BUTTON_SIZE - 5;
+					pos.y = Screen.height - (Status.BUTTON_SIZE/2+3)*2;
+					break;
+				case EDefender.Guardian:
+					pos.x = Screen.width - Status.BUTTON_SIZE - 5;
+					pos.y = Screen.height - (Status.BUTTON_SIZE/2+3);
+					break;	
+				case EDefender.Sentry:
+					pos = AdjustLivingSentries();
+					break;
+			}		
+		}
 		
 		s.SetUnit( pos, ref unit);
 		status.Add(s);
@@ -83,7 +87,7 @@ public class GameHUD : MAHUD
 		{
 			if( s.unit.IsDead() )
 				continue;
-			if( ((Defender)s.unit).type == EDefender.Sentry )
+			if( (s.unit is Defender && ((Defender)s.unit).type == EDefender.Sentry) || (s.unit is Monster) )
 			{
 				count++;
 				

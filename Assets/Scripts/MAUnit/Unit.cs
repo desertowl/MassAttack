@@ -15,6 +15,7 @@ namespace MAUnit
 		public Texture icon;
 		public new string name;
 		public string desc;		
+		public bool showStatus;
 
 		protected float hp;
 		public float CurrentHealth { get { return hp; } set { hp = value; } }
@@ -203,18 +204,17 @@ namespace MAUnit
 			// Pick a target
 			PickTarget ();
 			
-			if( target == null )
-				return;
-			
 			// Check to see if I can attack my target!
-			if( !Feared )
+			if( !Feared  && target != null )
 			{
 				foreach( Weapon weap in weapons )
 				{
 					if( weap.IsInRange(this,target) )
 					{
 						AttackTarget(weap);
-						rigidbody.velocity = Vector3.zero;
+						
+						if( !rigidbody.isKinematic )
+							rigidbody.velocity = Vector3.zero;
 						attacked = true;
 					}
 				}
@@ -244,7 +244,7 @@ namespace MAUnit
 			//float s = Feared?speed/2:speed;
 			//transform.position = Vector3.MoveTowards(transform.position, GetTargetPosition(), Time.deltaTime*s);	
 			
-			if( target.IsDead() )
+			if( target != null && target.IsDead() )
 			{
 				rigidbody.velocity = Vector3.zero;
 				return;
@@ -257,7 +257,8 @@ namespace MAUnit
 			float currentSpeed = Feared?speed/5:speed;
 			
 			//rigidbody.velocity = dir * speed;
-			rigidbody.velocity = Vector3.Lerp(v, dir*currentSpeed, Time.deltaTime*10);
+			if( !rigidbody.isKinematic )
+				rigidbody.velocity = Vector3.Lerp(v, dir*currentSpeed, Time.deltaTime*10);
 
 		}
 		
@@ -314,7 +315,8 @@ namespace MAUnit
 		public virtual Vector3 GetTargetPosition()
 		{
 			if( target == null )
-				return transform.position;			
+				return Game.Instance.GetDefenderSpawnCenter();
+				//return transform.position;			
 			
 			if( !Feared )
 			{

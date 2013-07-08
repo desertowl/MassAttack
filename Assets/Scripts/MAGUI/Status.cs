@@ -67,7 +67,7 @@ namespace MAGUI
 			}
 			
 			
-			if( IsOnCooldown() )
+			if( IsOnCooldown() && power!=null )
 			{
 				GUI.Box( 	new Rect(offset.x,offset.y,BUTTON_SIZE,BUTTON_SIZE/2), "", GUI.skin.customStyles[2] );
 				//GUI.Label( 		new Rect( offset.x + 3,hpOffset.y-6, 100, 30), unit.CurrentHealth + "/"+unit.health, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );

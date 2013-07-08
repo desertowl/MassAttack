@@ -140,6 +140,19 @@ namespace MACore
 		}
 		
 		/// <summary>
+		/// Gets the defender spawn center.
+		/// </summary>
+		/// <returns>
+		/// The defender spawn center.
+		/// </returns>
+		public Vector3 GetDefenderSpawnCenter()
+		{
+			if( defenderSpawn == null )
+				return Vector3.zero;
+			return defenderSpawn.transform.position;
+		}
+		
+		/// <summary>
 		/// Update this instance.
 		/// </summary>
 		public void Update()
@@ -210,6 +223,10 @@ namespace MACore
 				Debug.LogError("No spawn point found from spawns: " + spawns );
 				return null;
 			}
+			
+			
+			if( monster.showStatus )
+				GetComponent<GameHUD>().Add(monster);
 			
 			// Begin the "AI"
 			monster.Begin(spawn.GetNextSpawn());
