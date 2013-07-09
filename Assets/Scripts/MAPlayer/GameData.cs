@@ -25,7 +25,14 @@ namespace MAPlayer
 			roster 	= new Dictionary<string, DefenderData>();
 			level 	= 0;//25;
 			unlocks = 1;//4;
-			gold 	= 0;//10000;			
+			gold 	= 0;//10000;	
+			
+			if( true )
+			{
+				level = 25;
+				unlocks = 4;
+				gold = 10000;
+			}
 		}
 		
 		/// <summary>
@@ -54,7 +61,7 @@ namespace MAPlayer
 		/// </param>
 		public void LevelComplete(Game game)
 		{
-			if( game.State == EGameState.Victory && game.level.id <= level )
+			if( game.State == EGameState.Victory && game.level.id == level )
 			{
 				level++;
 				
@@ -180,9 +187,6 @@ namespace MAPlayer
 				gd = MAUtil.JsonDecode<GameData>(data);
 			else
 				gd = new GameData();
-			
-			Debug.Log("ROSTER: " + data );
-			Debug.Log("ROSTER: " + gd.roster.Count );
 
 			return gd;
 		}

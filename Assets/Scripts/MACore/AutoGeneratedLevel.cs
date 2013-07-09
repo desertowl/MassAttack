@@ -34,7 +34,7 @@ namespace MACore
 			float waveCount 	= 3 + difficulty*9;
 			
 			// First, determine the duration
-			duration = 15 + waveCount*20;
+			duration = 15 + (waveCount-2)*20;
 			
 			
 			float diffPerWave 	= 1/MAX_DIFFICULTY/waveCount;
@@ -114,10 +114,15 @@ namespace MACore
 				case 3:
 				case 4:
 				case 5:
+					types.Add( EMonsterType.Weenie );
+					types.Add( EMonsterType.Vector );
+					break;
+				
 				case 6:
 				case 7:
 					types.Add( EMonsterType.Weenie );
 					types.Add( EMonsterType.Vector );
+					types.Add( EMonsterType.VectorSentry );
 					break;
 				
 				case 8:
@@ -131,6 +136,7 @@ namespace MACore
 				case 11:
 				case 12:
 				case 13:
+					types.Add( EMonsterType.VectorSentry );
 					types.Add( EMonsterType.Vector );
 					types.Add( EMonsterType.Heap );
 					break;
@@ -144,6 +150,10 @@ namespace MACore
 					break;
 				
 				case 17:
+					types.Add( EMonsterType.VectorSentry );
+					types.Add( EMonsterType.Heap );
+					types.Add( EMonsterType.RocketHeap );
+					break;				
 				case 18:
 				case 19:
 				case 20:
@@ -184,12 +194,13 @@ namespace MACore
 				
 				case EMonsterType.Vector:
 					return (int)Mathf.Round(1 + (difficulty*12));
-				
-				case EMonsterType.RocketHeap:
+
 				case EMonsterType.Heap:
 				case EMonsterType.BitBoss:
 					return (int)Mathf.Round(1 + (difficulty*6));
 				
+				case EMonsterType.RocketHeap:
+				case EMonsterType.VectorSentry:
 				case EMonsterType.Kobol:
 				case EMonsterType.VectorBoss:
 					return (int)Mathf.Round(1 + (difficulty*3));

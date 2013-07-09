@@ -19,6 +19,7 @@ namespace MACore
 		
 		// Specials
 		RocketHeap,
+		VectorSentry,
 	}
 	
 	[System.Serializable]

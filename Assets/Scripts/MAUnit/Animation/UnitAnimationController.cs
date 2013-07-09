@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using MACore;
 
 namespace MAUnit
 {
@@ -51,12 +52,12 @@ namespace MAUnit
 			else
 			{
 				if( dir == Vector3.zero )
-					FaceTarget( Vector3.forward );
+					FaceTarget( Game.Instance==null?Vector3.forward:Vector3.back );
 				else
 					FaceTarget(dir);
 				
 				
-				bool isRunning = unit.rigidbody.velocity.sqrMagnitude > 0.1f && delta.sqrMagnitude > 2;
+				bool isRunning = unit.rigidbody.velocity.magnitude > 0.1f  && delta.sqrMagnitude > 1f;
 				
 				anim.SetBool("Running", isRunning );
 				//anim.SetBool("Running", delta.sqrMagnitude > 2);
