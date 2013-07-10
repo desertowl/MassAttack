@@ -9,11 +9,11 @@ namespace MAUnit
 		public string displayName;
 		public string desc;
 		
+		[HideInInspector]
+		public bool Activating = false;
+		
 		// Use this for initialization
 		public abstract void OnActivateBegin ();
-		
-		// Update is called once per frame
-		public abstract void OnActivateUpdate ();
 		
 		// Use this for execution
 		public abstract void OnActivateEnd ();	

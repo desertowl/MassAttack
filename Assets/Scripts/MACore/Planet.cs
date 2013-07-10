@@ -9,12 +9,12 @@ namespace MACore
 		public int id;
 		public Level level;
 		public GameObject ring;
-		private bool isCurrent = false;
 		private Vector3 defaultScale;
 		private float rotationRate = 0.2f;
 		private Vector3 axis;
 		private bool current;
 		private bool complete;
+		private Material defaultMaterial;
 		
 		/// <summary>
 		/// Awake this instance.
@@ -25,6 +25,7 @@ namespace MACore
 			defaultScale 	= ring.transform.localScale;
 			axis 			= new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value );
 			level.id		= id;
+			defaultMaterial = renderer.material;
 			
 			UpdateAccessable();
 		}
@@ -38,11 +39,20 @@ namespace MACore
 			complete				= currentPlayerLevel > id;	
 			
 			if( complete )
+			{
+				renderer.material = defaultMaterial;
 				SetRingColor( new Color(0,1,1) );
+			}
 			else if( current )
+			{
+				renderer.material = defaultMaterial;
 				SetRingColor( new Color(1,1,0) );
+			}
 			else
+			{
+				renderer.material = Menu.Instance.unavailable;
 				ring.SetActive(false);
+			}
 			
 			level.id		= id;
 		}

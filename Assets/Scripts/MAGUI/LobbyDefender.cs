@@ -108,22 +108,17 @@ namespace MAGUI
 		private void ShowDefenderPick(Vector2 offset, float width, float height)
 		{					
 			bool hasUnlocks		= Session.Instance.GameData.HasUnlocks();			
-			Vector2 position 	= new Vector2(offset.x+width/3, offset.y);
 			Vector3 screenspace = new Vector3(offset.x + width/2.8f, Screen.height/1.5f-offset.y, Camera.main.nearClipPlane+10);
 			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
 
 			defender.transform.position = worldspace;
 			defender.transform.localScale = new Vector3(scale,scale,scale);
-			
 
 			
 			Vector3 center  	= Camera.main.WorldToScreenPoint( background.transform.position );
 			Vector3 hotspot  	= Camera.main.WorldToScreenPoint( background.transform.GetChild(0).position );
 			hotspot.y 			= Math.Abs(hotspot.y - Screen.height);
 			center.y 			= Math.Abs(center.y - Screen.height);
-			
-
-			//GUI.Label(		new Rect( position.x-40, position.y+50, 	160,  64 ),  	"LOcked? " + data.bLocked + " has Unlocks? " + hasUnlocks );
 			
 			// Get the proper texture
 			Texture status;

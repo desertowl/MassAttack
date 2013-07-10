@@ -89,18 +89,38 @@ namespace MAUnit
 		}
 		
 		// Update is called once per frame
-		public override void OnActivateUpdate ()
+		public void Update ()
 		{
+			// Sanity check
+			if( !Activating )
+				return;
+			
+			/*
 			transform.RotateAround(Vector3.up, 10*Time.deltaTime);
 			Vector3 angles 	= transform.localRotation.eulerAngles;
 			cone.dir 		= angles.y;
+			*/
+			
+			Debug.Log("Mouse Pos: "+ Input.mousePosition + "Ground Mask" +   LayerMask.NameToLayer("Ground") );
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			if( Physics.Raycast(ray, out hit, 100.0f, ~LayerMask.NameToLayer("Ground") ) )
+			{
+				Vector3 pnt = hit.point;
+				pnt.y 		= transform.position.y;
+				//cone.dir 	= Vector3.Angle(pnt, hit.point );
+				
+				transform.LookAt(pnt);
+				
+				//Debug.Log("Cone Dir: "+ cone.dir );
+				Vector3 angles 	= transform.localRotation.eulerAngles;
+				cone.dir 		= angles.y;
+			}
 			
 			
 			Vector3 pos 	= transform.position;//GetDefender().weaponParent.transform.position;
 			pos.y			= GetDefender().weaponParent.transform.position.y;
 			cone.origin		= pos;
-			
-			//cone.origin		= transform.position;//GetDefender().weaponParent.transform.position;
 			
 			sub.transform.position = cone.origin;//GetDefender().weaponParent.transform.position;		
 		}

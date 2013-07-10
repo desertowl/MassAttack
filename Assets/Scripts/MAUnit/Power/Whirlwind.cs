@@ -33,12 +33,6 @@ namespace MAUnit
 			GameObject.Destroy(instance);			
 		}
 		
-		// Update is called once per frame
-		public override void OnActivateUpdate ()
-		{
-			//GetDefender().transform.RotateAroundLocal( Vector3.up, (5*(speedBonusPercent))*Time.deltaTime);
-		}
-		
 		/// <summary>
 		/// Update this instance.
 		/// </summary>

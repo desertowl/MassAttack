@@ -19,6 +19,7 @@ namespace MAUnit
 		
 		[HideInInspector]
 		public Power power;
+		public bool playerControlled = false;
 		
 		public override void Awake()
 		{
@@ -28,6 +29,9 @@ namespace MAUnit
 			
 			// Accessor!
 			power = GetComponent<Power>();
+			
+			if( playerControlled )
+				Game.Instance.Avatar = this;
 		}		
 		
 		/// <summary>
@@ -35,6 +39,8 @@ namespace MAUnit
 		/// </summary>
 		protected override void PickTarget()
 		{
+			if( playerControlled ) return;
+			
 			// I must have already picked a target
 			if( target != null && !target.IsDead() )
 				return;

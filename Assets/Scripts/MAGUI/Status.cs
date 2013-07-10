@@ -1,5 +1,6 @@
 using System;
 using MAUnit;
+using MACore;
 using UnityEngine;
 
 namespace MAGUI
@@ -148,6 +149,9 @@ namespace MAGUI
 		{
 			Power power = GetPower();
 			
+			Game.Instance.ActivatePower(power);
+			/*
+			
 			if( power == null || power.GetCooldown()>0 ) 
 				return;
 				
@@ -159,14 +163,14 @@ namespace MAGUI
 					power.OnActivateBegin();
 					init = true;
 				}
-				power.OnActivateUpdate();
 			}			
 			
 			if( Input.GetMouseButtonUp(0) )
 			{
 				init = false;
 				power.OnActivateEnd();
-			}			
+			}	
+			*/		
 		}
 	}
 }

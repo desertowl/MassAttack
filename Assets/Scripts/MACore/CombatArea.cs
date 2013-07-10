@@ -55,7 +55,7 @@ namespace MACore
 		/// <param name='deg'>
 		/// Deg.
 		/// </param>
-		private Vector3 GetRadiusAtAngle(float deg)
+		public Vector3 GetRadiusAtAngle(float deg)
 		{
 			// Get the angle
 			float a = Mathf.Deg2Rad * deg;

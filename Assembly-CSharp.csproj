@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\MAUnit\Animation\SimpleSet.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\TeleportCombatAreaEdge.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\UnitAnimationController.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Attack\ActivateBehaviour.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack\Attack.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack\Launcher.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack\Projectile.cs" />

@@ -7,7 +7,6 @@ namespace MACore
 	public class Level : MonoBehaviour
 	{
 		public Material sky;
-		public Vector2 location;
 		public bool unlockDefenderReward = false;
 		public float duration = 30; // THe duration of this level, in seconds
 		public List<Wave> waves;

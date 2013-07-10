@@ -3,51 +3,15 @@ using UnityEngine;
 
 namespace MAUnit
 {
-	public abstract class Attack : MonoBehaviour
+	public abstract class Attack : ActivateBehaviour
 	{
 		public float damage;
 		public float force = 0.0f;
-		public float spinup;
-		public float cooldown;
 		
 		[HideInInspector]
 		public bool Active = true;
-		public AudioClip attack;
+
 		public bool alwaysApplyForce = false;
-		private float lastAttack;
-		
-		/// <summary>
-		/// Begins the cooldown
-		/// </summary>
-		public void CooldownBegin()
-		{
-			lastAttack = Time.fixedTime;			
-		}			
-		
-		/// <summary>
-		/// Plaies the sound.
-		/// </summary>
-		public void PlaySound()
-		{
-			if( attack != null )
-				UnityEngine.AudioSource.PlayClipAtPoint(attack, transform.position);			
-		}
-		
-		public void Awake()
-		{
-			lastAttack = 0;
-		}
-		
-		/// <summary>
-		/// Gets the cooldown.
-		/// </summary>
-		/// <returns>
-		/// The cooldown.
-		/// </returns>
-		public float GetCooldown()
-		{
-			return Mathf.Max(0, lastAttack+cooldown - Time.fixedTime);
-		}
 	}
 }
 

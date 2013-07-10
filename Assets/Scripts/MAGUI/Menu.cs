@@ -17,6 +17,8 @@ public class Menu : MAHUD
 	public LobbyDefender lobbyDefenderTemplate;
 	public Texture logo;
 	
+	public Material unavailable;
+	
 	public GUISkin skin;
 	public Texture upgrade;
 	public Texture playnow;
@@ -223,6 +225,7 @@ public class Menu : MAHUD
 		base.DrawNavBar();
 		
 		GUIStyle style = GUI.skin.customStyles[GUISKIN_BACKBUTTON];
+		/*
 		string label = "";
 		
 		switch( State )
@@ -236,7 +239,7 @@ public class Menu : MAHUD
 				label = "Map";
 				break;			
 		}
-
+		*/
 		if( GUI.Button( new Rect( Screen.width - NavButtonSize - 2, Screen.height - NavButtonSize - 2, NavButtonSize, NavButtonSize), "", style ) )
 		{
 			switch( State )
@@ -265,7 +268,6 @@ public class Menu : MAHUD
 		for( int id=0;id<4;id++ )
 		{
 			// Get the 1st four defenders
-			float offsetX   = 10;
 			float offsetY 	= NAV_BAR_HEIGHT+3;
 				
 			if( id >= 2 )
@@ -343,15 +345,10 @@ public class Menu : MAHUD
 	
 	public void ShowMap()
 	{
-		bool hasDefenders = Session.Instance.GameData.HasDefenders();
+		//bool hasDefenders = Session.Instance.GameData.HasDefenders();
 		
 		// Get the available levels		
-		int currentLevel 	= Session.Instance.GameData.level;
-		int count 			= 0;
-		Vector2 pos;
-		Vector2 level0Pos	= new Vector2();
-		
-		
+		// int currentLevel 	= Session.Instance.GameData.level;
 		float ModalSize 	= 128;
 		if( Session.Instance.GameData.HasUnlocks() )
 		{

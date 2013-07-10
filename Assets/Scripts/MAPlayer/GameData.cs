@@ -24,12 +24,14 @@ namespace MAPlayer
 		{
 			roster 	= new Dictionary<string, DefenderData>();
 			level 	= 0;//25;
-			unlocks = 1;//4;
+			unlocks = 0;//4;
 			gold 	= 0;//10000;	
 			
-			if( true )
+			roster.Add( ""+EDefender.Sniper, 	new DefenderData(EDefender.Sniper, false) );
+			
+			if( false )
 			{
-				level = 25;
+				level = 15;
 				unlocks = 4;
 				gold = 10000;
 			}

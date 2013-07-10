@@ -14,11 +14,6 @@ namespace MAUnit
 		{
 		}
 		
-		// Update is called once per frame
-		public override void OnActivateUpdate ()
-		{
-		}
-		
 		// Use this for execution
 		public override void OnActivateEnd ()
 		{

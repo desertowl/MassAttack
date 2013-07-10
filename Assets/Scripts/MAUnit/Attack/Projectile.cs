@@ -11,18 +11,30 @@ namespace MAUnit
 		public Weapon source;
 		public float radius = 0;
 		public float arc = 0;
+		public float missRadius = 0.0f;
 		
 		[HideInInspector]
 		public bool armed = false;
 		public float speed = 1;
 		
+		/// <summary>
+		/// Fire the specified source and target.
+		/// </summary>
+		/// <param name='source'>
+		/// Source.
+		/// </param>
+		/// <param name='target'>
+		/// Target.
+		/// </param>
 		public void Fire(Weapon source, Vector3 target)
 		{
 			transform.LookAt(target);
 			
-			armed = true;
-			this.source 		= source;
+			armed 			= true;
+			this.source 	= source;
 			
+			if( missRadius != 0 )
+				target += GetFudge();
 			
 			
 			Vector3 dir;
@@ -55,6 +67,17 @@ namespace MAUnit
 			// calculate the velocity magnitude
 			float vel = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
 			return vel * dir.normalized;
+		}
+		
+		/// <summary>
+		/// Gets the fudge.
+		/// </summary>
+		/// <returns>
+		/// The fudge.
+		/// </returns>
+		private Vector3 GetFudge()
+		{
+			return new Vector3(UnityEngine.Random.value * missRadius, 0, UnityEngine.Random.value * missRadius);
 		}
 		
 		/// <summary>
@@ -98,11 +121,7 @@ namespace MAUnit
 			
 			
 			PlaySound();
-			if( explosion != null )
-			{
-				ParticleSystem effect = Instantiate(explosion, transform.position, Quaternion.identity) as ParticleSystem;
-				Destroy(effect.gameObject, explosion.duration);			
-			}
+			SpawnParticleSystem(explosion);
 		}
 		
 		private void ProjectileHit(Unit target)

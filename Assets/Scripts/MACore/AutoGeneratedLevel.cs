@@ -9,7 +9,6 @@ namespace MACore
 		[HideInInspector]
 		public float difficulty;
 		private readonly float MAX_DIFFICULTY = 25.0f;
-		private readonly float MAX_MONSTERID  = 3.0f;
 		
 		/// <summary>
 		/// Start this instance.

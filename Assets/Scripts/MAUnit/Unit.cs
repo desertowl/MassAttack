@@ -7,9 +7,8 @@ namespace MAUnit
 {
 	[RequireComponent(typeof (CapsuleCollider))]
 	public abstract class Unit : MonoBehaviour
-	{
-		private readonly int GROUND_LAYER = 8;
-		
+	{		
+		public GameObject SelectionParent;
 		public GameObject DefaultTarget;
 		public GameObject weaponParent;
 		public Texture icon;
@@ -31,10 +30,14 @@ namespace MAUnit
 		protected bool bDead;
 		protected bool bReady;
 		protected Unit target;
+		public Unit Target { get { return target; } set { target = value; } }
 		private float radius;
 		
 		[HideInInspector]
 		public bool inCombatArea;
+		
+		[HideInInspector]
+		public bool selected;		
 			
 		
 		// Stateful variables

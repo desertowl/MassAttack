@@ -17,6 +17,53 @@ namespace MACore
 		// Memeber varaibles
 		public Level level;
 		public Player player;
+		private Defender _avatar;
+		public Defender Avatar
+		{
+			get { return _avatar; }
+			set
+			{	
+				if( _avatar != null )
+					_avatar.playerControlled = false;
+				_avatar = value;		
+				_avatar.playerControlled = true;
+			}
+		}	
+		
+		public ParticleSystem selectionTemplate;
+		private ParticleSystem selection = null;
+		private Monster _target;
+		public Monster Target
+		{
+			get { return _target; }
+			set
+			{	
+				if( value != null && value.IsDead() )
+					return;
+				
+				if( _target != null )
+					_target.selected = false;
+				_target = value;		
+				
+				if( selection != null )
+					Destroy(selection.gameObject);
+				
+				_avatar.Target 	= _target;				
+				if( _target == null )
+					return;
+				
+				selection = GameObject.Instantiate(selectionTemplate) as ParticleSystem;
+				
+				selection.transform.parent 	= _target.SelectionParent.transform;
+				selection.transform.localPosition = Vector3.zero;
+				selection.transform.Translate(0, 0.5f, 0, Space.World );
+				
+				_avatar.Target 	= _target;
+				_target.selected = true;
+			}
+		}			
+		
+		
 		private int goldEarned;
 		
 		private EGameState _state;
@@ -34,6 +81,7 @@ namespace MACore
 		private List<Monster> monsters;
 		private List<SpawnPoint> spawns;
 		private SpawnPoint defenderSpawn;
+		private Power active = null;
 		
 		// Accessors
 		public List<Defender> Defenders { get {return defenders;} }
@@ -127,7 +175,7 @@ namespace MACore
 			defenders.Add(def);					
 			
 			// Set their location
-			def.Begin(defenderSpawn.GetNextSpawn());
+			def.Begin( def.type == EDefender.Sniper ? GetDefenderSpawnCenter() : defenderSpawn.GetNextSpawn());
 
 			// Apply all the talents
 			Talent [] talents 	= def.GetComponents<Talent>();
@@ -178,6 +226,34 @@ namespace MACore
 			// Spawn those waves
 			foreach( Wave wave in waves )
 				SpawnWave(wave);
+			
+			
+			if( Input.GetMouseButtonDown(0) )
+			{
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				
+				RaycastHit hit;
+				if( Physics.Raycast(ray, out hit, 1000.0f) )
+				{
+					Defender defender = hit.collider.gameObject.GetComponent<Defender>();
+					
+					if( defender != null )
+					{
+						ActivatePower(defender.power);
+					}
+					else
+					{
+						Target = hit.collider.gameObject.GetComponent<Monster>();
+					}
+				}
+			}			
+			
+			if( active != null && active.Activating && Input.GetMouseButtonUp(0))
+			{
+				active.OnActivateEnd();
+				active.Activating = false;
+				active = null;
+			}
 		}
 		
 		/// <summary>
@@ -291,6 +367,9 @@ namespace MACore
 		
 		public void Kill(Monster target, Vector3 force)
 		{
+			if( target.selected )
+				Target = null;
+			
 			// Remove this from the target list
 			monsters.Remove(target);	
 			target.Kill();
@@ -372,6 +451,38 @@ namespace MACore
 			}
 			return result;
 		}		
+		
+		/// <summary>
+		/// Activates the power.
+		/// </summary>
+		/// <param name='power'>
+		/// Power.
+		/// </param>
+		public void ActivatePower(Power power)
+		{
+			// cant begin the activate of two powers at the same time
+			if( active != null )
+				return;
+			
+			if( power == null || power.GetCooldown()>0 ) 
+				return;
+			
+			// Get the unit
+			Unit unit = power.GetComponent<Unit>();
+
+			// Living ready units can activate a power!
+			if( !unit.IsReady() || unit.IsDead() )
+				return;
+			
+			Debug.Log("power is ready?: " + power.Activating );
+			
+			if( !power.Activating )
+			{
+				power.Activating = true;
+				power.OnActivateBegin();
+			}
+			active = power;
+		}
 	}
 	
 	public enum EGameState
