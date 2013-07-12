@@ -33,6 +33,7 @@ namespace MAUnit
 			Unit unit = GetComponent<Unit>();
 			
 			Vector3 delta 	= unit.GetTargetPosition()-unit.transform.position;
+			delta.y 		= 0;
 			Vector3 dir 	= delta.normalized;
 			
 			if( anim == null ) 

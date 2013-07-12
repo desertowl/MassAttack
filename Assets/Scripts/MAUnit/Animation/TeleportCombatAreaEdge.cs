@@ -7,6 +7,8 @@ namespace MAUnit
 	[RequireComponent(typeof (Unit))]
 	public class TeleportCombatAreaEdge : ActivateBehaviour
 	{
+		public float minAngle = -90;
+		public float maxAngle = 90;
 		public ParticleSystem teleport;
 		
 		public override void Awake()
@@ -27,7 +29,7 @@ namespace MAUnit
 		public void Teleport()
 		{
 			SpawnParticleSystem(teleport);
-			Vector3 edge 		= Game.Instance.level.area.GetRadiusAtAngle( UnityEngine.Random.value * 360 );
+			Vector3 edge 		= Game.Instance.level.area.GetRadiusAtAngle( UnityEngine.Random.Range(minAngle, maxAngle) );
 			transform.position 	= edge;
 			PlaySound();
 			SpawnParticleSystem(teleport);

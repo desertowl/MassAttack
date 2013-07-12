@@ -109,7 +109,7 @@ namespace MACore
 				Vector3 screenspace = Camera.main.WorldToScreenPoint(transform.position);
 				screenspace.y 		= Screen.height - screenspace.y;				
 				
-				GUI.Label( new Rect(screenspace.x, screenspace.y, 100, 12), "Level " + (id+1), GUI.skin.customStyles[MAHUD.GUISKIN_WHITE_SUBTITLE] );
+				GUI.Label( new Rect(screenspace.x - 35, screenspace.y+12, 91, 24), "Level " + (id+1), GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX] );
 			}
 		}
 	}

@@ -129,8 +129,8 @@ namespace MAUnit
 		public override void OnActivateEnd ()
 		{
 			CooldownBegin();
-			PlaySound();
 			Time.timeScale = 1;
+			PlaySound();
 			
 			// Show the blast column
 			PlayBlastColumns();			

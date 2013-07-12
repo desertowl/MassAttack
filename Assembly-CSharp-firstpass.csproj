@@ -47,6 +47,8 @@
      <Compile Include="Assets\Standard Assets\Scripts\General Scripts\ActivateTrigger.cs" />
      <Compile Include="Assets\Standard Assets\Scripts\Utility Scripts\CombineChildren.cs" />
      <Compile Include="Assets\Standard Assets\Scripts\Utility Scripts\MeshCombineUtility.cs" />
+     <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
+     <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Shaders\DiffuseNormalEmis.shader" />
      <None Include="Assets\Shaders\SolidScrollFX.shader" />
      <None Include="Assets\Shaders\CutoutTint.shader" />
@@ -57,6 +59,7 @@
      <None Include="Assets\Shaders\DiffuseEmis.shader" />
      <None Include="Assets\Shaders\ScrollFX.shader" />
      <None Include="Assets\Icosphere\readme.txt" />
+     <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />
      <None Include="Assets\Shaders\Background.shader" />
      <None Include="Assets\Shaders\TheWorks.shader" />
      <None Include="Assets\Shaders\SpaceFX.shader" />
