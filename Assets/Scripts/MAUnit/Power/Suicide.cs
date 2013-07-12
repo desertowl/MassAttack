@@ -9,6 +9,7 @@ namespace MAUnit
 {
 	public class Suicide : Power
 	{		
+		public ParticleSystem spawn;		
 		// Use this for initialization
 		public override void OnActivateBegin ()
 		{
@@ -28,7 +29,9 @@ namespace MAUnit
 			// Kill myself
 			Defender def = GetDefender();
 			Game.Instance.Kill( def, Vector3.up*100 );
-			Destroy(def.gameObject, cooldown/3);
+			Destroy(def.gameObject);
+			
+			Play(spawn, transform.position, transform.rotation);
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace MAPlayer
 			if( false )
 			{
 				level = 15;
-				unlocks = 4;
+				unlocks = 3;
 				gold = 10000;
 			}
 		}

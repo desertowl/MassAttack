@@ -17,19 +17,30 @@ namespace MAUnit
 		{
 		}
 		
+		private float GetRandomValue()
+		{
+			return (UnityEngine.Random.value-0.5f) *3;
+		}
+		
+		private Vector3 GetRandomOffset()
+		{
+			return new Vector3(GetRandomValue(), 0, GetRandomValue());
+		}
+		
 		// Use this for execution
 		public override void OnActivateEnd ()
 		{
 			PlaySound();
 			CooldownBegin();
-			Play(spawn, transform.position, transform.rotation);
+			
+			// Get the spawn position
+			Vector3 spawnPosition 	= transform.position + GetRandomOffset();
+			Play(spawn, spawnPosition, transform.rotation);
 			
 			// Create a new defender 
-			DefenderData data = new DefenderData(EDefender.Sentry, false);
-			
-			
-			Defender sentry   = Game.Instance.Spawn(data);
-			sentry.transform.position = transform.position;
+			DefenderData data 		= new DefenderData(EDefender.Sentry, false);
+			Defender sentry   		= Game.Instance.Spawn(data);
+			sentry.transform.position = spawnPosition;
 			sentry.power.CooldownBegin();
 			
 			

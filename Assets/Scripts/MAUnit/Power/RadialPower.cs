@@ -100,13 +100,47 @@ namespace MAUnit
 			foreach( Monster monster in Game.Instance.Monsters )
 			{
 				// get the distance between me and this monster!
-				float dist = Vector3.Distance(transform.position, monster.transform.position);
-
-				if( dist < radius )
+				if( IsInRange(monster.transform) )
 					result.Add(monster);
 			}
 			return result;
-		}		
+		}	
+		
+		/// <summary>
+		/// Gets the monsters in range.
+		/// </summary>
+		/// <returns>
+		/// The monsters in range.
+		/// </returns>
+		protected List<Projectile> GetProjectilesInRange()
+		{
+			// Get the projectiles
+			List<Projectile> result = new List<Projectile>();
+			Projectile[] rockets 	= (Projectile[])GameObject.FindObjectsOfType(typeof(Projectile));
+			
+			foreach( Projectile rocket in rockets )
+			{
+				// get the distance between me and this monster!
+				if( IsInRange(rocket.transform) )
+					result.Add(rocket);
+			}
+			return result;
+		}
+		
+		/// <summary>
+		/// Determines whether this instance is in range the specified other.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance is in range the specified other; otherwise, <c>false</c>.
+		/// </returns>
+		/// <param name='other'>
+		/// If set to <c>true</c> other.
+		/// </param>
+		private bool IsInRange(Transform other)
+		{
+			float dist = Vector3.Distance(transform.position, other.position);
+			return( dist < radius );
+		}
 	}
 }
 

@@ -96,11 +96,7 @@ namespace MAUnit
 	    }
 		
 		public void Explode(ContactPoint hit)
-		{			
-			
-			//Debug.LogError("SOURCE IS " + source.owner + " IS monster? " + (source.owner.GetType() == typeof(Monster)) );
-			//Debug.LogError("SOURCE IS MONSTER?" + source.owner is Monster + " source is " + source );
-			
+		{	
 			// Get all the units in the radius
 			if( source.owner.GetType() == typeof(Defender) )
 			{
@@ -111,8 +107,6 @@ namespace MAUnit
 			else if( source.owner.GetType() == typeof(Monster) )
 			{
 				List<Defender> defenders = new List<Defender>(Game.Instance.GetDefendersInRange(hit.point, radius));
-				
-				Debug.Log("DEFENDERS ARE: " + defenders.Count );
 				foreach( Defender defender in defenders )
 					ProjectileHit(defender);				
 			}

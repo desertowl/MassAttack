@@ -12,8 +12,7 @@ namespace MAGUI
 		
 		public static readonly float BUTTON_SIZE = 128;
 		public static readonly float HP_BAR_WIDTH = 120;
-		
-		private bool init = false;
+
 		private bool wasOnCD = false;
 		
 		

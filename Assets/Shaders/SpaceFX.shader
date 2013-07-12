@@ -2,29 +2,26 @@ Shader "DOG/SpaceFX"
 {
 	Properties 
 	{
-_stars("_stars", 2D) = "black" {}
-_gas("_gas", 2D) = "black" {}
-_speed("_speed", Float) = 1
-
+		_stars("_stars", 2D) = "black" {}
+		_gas("_gas", 2D) = "black" {}
+		_speed("_speed", Float) = 1
 	}
 	
 	SubShader 
 	{
 		Tags
 		{
-"Queue"="Geometry"
-"IgnoreProjector"="False"
-"RenderType"="Opaque"
-
+			"Queue"="Geometry"
+			"IgnoreProjector"="False"
+			"RenderType"="Opaque"
 		}
 
 		
-Cull Off
-ZWrite On
-ZTest LEqual
-ColorMask RGBA
-Fog{
-}
+		Cull Off
+		ZWrite On
+		ZTest LEqual
+		ColorMask RGBA
+		Fog{}
 
 
 		CGPROGRAM
@@ -32,11 +29,12 @@ Fog{
 #pragma target 3.0
 
 
-sampler2D _stars;
-sampler2D _gas;
-float _speed;
+		sampler2D _stars;
+		sampler2D _gas;
+		float _speed;
 
-			struct EditorSurfaceOutput {
+			struct EditorSurfaceOutput
+			{
 				half3 Albedo;
 				half3 Normal;
 				half3 Emission;
@@ -48,12 +46,11 @@ float _speed;
 			
 			inline half4 LightingBlinnPhongEditor_PrePass (EditorSurfaceOutput s, half4 light)
 			{
-half3 spec = light.a * s.Gloss;
-half4 c;
-c.rgb = (s.Albedo * light.rgb + light.rgb * spec);
-c.a = s.Alpha;
-return c;
-
+				half3 spec = light.a * s.Gloss;
+				half4 c;
+				c.rgb = (s.Albedo * light.rgb + light.rgb * spec);
+				c.a = s.Alpha;
+				return c;
 			}
 
 			inline half4 LightingBlinnPhongEditor (EditorSurfaceOutput s, half3 lightDir, half3 viewDir, half atten)
@@ -73,23 +70,23 @@ return c;
 				return LightingBlinnPhongEditor_PrePass( s, res );
 			}
 			
-			struct Input {
+			struct Input 
+			{
 				float2 uv_gas;
-float2 uv_stars;
-
+				float2 uv_stars;
 			};
 
-			void vert (inout appdata_full v, out Input o) {
-float4 VertexOutputMaster0_0_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_1_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_2_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
-
-
+			void vert (inout appdata_full v, out Input o)
+			{
+				float4 VertexOutputMaster0_0_NoInput = float4(0,0,0,0);
+				float4 VertexOutputMaster0_1_NoInput = float4(0,0,0,0);
+				float4 VertexOutputMaster0_2_NoInput = float4(0,0,0,0);
+				float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
 			}
 			
 
-			void surf (Input IN, inout EditorSurfaceOutput o) {
+			void surf (Input IN, inout EditorSurfaceOutput o)
+			{
 				o.Normal = float3(0.0,0.0,1.0);
 				o.Alpha = 1.0;
 				o.Albedo = 0.0;
@@ -98,19 +95,19 @@ float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
 				o.Specular = 0.0;
 				o.Custom = 0.0;
 				
-float4 Multiply4=_speed.xxxx * _Time;
-float4 UV_Pan1=float4((IN.uv_gas.xyxy).x + Multiply4.x,(IN.uv_gas.xyxy).y + Multiply4.x,(IN.uv_gas.xyxy).z,(IN.uv_gas.xyxy).w);
-float4 Tex2D1=tex2D(_gas,UV_Pan1.xy);
-float4 Tex2D0=tex2D(_stars,(IN.uv_stars.xyxy).xy);
-float4 Add0=Tex2D1 + Tex2D0;
-float4 Master0_1_NoInput = float4(0,0,1,1);
-float4 Master0_3_NoInput = float4(0,0,0,0);
-float4 Master0_4_NoInput = float4(0,0,0,0);
-float4 Master0_5_NoInput = float4(1,1,1,1);
-float4 Master0_7_NoInput = float4(0,0,0,0);
-float4 Master0_6_NoInput = float4(1,1,1,1);
-o.Albedo = Add0;
-o.Emission = Tex2D0;
+				float4 Multiply4=_speed.xxxx * _Time;
+				float4 UV_Pan1=float4((IN.uv_gas.xyxy).x + Multiply4.x,(IN.uv_gas.xyxy).y + Multiply4.x,(IN.uv_gas.xyxy).z,(IN.uv_gas.xyxy).w);
+				float4 Tex2D1=tex2D(_gas,UV_Pan1.xy);
+				float4 Tex2D0=tex2D(_stars,(IN.uv_stars.xyxy).xy);
+				float4 Add0=Tex2D1 + Tex2D0;
+				float4 Master0_1_NoInput = float4(0,0,1,1);
+				float4 Master0_3_NoInput = float4(0,0,0,0);
+				float4 Master0_4_NoInput = float4(0,0,0,0);
+				float4 Master0_5_NoInput = float4(1,1,1,1);
+				float4 Master0_7_NoInput = float4(0,0,0,0);
+				float4 Master0_6_NoInput = float4(1,1,1,1);
+				o.Albedo = Add0;
+				o.Emission = Tex2D0;
 
 				o.Normal = normalize(o.Normal);
 			}

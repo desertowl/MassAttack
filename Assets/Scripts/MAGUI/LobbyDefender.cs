@@ -39,20 +39,21 @@ namespace MAGUI
 			parent		= menu;
 			this.data 	= data;
 			
+			// Set the local scale
+			transform.localScale				= new Vector3(scale, scale, scale);
+			
 			// Get an uninitanciated prefab
 			template							= data.GetDefender();
 			defender 							= GameObject.Instantiate(template) as Defender;
 			defender.transform.localScale 		= new Vector3(scale,scale,scale);
 			defender.transform.parent 	  		= transform;
-			defender.transform.localPosition	= Vector3.zero;						
+			defender.transform.localPosition	= Vector3.zero;	
 			
 			// Add background object
 			background = GameObject.Instantiate(unitSelectBackground) as GameObject;
-			background.renderer.material.SetColor("_Color", GetDefenderColor() );
-			//background.renderer.material.SetTexture("_MainTex", GetBackgroundTexture() );
-			background.transform.parent = defender.transform;
+			background.transform.parent 		= transform;
 			
-			background.transform.localPosition = new Vector3(-0.38f,0.7f,-2);
+			background.transform.localPosition 	= new Vector3(-0.38f,0.7f,-2);
 			background.transform.localRotation	= Quaternion.Euler(90,0,0);	
 			background.transform.localScale		= new Vector3(0.2120589f, 0.08835784f, 0.08835784f);
 		}
@@ -73,6 +74,9 @@ namespace MAGUI
 		
 		private Color GetDefenderColor()
 		{
+			if( data.bLocked )
+				return new Color(0.133f, 0.133f, 0.133f );
+			
 			switch( template.type )
 			{
 				case EDefender.Berserker:
@@ -110,9 +114,9 @@ namespace MAGUI
 			bool hasUnlocks		= Session.Instance.GameData.HasUnlocks();			
 			Vector3 screenspace = new Vector3(offset.x + width/2.8f, Screen.height/1.5f-offset.y, Camera.main.nearClipPlane+10);
 			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
-
-			defender.transform.position = worldspace;
-			defender.transform.localScale = new Vector3(scale,scale,scale);
+			
+			transform.position	= worldspace;
+			defender.transform.localScale = Vector3.one;
 
 			
 			Vector3 center  	= Camera.main.WorldToScreenPoint( background.transform.position );
@@ -120,12 +124,21 @@ namespace MAGUI
 			hotspot.y 			= Math.Abs(hotspot.y - Screen.height);
 			center.y 			= Math.Abs(center.y - Screen.height);
 			
+			// Set the background color
+			background.renderer.material.SetColor("_Color", GetDefenderColor() );
+			
 			// Get the proper texture
 			Texture status;
 			if( data.bLocked )
+			{
+				defender.gameObject.SetActive(false);
 				status = hasUnlocks?unlockable:locked;
+			}
 			else
+			{
+				defender.gameObject.SetActive(true);
 				status = upgradeable;
+			}
 			
 			float size = (center.y-hotspot.y) * 2.0f;
 			
@@ -203,8 +216,8 @@ namespace MAGUI
 			Vector3 screenspace = new Vector3(offset.x + width*1.45f, Screen.height/22f-offset.y, Camera.main.nearClipPlane+20);
 			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
 			
-			defender.transform.localScale = new Vector3(18,18,18);
-			defender.transform.position = worldspace;			
+			defender.transform.localScale = new Vector3(2.5f,2.5f,2.5f);
+			transform.position 	= worldspace;			
 			
 		}
 		

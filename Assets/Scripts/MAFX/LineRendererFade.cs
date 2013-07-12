@@ -23,6 +23,8 @@ namespace MAFX
 		
 		public override void SetTarget(Unit target)
 		{
+			if( target == null ) return;
+			
         	line = gameObject.AddComponent<LineRenderer>();
 			
         	line.material = new Material(material);

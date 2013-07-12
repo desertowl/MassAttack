@@ -30,7 +30,8 @@ namespace MAUnit
 		protected bool bDead;
 		protected bool bReady;
 		protected Unit target;
-		public Unit Target { get { return target; } set { target = value; } }
+		private Unit _nextTarget;
+		public Unit NextTarget { get { return _nextTarget; } set { _nextTarget = value; } }
 		private float radius;
 		
 		[HideInInspector]
@@ -208,6 +209,12 @@ namespace MAUnit
 			if( spinningUp || powerTargeting ) 
 				return;
 			
+			if( _nextTarget != null )
+			{
+				target = _nextTarget;
+				_nextTarget = null;
+			}
+			
 			// Check to see if im in the combat area
 			inCombatArea = Game.Instance.IsWithinCombatArea(this);
 			
@@ -215,7 +222,7 @@ namespace MAUnit
 			PickTarget ();
 			
 			// Check to see if I can attack my target!
-			if( inCombatArea && !Feared  && target != null )
+			if( inCombatArea && !Feared  && target != null && !target.IsDead() )
 			{
 				foreach( Weapon weap in weapons )
 				{
@@ -328,7 +335,7 @@ namespace MAUnit
 				return transform.position;
 			
 			if( !inCombatArea || target == null )
-				return Game.Instance.GetDefenderSpawnCenter();
+				return GetHome ();
 				//return transform.position;			
 			
 			if( !Feared )
@@ -341,6 +348,17 @@ namespace MAUnit
 				dir.Scale(new Vector3(100, 100, 100));
 				return transform.position + dir;
 			}
+		}
+		
+		/// <summary>
+		/// Gets the home.
+		/// </summary>
+		/// <returns>
+		/// The home.
+		/// </returns>
+		protected virtual Vector3 GetHome()
+		{
+			return Game.Instance.GetDefenderSpawnCenter();
 		}
 		
 		

@@ -17,8 +17,10 @@ namespace MAUnit
 		public EDefender type;
 		
 		
+		
 		[HideInInspector]
 		public Power power;
+		public Vector3 HomeOffset;
 		public bool playerControlled = false;
 		
 		public override void Awake()
@@ -30,7 +32,7 @@ namespace MAUnit
 			// Accessor!
 			power = GetComponent<Power>();
 			
-			if( playerControlled )
+			if( playerControlled && Game.Instance != null )
 				Game.Instance.Avatar = this;
 		}		
 		
@@ -63,6 +65,17 @@ namespace MAUnit
 		{
 			return (int) type;
 		}
+		
+		/// <summary>
+		/// Gets the home.
+		/// </summary>
+		/// <returns>
+		/// The home.
+		/// </returns>
+		protected override Vector3 GetHome()
+		{
+			return base.GetHome() + HomeOffset;
+		}		
 		
 		public override void Update()
 		{

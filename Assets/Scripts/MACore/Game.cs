@@ -43,12 +43,13 @@ namespace MACore
 				
 				if( _target != null )
 					_target.selected = false;
-				_target = value;		
+				_target 			= value;
+				_avatar.NextTarget 	= _target;
 				
 				if( selection != null )
 					Destroy(selection.gameObject);
 				
-				_avatar.Target 	= _target;				
+
 				if( _target == null )
 					return;
 				
@@ -58,7 +59,9 @@ namespace MACore
 				selection.transform.localPosition = Vector3.zero;
 				selection.transform.Translate(0, 0.5f, 0, Space.World );
 				
-				_avatar.Target 	= _target;
+				foreach( Defender defender in defenders )
+					if( !defender.IsDead() )
+						defender.NextTarget 	= _target;
 				_target.selected = true;
 			}
 		}			
@@ -81,7 +84,7 @@ namespace MACore
 		private List<Monster> monsters;
 		private List<SpawnPoint> spawns;
 		private SpawnPoint defenderSpawn;
-		private Power active = null;
+		private Power activePower = null;
 		
 		// Accessors
 		public List<Defender> Defenders { get {return defenders;} }
@@ -248,11 +251,11 @@ namespace MACore
 				}
 			}			
 			
-			if( active != null && active.Activating && Input.GetMouseButtonUp(0))
+			if( activePower != null && activePower.Activating && Input.GetMouseButtonUp(0))
 			{
-				active.OnActivateEnd();
-				active.Activating = false;
-				active = null;
+				activePower.OnActivateEnd();
+				activePower.Activating = false;
+				activePower = null;
 			}
 		}
 		
@@ -383,6 +386,8 @@ namespace MACore
 		{
 			// Remove this from the target list
 			defenders.Remove(target);	
+			
+			target.GetComponent<CapsuleCollider>().enabled = false;
 			target.Kill();
 			target.ApplyForce(force);
 		}		
@@ -461,7 +466,7 @@ namespace MACore
 		public void ActivatePower(Power power)
 		{
 			// cant begin the activate of two powers at the same time
-			if( active != null )
+			if( activePower != null )
 				return;
 			
 			if( power == null || power.GetCooldown()>0 ) 
@@ -481,7 +486,7 @@ namespace MACore
 				power.Activating = true;
 				power.OnActivateBegin();
 			}
-			active = power;
+			activePower = power;
 		}
 	}
 	

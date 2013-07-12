@@ -66,6 +66,17 @@ namespace MAUnit
 				Game.Instance.DoDamage(defender, this, monster);
 				UnityEngine.AudioSource.PlayClipAtPoint(hit, transform.position);
 			}
+			
+			
+			List<Projectile> projectiles = GetProjectilesInRange();
+			foreach( Projectile projectile in projectiles )
+			{
+				if( projectile.gameObject.layer == LayerMask.NameToLayer("Projectile (Monster)") )
+				{
+					projectile.gameObject.layer = LayerMask.NameToLayer("Projectile (Defender)");
+					projectile.rigidbody.velocity = projectile.rigidbody.velocity * -1;
+				}
+			}
 		}
 		
 		/// <summary>

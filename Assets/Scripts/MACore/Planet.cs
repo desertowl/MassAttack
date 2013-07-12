@@ -14,7 +14,7 @@ namespace MACore
 		private Vector3 axis;
 		private bool current;
 		private bool complete;
-		private Material defaultMaterial;
+		private Material defaultMaterial = null;
 		
 		/// <summary>
 		/// Awake this instance.
@@ -25,7 +25,9 @@ namespace MACore
 			defaultScale 	= ring.transform.localScale;
 			axis 			= new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value );
 			level.id		= id;
-			defaultMaterial = renderer.material;
+			
+			if( defaultMaterial == null )
+				defaultMaterial = renderer.material;
 			
 			UpdateAccessable();
 		}

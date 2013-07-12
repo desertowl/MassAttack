@@ -61,8 +61,9 @@ public class Menu : MAHUD
 			
 			space.SetActive(_state == EMenuState.Map);
 			if( _state == EMenuState.Map )
+			{
 				ActivateSpace();
-			
+			}
 			if( _state == EMenuState.UpgradeStore )
 			{
 				InitializeDefenders();
@@ -80,6 +81,12 @@ public class Menu : MAHUD
 		{
 			planet.UpdateAccessable();
 		}
+		
+		float ModalSize 	= 128;
+		if( Session.Instance.GameData.HasUnlocks() )
+		{
+			Modal = new ModalData(new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!", true);
+		}		
 	}
 	
 	/// <summary>
@@ -348,13 +355,8 @@ public class Menu : MAHUD
 		//bool hasDefenders = Session.Instance.GameData.HasDefenders();
 		
 		// Get the available levels		
-		// int currentLevel 	= Session.Instance.GameData.level;
-		float ModalSize 	= 128;
-		if( Session.Instance.GameData.HasUnlocks() )
-		{
-			DrawModal ( new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!");
-		}
-		
+		// int currentLevel 	= Session.Instance.GameData.level;		
+		DrawModal();
 		DrawNavBar();
 	}	
 	

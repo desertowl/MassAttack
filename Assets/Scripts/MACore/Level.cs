@@ -6,6 +6,10 @@ namespace MACore
 {
 	public class Level : MonoBehaviour
 	{
+		// Class Variables
+		private static Level instance;
+		public static Level Instance { get {return instance;} }			
+		
 		public Material sky;
 		public bool unlockDefenderReward = false;
 		public float duration = 30; // THe duration of this level, in seconds
@@ -18,7 +22,8 @@ namespace MACore
 		public CombatArea area;
 		
 		public Level ()
-		{			
+		{	
+			instance = this;
 		}
 		
 		public virtual void Start()

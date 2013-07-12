@@ -9,7 +9,7 @@ namespace MAUnit
 	{
 		public ParticleSystem teleport;
 		
-		public void Awake()
+		public override void Awake()
 		{
 			CooldownBegin();
 		}		

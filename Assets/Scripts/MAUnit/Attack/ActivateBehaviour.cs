@@ -8,6 +8,7 @@ namespace MAUnit
 		public float spinup;
 		public float cooldown;
 		public AudioClip attack;
+		public bool PlayAudioAtCamera = false;
 		
 		private float lastActivate;
 		
@@ -25,7 +26,7 @@ namespace MAUnit
 		public void PlaySound()
 		{
 			if( attack != null )
-				UnityEngine.AudioSource.PlayClipAtPoint(attack, transform.position);			
+				UnityEngine.AudioSource.PlayClipAtPoint(attack, PlayAudioAtCamera?Camera.main.transform.position:transform.position);
 		}
 		
 		public virtual void Awake()

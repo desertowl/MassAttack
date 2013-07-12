@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\MACore\MAUtil.cs" />
      <Compile Include="Assets\Scripts\MACore\Planet.cs" />
      <Compile Include="Assets\Scripts\MACore\Session.cs" />
+     <Compile Include="Assets\Scripts\MACore\SmartCamera.cs" />
      <Compile Include="Assets\Scripts\MACore\Spawn\SpawnPoint.cs" />
      <Compile Include="Assets\Scripts\MACore\Spawn\SpawnRing.cs" />
      <Compile Include="Assets\Scripts\MACore\Wave.cs" />

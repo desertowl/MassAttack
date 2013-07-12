@@ -100,8 +100,6 @@ namespace MAUnit
 			Vector3 angles 	= transform.localRotation.eulerAngles;
 			cone.dir 		= angles.y;
 			*/
-			
-			Debug.Log("Mouse Pos: "+ Input.mousePosition + "Ground Mask" +   LayerMask.NameToLayer("Ground") );
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if( Physics.Raycast(ray, out hit, 100.0f, ~LayerMask.NameToLayer("Ground") ) )
