@@ -13,8 +13,8 @@ namespace MACore
 			Vector3 centroid = area.transform.position;
 			Vector3 edge	 = area.GetRadiusAtAngle(180);
 			
-			edge.y 	+= 5;//Mathf.Abs(edge.y-centroid.y);
-			edge.x  += (centroid.x - edge.x)/3;
+			edge.y 	+= 4;//Mathf.Abs(edge.y-centroid.y);
+			edge.x  -= (centroid.x - edge.x)/5;
 			transform.position = edge;
 			
 			initialized = true;

@@ -17,7 +17,7 @@ Platform assembly: C:\development\desertowl\Unity\MassAttack\dist\MassAttackSamp
 Loading C:\development\desertowl\Unity\MassAttack\dist\MassAttackSample_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
 Platform assembly: C:\development\desertowl\Unity\MassAttack\dist\MassAttackSample_Data\Managed\JsonFx.Json.dll (this message is harmless)
 Loading C:\development\desertowl\Unity\MassAttack\dist\MassAttackSample_Data\Managed\JsonFx.Json.dll into Unity Child Domain
-- Completed reload, in  0.053 seconds
+- Completed reload, in  0.054 seconds
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
@@ -32,129 +32,10 @@ desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 Platform assembly: C:\development\desertowl\Unity\MassAttack\dist\MassAttackSample_Data\Managed\System.dll (this message is harmless)
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
-Unloading 1402 unused Assets to reduce memory usage. Loaded Objects now: 664.
-Total: 5.465394 ms (FindLiveObjects: 0.215035 ms CreateObjectMapping: 0.096526 ms MarkObjects: 0.595726 ms  DeleteObjects: 2.838462 ms)
+Unloading 1392 unused Assets to reduce memory usage. Loaded Objects now: 681.
+Total: 2.935945 ms (FindLiveObjects: 0.194965 ms CreateObjectMapping: 0.054156 ms MarkObjects: 0.388337 ms  DeleteObjects: 1.408718 ms)
 
 power is ready?: False
  
 (Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 176 unused Assets to reduce memory usage. Loaded Objects now: 2007.
-Total: 1.853442 ms (FindLiveObjects: 0.107358 ms CreateObjectMapping: 0.058616 ms MarkObjects: 0.532012 ms  DeleteObjects: 0.365718 ms)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 1391 unused Assets to reduce memory usage. Loaded Objects now: 695.
-Total: 10.921232 ms (FindLiveObjects: 0.383240 ms CreateObjectMapping: 0.161196 ms MarkObjects: 1.378135 ms  DeleteObjects: 5.473996 ms)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 319 unused Assets to reduce memory usage. Loaded Objects now: 700.
-Total: 5.811999 ms (FindLiveObjects: 0.145268 ms CreateObjectMapping: 0.097482 ms MarkObjects: 1.197187 ms  DeleteObjects: 1.127102 ms)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 176 unused Assets to reduce memory usage. Loaded Objects now: 2008.
-Total: 1.831780 ms (FindLiveObjects: 0.092066 ms CreateObjectMapping: 0.050015 ms MarkObjects: 0.586806 ms  DeleteObjects: 0.360940 ms)
-
-[mecanim]: BindSkeleton: cannot find Transform 'body_mesh'
- 
-(Filename:  Line: 1441)
-
-[mecanim]: BindSkeleton: cannot find Transform 'transform1'
- 
-(Filename:  Line: 1441)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 1160 unused Assets to reduce memory usage. Loaded Objects now: 1581.
-Total: 9.013950 ms (FindLiveObjects: 0.449502 ms CreateObjectMapping: 0.253263 ms MarkObjects: 1.800878 ms  DeleteObjects: 3.380988 ms)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 379 unused Assets to reduce memory usage. Loaded Objects now: 1585.
-Total: 7.390834 ms (FindLiveObjects: 0.369223 ms CreateObjectMapping: 0.165975 ms MarkObjects: 1.818400 ms  DeleteObjects: 1.853124 ms)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-power is ready?: False
- 
-(Filename: C:/BuildAgent/work/7535de4ca26c26ac/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 54)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 1268 unused Assets to reduce memory usage. Loaded Objects now: 2008.
-Total: 11.255731 ms (FindLiveObjects: 0.445361 ms CreateObjectMapping: 0.318251 ms MarkObjects: 2.143342 ms  DeleteObjects: 5.195565 ms)
-
-[mecanim]: BindSkeleton: cannot find Transform 'body_mesh'
- 
-(Filename:  Line: 1441)
-
-[mecanim]: BindSkeleton: cannot find Transform 'transform1'
- 
-(Filename:  Line: 1441)
 
