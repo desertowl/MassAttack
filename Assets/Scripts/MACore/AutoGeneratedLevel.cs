@@ -66,7 +66,7 @@ namespace MACore
 		private EMonsterType GetMonsterType(float percent, float difficulty)
 		{
 			// Number between 0 and 1
-			float monsterId 	= Mathf.Abs(Mathf.Sin( percent * Mathf.PI));
+			float monsterId 	= Mathf.Abs(Mathf.Sin( percent * Mathf.PI/2));
 			//EMonsterType type 	= (EMonsterType) Mathf.Round((monsterId * ((int)GetMaxMonster())));
 			
 			List<EMonsterType> types 	= GetPossibleMonsters();
@@ -193,16 +193,18 @@ namespace MACore
 				
 				case EMonsterType.Vector:
 					return (int)Mathf.Round(1 + (difficulty*12));
-
+				
+				case EMonsterType.VectorSentry:
 				case EMonsterType.Heap:
 				case EMonsterType.BitBoss:
 					return (int)Mathf.Round(1 + (difficulty*6));
 				
 				case EMonsterType.RocketHeap:
-				case EMonsterType.VectorSentry:
-				case EMonsterType.Kobol:
 				case EMonsterType.VectorBoss:
 					return (int)Mathf.Round(1 + (difficulty*3));
+				
+				case EMonsterType.Kobol:
+				return (int)Mathf.Round(1 + (difficulty*2));
 			}
 			return 1;
 		}

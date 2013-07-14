@@ -119,7 +119,9 @@ namespace MAUnit
 			
 			Vector3 testSource 	= new Vector3(spawn.x, spawn.y+5, spawn.z );
 			RaycastHit hit 		= new RaycastHit();
-			if( Physics.Raycast( testSource, Vector3.down, out hit, 500.0f) )
+			
+			// Dont hit defenders on this ray cast
+			if( Physics.Raycast( testSource, Vector3.down, out hit, 500.0f, LayerMask.NameToLayer("Defender") ) )
 			{
 				spawn = hit.point;
 			}
@@ -152,6 +154,8 @@ namespace MAUnit
 		
 		public void Kill()
 		{
+			//GetComponent<CapsuleCollider>().enabled = false;
+			//rigidbody.useGravity = false;
 			// The dead have no fear...
 			Feared = false;
 			bDead = true;
@@ -334,7 +338,19 @@ namespace MAUnit
 			if( Game.Instance == null )
 				return transform.position;
 			
-			if( !inCombatArea || target == null )
+			if( target == null )
+				return GetHome ();			
+			
+			// If my target is not in the combat area, move to the edge
+			if( !target.inCombatArea )
+			{
+				// Get the angle between the spawn area and the unit
+				float angle = Vector3.Angle( Game.Instance.GetDefenderSpawnCenter(), target.transform.position);
+				Debug.Log("Angle is: " + angle );
+				return Level.Instance.area.GetRadiusAtAngle(angle);
+			}
+			
+			if( !inCombatArea )
 				return GetHome ();
 				//return transform.position;			
 			

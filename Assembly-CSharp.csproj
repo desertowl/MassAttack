@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\MACore\Spawn\SpawnRing.cs" />
      <Compile Include="Assets\Scripts\MACore\Wave.cs" />
      <Compile Include="Assets\Scripts\MAFX\FX.cs" />
+     <Compile Include="Assets\Scripts\MAFX\Floating.cs" />
      <Compile Include="Assets\Scripts\MAFX\LineRendererFade.cs" />
      <Compile Include="Assets\Scripts\MAGUI\GameHUD.cs" />
      <Compile Include="Assets\Scripts\MAGUI\LobbyDefender.cs" />

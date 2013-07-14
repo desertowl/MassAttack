@@ -92,7 +92,8 @@ namespace MAUnit
 		protected void PickNearestTarget()
 		{
 			// Get the active defenders
-			List<Monster> monsters = Game.Instance.Monsters;
+			List<Monster> monsters = new List<Monster>(Game.Instance.Monsters);
+			monsters.Sort( (x,y) => (int)(UnityEngine.Random.value*100) );
 			
 			float nearestDist = float.MaxValue;
 			Monster nearest = null;

@@ -93,7 +93,13 @@ namespace MAUnit
 		private void Unfear()
 		{
 			foreach( Monster monster in targets )
+			{
+				if( monster.IsDead() )
+					continue;
+				
 				monster.Feared = false;
+				monster.SetTarget(null);
+			}
 		}
 
 		

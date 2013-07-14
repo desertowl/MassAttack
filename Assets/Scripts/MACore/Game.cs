@@ -235,18 +235,21 @@ namespace MACore
 			{
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				
-				RaycastHit hit;
-				if( Physics.Raycast(ray, out hit, 1000.0f) )
+				RaycastHit [] hits = Physics.RaycastAll(ray, 100);
+				
+				foreach( RaycastHit hit in hits )
 				{
-					Defender defender = hit.collider.gameObject.GetComponent<Defender>();
+					// Check to see if what I hit was a unit
+					Unit unit = hit.collider.gameObject.GetComponent<Unit>();
+					if( unit == null || unit.IsDead() ) continue;
 					
-					if( defender != null )
+					if( unit is Defender )
 					{
-						ActivatePower(defender.power);
+						ActivatePower( ((Defender)unit).power);
 					}
 					else
 					{
-						Target = hit.collider.gameObject.GetComponent<Monster>();
+						Target = unit as Monster;
 					}
 				}
 			}			
@@ -386,8 +389,7 @@ namespace MACore
 		{
 			// Remove this from the target list
 			defenders.Remove(target);	
-			
-			target.GetComponent<CapsuleCollider>().enabled = false;
+
 			target.Kill();
 			target.ApplyForce(force);
 		}		

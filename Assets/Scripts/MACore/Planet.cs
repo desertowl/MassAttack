@@ -42,12 +42,12 @@ namespace MACore
 			
 			if( complete )
 			{
-				renderer.material = defaultMaterial;
+				//renderer.material = defaultMaterial;
 				SetRingColor( new Color(0,1,1) );
 			}
 			else if( current )
 			{
-				renderer.material = defaultMaterial;
+				//renderer.material = defaultMaterial;
 				SetRingColor( new Color(1,1,0) );
 			}
 			else

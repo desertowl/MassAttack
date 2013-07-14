@@ -30,6 +30,7 @@ namespace MAUnit
 		{
 			SpawnParticleSystem(teleport);
 			Vector3 edge 		= Game.Instance.level.area.GetRadiusAtAngle( UnityEngine.Random.Range(minAngle, maxAngle) );
+			edge.y += 0.5f;
 			transform.position 	= edge;
 			PlaySound();
 			SpawnParticleSystem(teleport);
