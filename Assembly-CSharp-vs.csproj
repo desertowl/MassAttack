@@ -75,11 +75,12 @@
      <Compile Include="Assets\Scripts\MAPlayer\Talents\SentryStatBoostTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\StatBoostTalent.cs" />
      <Compile Include="Assets\Scripts\MAPlayer\Talents\Talent.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Ability\TeleportCombatAreaEdge.cs" />
+     <Compile Include="Assets\Scripts\MAUnit\Ability\VanishCombatAreaEdge.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\AbstractUnitAnimationController.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\LocalSpin.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\SentryAnimationController.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\SimpleSet.cs" />
-     <Compile Include="Assets\Scripts\MAUnit\Animation\TeleportCombatAreaEdge.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Animation\UnitAnimationController.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack\ActivateBehaviour.cs" />
      <Compile Include="Assets\Scripts\MAUnit\Attack\Attack.cs" />

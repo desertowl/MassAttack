@@ -148,28 +148,7 @@ namespace MAGUI
 		{
 			Power power = GetPower();
 			
-			Game.Instance.ActivatePower(power);
-			/*
-			
-			if( power == null || power.GetCooldown()>0 ) 
-				return;
-				
-			// Living ready units can activate a power!
-			if( Input.GetMouseButton(0) && unit.IsReady() && !unit.IsDead() )
-			{
-				if( !init )
-				{
-					power.OnActivateBegin();
-					init = true;
-				}
-			}			
-			
-			if( Input.GetMouseButtonUp(0) )
-			{
-				init = false;
-				power.OnActivateEnd();
-			}	
-			*/		
+			Game.Instance.ActivatePower(power);	
 		}
 	}
 }

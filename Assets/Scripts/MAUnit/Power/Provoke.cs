@@ -94,7 +94,7 @@ namespace MAUnit
 		{
 			foreach( Monster monster in targets )
 			{
-				if( monster.IsDead() )
+				if( monster.IsDead() || monster.IsInactive() )
 					continue;
 				
 				monster.Feared = false;

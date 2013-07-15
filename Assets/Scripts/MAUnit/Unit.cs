@@ -55,10 +55,10 @@ namespace MAUnit
 
 				if( _feared && _fearedEffect == null )
 				{
-					GameObject template = Resources.Load("Particles/Feared") as GameObject;
+					GameObject template 					= Resources.Load("Particles/Feared") as GameObject;
 					_fearedEffect = (Instantiate( template ) as GameObject).GetComponent<ParticleSystem>();
-					_fearedEffect.transform.parent = this.DefaultTarget.transform;
-					_fearedEffect.transform.localPosition = Vector3.zero;
+					_fearedEffect.transform.parent 			= this.DefaultTarget.transform;
+					_fearedEffect.transform.localPosition	= Vector3.zero;
 				}
 				
 				
@@ -184,6 +184,11 @@ namespace MAUnit
 			return bDead;
 		}
 		
+		public bool IsInactive()
+		{
+			return !gameObject.activeSelf;
+		}
+		
 		/// <summary>
 		/// Raises the attack event.
 		/// </summary>
@@ -224,9 +229,9 @@ namespace MAUnit
 			
 			// Pick a target
 			PickTarget ();
-			
+
 			// Check to see if I can attack my target!
-			if( inCombatArea && !Feared  && target != null && !target.IsDead() )
+			if( inCombatArea && !Feared  && target != null && !target.IsDead() && !target.IsInactive() )
 			{
 				foreach( Weapon weap in weapons )
 				{
@@ -267,7 +272,8 @@ namespace MAUnit
 			
 			if( target != null && target.IsDead() )
 			{
-				rigidbody.velocity = Vector3.zero;
+				if( !rigidbody.isKinematic )
+					rigidbody.velocity = Vector3.zero;
 				return;
 			}
 			
@@ -317,7 +323,7 @@ namespace MAUnit
 		{
 			if( Feared ) return;
 			
-			if( !IsDead() && !powerTargeting )
+			if( !IsDead() && !powerTargeting && !IsInactive() )
 			{
 				instance.Attack(target);
 				Game.Instance.DoDamage(this, instance, target);	
@@ -344,10 +350,15 @@ namespace MAUnit
 			// If my target is not in the combat area, move to the edge
 			if( !target.inCombatArea )
 			{
+
+				
+				Vector3 dir = (target.transform.position-Game.Instance.GetDefenderSpawnCenter()).normalized;
+				float angle = Vector3.Angle(target.transform.position, Game.Instance.GetDefenderSpawnCenter());
+				float mag	= Level.Instance.area.GetRadiusAtAngle(angle).magnitude;
+				
 				// Get the angle between the spawn area and the unit
-				float angle = Vector3.Angle( Game.Instance.GetDefenderSpawnCenter(), target.transform.position);
-				Debug.Log("Angle is: " + angle );
-				return Level.Instance.area.GetRadiusAtAngle(angle);
+				Vector3 result = Game.Instance.GetDefenderSpawnCenter()+(dir*mag);			
+				return result;
 			}
 			
 			if( !inCombatArea )

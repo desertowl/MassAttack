@@ -18,6 +18,9 @@ namespace MAUnit
 		
 		public void Update()
 		{
+			// dont teleport if your dead
+			if( GetComponent<Unit>().IsDead() )
+				return;
 			
 			if( GetCooldown() == 0 )
 			{

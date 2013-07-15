@@ -38,7 +38,7 @@ namespace MACore
 			get { return _target; }
 			set
 			{	
-				if( value != null && value.IsDead() )
+				if( value != null && (value.IsDead()||value.IsInactive() ) )
 					return;
 				
 				if( _target != null )
@@ -241,7 +241,7 @@ namespace MACore
 				{
 					// Check to see if what I hit was a unit
 					Unit unit = hit.collider.gameObject.GetComponent<Unit>();
-					if( unit == null || unit.IsDead() ) continue;
+					if( unit == null || unit.IsDead() || unit.IsInactive() ) continue;
 					
 					if( unit is Defender )
 					{

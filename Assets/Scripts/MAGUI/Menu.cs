@@ -83,9 +83,13 @@ public class Menu : MAHUD
 		}
 		
 		float ModalSize 	= 128;
-		if( Session.Instance.GameData.HasUnlocks() )
+		if( Session.Instance.GameData.level == 1 && Session.Instance.GameData.gold >= 20 )
+			Modal = new ModalData("You may upgrade your character by pressing the upgrade button", EModalType.Acknowledge);
+		
+		else if( Session.Instance.GameData.HasUnlocks() )
 		{
-			Modal = new ModalData(new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!", true);
+			Modal = new ModalData("You may select a new character!", EModalType.Acknowledge);
+			//Modal = new ModalData(new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!", EModalType.Acknowledge);
 		}		
 	}
 	
@@ -200,27 +204,46 @@ public class Menu : MAHUD
 		
 		GUI.DrawTexture(new Rect(10,10, 512, 128), logo );
 		
-		if (GUI.Button (new Rect (valign, hoffset, buttonWidth, buttonHeight), "New Game"))
+		if( Modal == null )
 		{
-			// Create some brand new game data
-			Session.Instance.GameData 	= new GameData();
-			Session.Instance.GameData.Clear();
-			State 						= EMenuState.Map;
+			GUI.enabled = GameData.HasGameData();
+			if (GUI.Button (new Rect (valign, hoffset, buttonWidth, buttonHeight), "Continue Game"))
+			{
+				// Load up the existing game data
+				Session.Instance.GameData 	= GameData.Load();
+				State 						= EMenuState.Map;
+			}
+			GUI.enabled = true;		
+			
+			if (GUI.Button (new Rect (valign, hoffset+10+buttonHeight, buttonWidth, buttonHeight), "New Game"))
+			{
+				
+				if( GameData.HasGameData() )
+				{
+					Modal = new ModalData("Starting a new game will erase your current progress!\n\nAre you sure?", EModalType.Confirm);
+				}
+				else
+				{
+					StartNewGame();
+				}
+			}
+			
+			if (GUI.Button (new Rect (valign, hoffset+20+(2*buttonHeight), buttonWidth, buttonHeight), "Quit"))
+			{
+				Application.Quit();
+			}	
 		}
 		
-		GUI.enabled = GameData.HasGameData();
-		if (GUI.Button (new Rect (valign, hoffset+10+buttonHeight, buttonWidth, buttonHeight), "Continue Game"))
-		{
-			// Load up the existing game data
-			Session.Instance.GameData 	= GameData.Load();
-			State 						= EMenuState.Map;
-		}
-		GUI.enabled = true;
-		
-		if (GUI.Button (new Rect (valign, hoffset+20+(2*buttonHeight), buttonWidth, buttonHeight), "Quit"))
-		{
-			Application.Quit();
-		}			
+		if( DrawModal() )
+			StartNewGame();
+	}
+	
+	private void StartNewGame()
+	{
+		// Create some brand new game data
+		Session.Instance.GameData 	= new GameData();
+		Session.Instance.GameData.Clear();
+		State 						= EMenuState.Map;
 	}
 	
 	/// <summary>
@@ -247,6 +270,7 @@ public class Menu : MAHUD
 				break;			
 		}
 		*/
+		GUI.enabled = Modal == null;
 		if( GUI.Button( new Rect( Screen.width - NavButtonSize - 2, Screen.height - NavButtonSize - 2, NavButtonSize, NavButtonSize), "", style ) )
 		{
 			switch( State )
@@ -260,6 +284,7 @@ public class Menu : MAHUD
 					break;			
 			}
 		}
+		GUI.enabled = true;
 	}
 	
 	/// <summary>
@@ -356,8 +381,8 @@ public class Menu : MAHUD
 		
 		// Get the available levels		
 		// int currentLevel 	= Session.Instance.GameData.level;		
-		DrawModal();
 		DrawNavBar();
+		DrawModal();
 	}	
 	
 	/// <summary>

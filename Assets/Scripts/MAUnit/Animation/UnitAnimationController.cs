@@ -36,7 +36,13 @@ namespace MAUnit
 			delta.y 		= 0;
 			Vector3 dir 	= delta.normalized;
 			
-			if( anim == null ) 
+			if( delta.magnitude < 0.5 )
+			{
+				unit.rigidbody.velocity = Vector3.zero;
+				dir = Vector3.zero;
+			}
+			
+			if( anim == null || unit.IsInactive() ) 
 				return;
 			
 			if( unit.IsDead() )
@@ -51,7 +57,7 @@ namespace MAUnit
 				anim.SetBool("Running", false);
 			}
 			else
-			{
+			{				
 				if( dir == Vector3.zero )
 					FaceTarget( Game.Instance==null?Vector3.forward:Vector3.back );
 				else
@@ -59,9 +65,7 @@ namespace MAUnit
 				
 				
 				bool isRunning = unit.rigidbody.velocity.magnitude > 0.1f  && delta.sqrMagnitude > 1f;
-				
 				anim.SetBool("Running", isRunning );
-				//anim.SetBool("Running", delta.sqrMagnitude > 2);
 			}			
 			
 			// If I am already attacking, I cant be attacking!

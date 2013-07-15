@@ -20,26 +20,43 @@ namespace MAGUI
 		public static readonly int GUISKIN_SPACEBUTTON 	= 11;
 		public static readonly int GUISKIN_MODALBACK 	= 12;	
 		public static readonly int GUISKIN_TOOLTIP_RIGHT= 13;
+		public static readonly int GUISKIN_MODAL		= 14;
 		
 		
 		public Texture goldcoin;
 		protected readonly float NAV_BAR_HEIGHT = 35.0f;	
 		
+		public enum EModalType
+		{
+			Simple,
+			Acknowledge,
+			Confirm
+		}
 		
 		public class ModalData
 		{
 			public Rect rect;
 			public string text;
-			public bool confirm;
+			public EModalType type;
 			
-			public ModalData(Rect rect, string text, bool confirm)
+			
+			public ModalData(Rect rect, string text, EModalType type)
 			{
 				this.rect = rect;
 				this.text = text;
-				this.confirm = confirm;
+				this.type = type;
+			}
+			
+			public ModalData(string text, EModalType type)
+			{
+				float ModalSize = Screen.width/3;
+				this.rect 		= new Rect( (Screen.width - ModalSize) / 2, (Screen.height - ModalSize)/2, ModalSize, ModalSize);
+
+				this.text = text;
+				this.type = type;					
 			}
 		}
-		public ModalData Modal;
+		public ModalData Modal = null;
 		
 		
 		/// <summary>
@@ -70,10 +87,31 @@ namespace MAGUI
 			// Background modal
 			GUI.Box( new Rect(0,0, Screen.width, Screen.height), "", GUI.skin.customStyles[GUISKIN_MODALBACK] );			
 			Rect rect = Modal.rect;
-			if( Modal.confirm )
+			if( Modal.type == EModalType.Confirm )
 			{				
 				// Actual Text
-				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_TALENTBOX] );
+				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_MODAL] );
+				Time.timeScale 	= 0.0f;
+				
+				float btnWidth 	= rect.width/3;
+				float btnHeight = btnWidth/2;
+				if( GUI.Button( new Rect( rect.x+rect.width/8, rect.y + (rect.height-btnHeight-5), btnWidth, btnHeight), "Ok" ) )
+				{
+					Time.timeScale 	= 1.0f;
+					Modal = null;
+					return true;
+				}
+				if( GUI.Button( new Rect( rect.x+rect.width - rect.width/8 - btnWidth, rect.y + (rect.height-btnHeight-5), btnWidth, btnHeight), "Cancel" ) )
+				{
+					Time.timeScale 	= 1.0f;
+					Modal = null;
+					return false;
+				}				
+			}
+			else if( Modal.type == EModalType.Acknowledge )
+			{				
+				// Actual Text
+				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_MODAL] );
 				Time.timeScale 	= 0.0f;
 				
 				float btnWidth 	= 50;
@@ -84,7 +122,7 @@ namespace MAGUI
 					Modal = null;
 					return true;
 				}
-			}
+			}			
 			else
 			{
 				// Actual Text
