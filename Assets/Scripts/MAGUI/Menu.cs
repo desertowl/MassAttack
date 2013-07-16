@@ -77,9 +77,20 @@ public class Menu : MAHUD
 	
 	private void ActivateSpace()
 	{
-		foreach( Planet planet in space.GetComponentsInChildren<Planet>() )
+		Vector3 last = Vector3.zero;
+		
+		List<Planet> planets = new List<Planet>(space.GetComponentsInChildren<Planet>());
+		planets.Sort( (p1, p2)  => p2.id - p1.id );
+		
+		foreach( Planet planet in planets )
 		{
-			planet.UpdateAccessable();
+			
+			if( planet.UpdateAccessable() && planet.level.id >= 0 )
+			{
+				Vector3 next = planet.transform.position;
+				AddLine( last, next );
+				last = next;
+			}
 		}
 		
 		float ModalSize 	= 128;
@@ -91,6 +102,18 @@ public class Menu : MAHUD
 			Modal = new ModalData("You may select a new character!", EModalType.Acknowledge);
 			//Modal = new ModalData(new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!", EModalType.Acknowledge);
 		}		
+	}
+	
+	private void AddLine(Vector3 start, Vector3 end )
+	{
+		if( start == Vector3.zero ) return;
+		
+		GameObject sub 		= GameObject.Instantiate( Resources.Load("Levels/Line") ) as GameObject;
+		LineRenderer line 	= sub.GetComponent<LineRenderer>();
+		sub.transform.parent = space.transform;
+		
+		line.SetPosition(0, start);
+		line.SetPosition(1, end);
 	}
 	
 	/// <summary>

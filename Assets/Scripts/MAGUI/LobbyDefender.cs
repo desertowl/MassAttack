@@ -190,8 +190,23 @@ namespace MAGUI
 			int peers 			= 0;
 			int level 			= 0;
 			
+			
+			// Render the defender
+			Vector3 screenspace = new Vector3(offset.x + width*1.45f, Screen.height/22f-offset.y, Camera.main.nearClipPlane+20);
+			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
+			defender.transform.localScale = new Vector3(2.5f,2.5f,2.5f);
+			transform.position 	= worldspace;			
+			
+			
+			// Render out the power
+			ShowPower( new Vector2(offset.x+10, offset.y+10), width*1.1f+10, buttonHeight );
+			
 			// Render out each talent, there should never be more than 2 per "level"
 			Talent [] talents = defender.GetComponents<Talent>();
+			
+			
+			
+			offset.y += buttonHeight+20;
 			
 			Vector2 line = new Vector2(offset.x + bufferX, offset.y + level * (buttonHeight+10) + bufferY - 10);
 			foreach( Talent talent in talents )
@@ -211,14 +226,7 @@ namespace MAGUI
 				Vector2 position = new Vector2(offset.x+10 + peers * (buttonWidth+10) + bufferX, line.y);
 				ShowTalent(position, buttonWidth, buttonHeight, defender, talent);
 				peers++;
-			}
-			
-			Vector3 screenspace = new Vector3(offset.x + width*1.45f, Screen.height/22f-offset.y, Camera.main.nearClipPlane+20);
-			Vector3 worldspace	= Camera.main.ScreenToWorldPoint(screenspace);
-			
-			defender.transform.localScale = new Vector3(2.5f,2.5f,2.5f);
-			transform.position 	= worldspace;			
-			
+			}			
 		}
 		
 		/// <summary>
@@ -258,9 +266,21 @@ namespace MAGUI
 			GUI.Label(new Rect( position.x, position.y, buttonWidth, buttonHeight ), "("+talent.GetUnlocked() + "/"+talent.max+")", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );
 			GUI.Label(new Rect( position.x+buttonHeight, position.y + 16, buttonWidth-buttonHeight, buttonHeight ), 	talent.desc, GUI.skin.customStyles[MAHUD.GUISKIN_DESCRIPTION] );		
 			
-			GUI.Label(new Rect( position.x+buttonHeight, position.y + buttonHeight,buttonHeight, buttonHeight ), talent.cost+"g", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );
+			//GUI.Label(new Rect( position.x+buttonHeight, position.y + buttonHeight - 16,buttonWidth - 30, buttonHeight ), talent.cost+"g", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );
+			GUI.Label(new Rect( position.x, position.y + buttonHeight -20, buttonWidth, buttonHeight ), talent.cost+"g", GUI.skin.customStyles[MAHUD.GUISKIN_TALENT_COUNT] );
 			GUI.enabled = true;
-		}		
+		}
+		
+		private void ShowPower(Vector2 position, float width, float height)
+		{
+			GUI.Label( new Rect( position.x, position.y, width, height ), "", GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX]);
+
+			GUI.Label( new Rect( position.x+3, position.y+3, height-6, height-6 ), "", GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX] );
+			GUI.DrawTexture(new Rect( position.x+3, position.y+3, height-6, height-6 ), defender.power.label );
+			
+			GUI.Label(new Rect( position.x+height, position.y, width, height ), defender.power.displayName, GUI.skin.customStyles[MAHUD.GUISKIN_LARGE_SUBTITLE] );
+			GUI.Label(new Rect( position.x+height, position.y + 16, width-height, height ), defender.power.desc, GUI.skin.customStyles[MAHUD.GUISKIN_DESCRIPTION] );		
+		}
 	}
 }
 

@@ -11,9 +11,9 @@ _speed("_speed", Float) = 1
 	{
 		Tags
 		{
-"Queue"="Geometry"
+"Queue"="Transparent"
 "IgnoreProjector"="False"
-"RenderType"="Opaque"
+"RenderType"="Transparent"
 
 		}
 
@@ -28,7 +28,7 @@ Fog{
 
 		CGPROGRAM
 #pragma surface surf BlinnPhongEditor  alpha decal:add vertex:vert
-#pragma target 3.0
+#pragma target 2.0
 
 
 sampler2D _diffuse;

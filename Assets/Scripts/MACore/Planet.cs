@@ -32,13 +32,21 @@ namespace MACore
 			UpdateAccessable();
 		}
 		
-		public void UpdateAccessable()
+		/// <summary>
+		/// Updates the accessable.
+		/// </summary>
+		/// <returns>
+		/// The accessable.
+		/// </returns>
+		public bool UpdateAccessable()
 		{
-			if( Session.Instance == null ) return;
+			if( Session.Instance == null ) return false;
 			
 			int currentPlayerLevel 	= Session.Instance.GameData.level;
 			current					= currentPlayerLevel == id;
 			complete				= currentPlayerLevel > id;	
+			level.id				= id;
+			
 			
 			if( complete )
 			{
@@ -54,9 +62,9 @@ namespace MACore
 			{
 				renderer.material = Menu.Instance.unavailable;
 				ring.SetActive(false);
+				return false;
 			}
-			
-			level.id		= id;
+			return true;
 		}
 		
 		/// <summary>

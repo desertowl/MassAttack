@@ -92,23 +92,40 @@ namespace MAUnit
 			if( !armed )
 				return;
 			
-			Explode( collision.contacts[0] );
+			
+			Explode( collision.gameObject, collision.contacts[0] );
 	    }
 		
-		public void Explode(ContactPoint hit)
+		public void Explode(GameObject vicitm, ContactPoint hit)
 		{	
 			// Get all the units in the radius
 			if( source.owner.GetType() == typeof(Defender) )
-			{
+			{	
+				// If im a monster...
+				Monster target = vicitm.GetComponent<Monster>();
+				
+				if( target!=null )
+					ProjectileHit(target);
+				if( radius == 0 ) return;
+				
 				List<Monster> monsters = new List<Monster>(Game.Instance.GetMonstersInRange(hit.point, radius));
 				foreach( Monster monster in monsters )
-					ProjectileHit(monster);
+					if( monster != target )
+						ProjectileHit(monster);
 			}
 			else if( source.owner.GetType() == typeof(Monster) )
 			{
+				// If im a Defender...
+				Defender target = vicitm.GetComponent<Defender>();
+				
+				if( target!=null )
+					ProjectileHit(target);
+				if( radius == 0 ) return;				
+				
 				List<Defender> defenders = new List<Defender>(Game.Instance.GetDefendersInRange(hit.point, radius));
 				foreach( Defender defender in defenders )
-					ProjectileHit(defender);				
+					if( defender != target )
+						ProjectileHit(defender);				
 			}
 			
 			Destroy(gameObject);

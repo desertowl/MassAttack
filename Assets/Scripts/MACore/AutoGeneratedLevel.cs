@@ -195,9 +195,11 @@ namespace MACore
 					return (int)Mathf.Round(1 + (difficulty*12));
 				
 				case EMonsterType.VectorSentry:
+					return (int)Mathf.Round(1 + (difficulty*8));
+				
 				case EMonsterType.Heap:
 				case EMonsterType.BitBoss:
-					return (int)Mathf.Round(1 + (difficulty*6));
+					
 				
 				case EMonsterType.RocketHeap:
 				case EMonsterType.VectorBoss:
