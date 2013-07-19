@@ -11,11 +11,8 @@ namespace MAUnit
 		public float maxAngle = 90;
 		public ParticleSystem teleport;
 		
-		private bool vanished;
-		
 		public override void Awake()
 		{
-			vanished = false;
 			CooldownBegin();
 		}		
 		
@@ -42,7 +39,6 @@ namespace MAUnit
 		/// </summary>
 		public void Vanish()
 		{	
-			vanished = true;
 			gameObject.SetActive(false);
 			
 
@@ -54,9 +50,7 @@ namespace MAUnit
 		/// Teleport this instance.
 		/// </summary>
 		public void Reappear()
-		{
-			vanished = false;
-			
+		{			
 			Vector3 edge 		= Game.Instance.level.area.GetRadiusAtAngle( UnityEngine.Random.Range(minAngle, maxAngle) );
 			edge.y 				+= 0.5f;
 			transform.position 	= edge;

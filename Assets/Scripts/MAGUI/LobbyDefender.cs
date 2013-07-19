@@ -199,7 +199,7 @@ namespace MAGUI
 			
 			
 			// Render out the power
-			ShowPower( new Vector2(offset.x+10, offset.y+10), width*1.1f+10, buttonHeight );
+			ShowPower( defender, new Vector2(offset.x+10, offset.y+10), width*1.1f+10, buttonHeight );
 			
 			// Render out each talent, there should never be more than 2 per "level"
 			Talent [] talents = defender.GetComponents<Talent>();
@@ -271,7 +271,22 @@ namespace MAGUI
 			GUI.enabled = true;
 		}
 		
-		private void ShowPower(Vector2 position, float width, float height)
+		/// <summary>
+		/// Shows the power.
+		/// </summary>
+		/// <param name='defender'>
+		/// Defender.
+		/// </param>
+		/// <param name='position'>
+		/// Position.
+		/// </param>
+		/// <param name='width'>
+		/// Width.
+		/// </param>
+		/// <param name='height'>
+		/// Height.
+		/// </param>
+		public static void ShowPower(Defender defender, Vector2 position, float width, float height)
 		{
 			GUI.Label( new Rect( position.x, position.y, width, height ), "", GUI.skin.customStyles[MAHUD.GUISKIN_TALENTBOX]);
 

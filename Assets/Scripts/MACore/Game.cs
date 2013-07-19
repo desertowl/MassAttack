@@ -490,6 +490,23 @@ namespace MACore
 			}
 			activePower = power;
 		}
+		
+		/// <summary>
+		/// Gets the next untaught power.
+		/// </summary>
+		/// <returns>
+		/// The next untaught power.
+		/// </returns>
+		public Defender GetNextUntaughtDefender()
+		{
+			foreach( Defender defender in Defenders )
+			{
+				DefenderData data = Session.Instance.GameData.roster[""+defender.type];
+				if( !data.taughtPower )
+					return defender;
+			}
+			return null;
+		}
 	}
 	
 	public enum EGameState

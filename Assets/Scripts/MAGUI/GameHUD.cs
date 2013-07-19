@@ -16,12 +16,42 @@ public class GameHUD : MAHUD
 	public GUISkin skin;
 	private List<Status> status;
 	
+	private Defender current;
+	
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
 	void Awake()
 	{
 		instance = this;
+		
+		// Get the level
+		current = Game.Instance.GetNextUntaughtDefender();
+		if( current!=null )
+		{
+			Invoke("ShowPowerDialog", current.power.cooldown*1.1f );
+		}
+	}
+	
+	/// <summary>
+	/// Shows the power dialog.
+	/// </summary>
+	public void ShowPowerDialog()
+	{
+		// Get the proper status
+		Status found = GetStatus(current);
+		
+		// Quick sanity check
+		if( found == null ) return;
+		
+		float ModalWidth  = Screen.width * 0.8f;
+		float ModalHeight = Screen.height * 0.2f;
+		Rect rect 		= new Rect( (Screen.width - ModalWidth)/2, (Screen.height - ModalHeight)/2, ModalWidth, ModalHeight);		
+		
+		// Show the modals as needed
+		Vector2 target 	= new Vector2(found.offset.x + Status.BUTTON_SIZE/2, found.offset.y);
+		Modal = new ModalData("Special Powers are important!", EModalType.Acknowledge, target);	
+		Modal.rect = rect;
 	}
 	
 	/// <summary>
@@ -109,7 +139,7 @@ public class GameHUD : MAHUD
 
 		// Draw the nav bar
 		DrawNavBar();
-		
+
 		// Switch according to the game state
 		switch( Game.Instance.State )
 		{
@@ -122,6 +152,28 @@ public class GameHUD : MAHUD
 			case EGameState.Defeat:
 				DrawResult("DEFEAT!");
 				break;				
+		}
+		
+		
+		
+		if( DrawModal() )
+		{
+			if( current != null )
+			{
+				Session.Instance.GameData.SetTaught( current.type );
+				GetStatus(current).disabled = false;
+				current = null;
+			}
+		}
+
+		if( current != null && Modal != null)
+		{
+			float height = Screen.height * 0.18f;
+			LobbyDefender.ShowPower(current, new Vector2(Modal.rect.x, Modal.rect.y - height), Modal.rect.width, height);
+			
+			Status found = GetStatus(current);
+			found.disabled = true;
+			found.Draw();
 		}
 	}
 	
@@ -143,7 +195,7 @@ public class GameHUD : MAHUD
 	{
 		List<Status> statues = new List<Status>(status);
 		foreach( Status s in statues )
-			s.Draw();		
+			s.Draw();	
 	}
 	
 	/// <summary>
@@ -163,7 +215,8 @@ public class GameHUD : MAHUD
 			// Save my earned gold
 			Session.Instance.GameData.LevelComplete(Game.Instance);
 			Session.Instance.GameData.Save();
-			Application.LoadLevel("Menu");
+			
+			LoadLevel("Menu");
 		}
 		
 		if (GUI.Button (new Rect (Screen.width/2-100,160, 200, 50), "Replay"))
@@ -171,12 +224,23 @@ public class GameHUD : MAHUD
 			// Save my earned gold
 			Session.Instance.GameData.LevelComplete(Game.Instance);
 			Session.Instance.GameData.Save();
-			Application.LoadLevel(Application.loadedLevel);
+			
+			LoadLevel("Reload");
 		}
 		
 		if (GUI.Button (new Rect (Screen.width/2-100,280, 200, 50), "Quit"))
 		{
 			Application.Quit();
 		}	
+	}
+	
+	private Status GetStatus(Unit unit)
+	{
+		foreach( Status s in status )
+		{
+			if( unit == s.unit )
+				return s;
+		}		
+		return null;
 	}
 }

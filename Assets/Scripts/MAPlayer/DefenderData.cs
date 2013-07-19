@@ -13,6 +13,7 @@ namespace MAPlayer
 	{
 		public int id;
 		public bool bLocked;
+		public bool taughtPower;
 		public Dictionary<string, int> upgrades;
 		
 		/// <summary>
@@ -20,6 +21,7 @@ namespace MAPlayer
 		/// </summary>
 		public DefenderData()
 		{
+			taughtPower = false;
 			bLocked		= true;
 			this.id		= 0;
 			upgrades 	= new Dictionary<string, int>();			
@@ -33,6 +35,7 @@ namespace MAPlayer
 		/// </param>
 		public DefenderData(EDefender type, bool locked)
 		{
+			taughtPower = false;
 			bLocked		= locked;
 			this.id		= (int)type;
 			upgrades 	= new Dictionary<string, int>();

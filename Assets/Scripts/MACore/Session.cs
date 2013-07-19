@@ -64,6 +64,8 @@ namespace MACore
 			data.Save(talent.GetDefender());
 			data.Save();
 		}
+		
+		
 	}
 }
 

@@ -24,13 +24,17 @@ namespace MAGUI
 		
 		
 		public Texture goldcoin;
+		public Texture arrow;
 		protected readonly float NAV_BAR_HEIGHT = 35.0f;	
+		
+		private string LevelToLoad;
 		
 		public enum EModalType
 		{
 			Simple,
 			Acknowledge,
-			Confirm
+			Confirm,
+			Loading
 		}
 		
 		public class ModalData
@@ -38,6 +42,7 @@ namespace MAGUI
 			public Rect rect;
 			public string text;
 			public EModalType type;
+			public Vector2 target;
 			
 			
 			public ModalData(Rect rect, string text, EModalType type)
@@ -47,13 +52,23 @@ namespace MAGUI
 				this.type = type;
 			}
 			
-			public ModalData(string text, EModalType type)
+			public ModalData(string text, EModalType type, Vector2 target)
 			{
 				float ModalSize = Screen.width/3;
 				this.rect 		= new Rect( (Screen.width - ModalSize) / 2, (Screen.height - ModalSize)/2, ModalSize, ModalSize);
 
 				this.text = text;
-				this.type = type;					
+				this.type = type;	
+				this.target = target;
+			}
+			
+			public ModalData(string text, EModalType type) : this(text, type, Vector2.zero)
+			{	
+			}
+			
+			public bool IsSimple()
+			{
+				return type == EModalType.Simple;
 			}
 		}
 		public ModalData Modal = null;
@@ -69,6 +84,15 @@ namespace MAGUI
 			GUI.DrawTexture( 	new Rect(Screen.width-100, 3, NAV_BAR_HEIGHT/2, NAV_BAR_HEIGHT/2), goldcoin );
 			GUI.Label(			new Rect(Screen.width-54, 6, NAV_BAR_HEIGHT, NAV_BAR_HEIGHT), ""+GetDisplayGold()+"g", GUI.skin.customStyles[3] );
 		}
+		
+		/// <summary>
+		/// Creates the loading modal.
+		/// </summary>
+		public virtual void LoadLevel(string level)
+		{
+			Modal = new ModalData("Loading!\n\nPlease wait...", EModalType.Loading);
+			LevelToLoad = level;
+		}
 
 		/// <summary>
 		/// Draws the modal.
@@ -83,12 +107,13 @@ namespace MAGUI
 		{
 			if( Modal == null || Modal.text == null || Modal.text.Length == 0 )
 				return false;
-
-			// Background modal
-			GUI.Box( new Rect(0,0, Screen.width, Screen.height), "", GUI.skin.customStyles[GUISKIN_MODALBACK] );			
-			Rect rect = Modal.rect;
+			
+			Rect rect = Modal.rect;	
 			if( Modal.type == EModalType.Confirm )
 			{				
+				// Background modal
+				GUI.Box( new Rect(0,0, Screen.width, Screen.height), "", GUI.skin.customStyles[GUISKIN_MODALBACK] );			
+				
 				// Actual Text
 				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_MODAL] );
 				Time.timeScale 	= 0.0f;
@@ -110,24 +135,57 @@ namespace MAGUI
 			}
 			else if( Modal.type == EModalType.Acknowledge )
 			{				
+				// Background modal
+				GUI.Box( new Rect(0,0, Screen.width, Screen.height), "", GUI.skin.customStyles[GUISKIN_MODALBACK] );			
+				
 				// Actual Text
 				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_MODAL] );
 				Time.timeScale 	= 0.0f;
 				
-				float btnWidth 	= 50;
-				float btnHeight = 32;
+				float btnWidth 	= 100;
+				float btnHeight = 50;
 				if( GUI.Button( new Rect( rect.x+(rect.width-btnWidth)/2, rect.y + (rect.height-btnHeight-5), btnWidth, btnHeight), "Ok" ) )
 				{
 					Time.timeScale 	= 1.0f;
 					Modal = null;
 					return true;
 				}
-			}			
-			else
+			}
+			else if( Modal.type == EModalType.Loading )
+			{				
+				// Background modal
+				GUI.Box( new Rect(0,0, Screen.width, Screen.height), "", GUI.skin.customStyles[GUISKIN_MODALBACK] );			
+
+				// Actual Text
+				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_MODAL] );
+				
+				if( LevelToLoad != null )
+				{
+					if( LevelToLoad == "Reload" )
+						Application.LoadLevel(Application.loadedLevel);
+					else
+						Application.LoadLevel(LevelToLoad);
+					
+					LevelToLoad = null;
+				}
+			}
+			else //if( Modal.type == EModalType.Simple )
 			{
 				// Actual Text
-				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_TOOLTIP_RIGHT] );				
+				GUI.Label( new Rect( rect.x, rect.y, rect.width, rect.height), Modal.text, GUI.skin.customStyles[GUISKIN_MODAL] );
+
+			}	
+			
+			// Draw the arrow
+			if( Modal.target != Vector2.zero )
+			{
+				int w = arrow.width;
+				int h = arrow.height;	
+
+				float offset = Mathf.Sin(Time.realtimeSinceStartup*10)*12;
+				GUI.DrawTexture( new Rect( Modal.target.x - w/2, Modal.target.y - h + offset, w,h ), arrow );
 			}
+			
 			return false;
 		}
 		

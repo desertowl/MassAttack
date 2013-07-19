@@ -23,7 +23,6 @@ public class Menu : MAHUD
 	public Texture upgrade;
 	public Texture playnow;
 	public GameObject space; // the final frontier
-	//public List<Level> levels;
 	public Session template;
 	public GameObject splash;
 	
@@ -31,6 +30,7 @@ public class Menu : MAHUD
 	private List<LobbyDefender> defenders 	= null;
 	private LobbyDefender selected 			= null;
 	private readonly float NavButtonSize 	= 90;
+	private Rect NavButtonRect;
 	
 	
 	
@@ -93,15 +93,13 @@ public class Menu : MAHUD
 			}
 		}
 		
-		float ModalSize 	= 128;
+		// Show the modals as needed
+		Vector2 target 	= new Vector2(Screen.width - NavButtonSize/2 - 2, Screen.height - NavButtonSize - 2);
 		if( Session.Instance.GameData.level == 1 && Session.Instance.GameData.gold >= 20 )
-			Modal = new ModalData("You may upgrade your character by pressing the upgrade button", EModalType.Acknowledge);
+			Modal = new ModalData("\nUpgrade your team!", EModalType.Simple, target);
 		
 		else if( Session.Instance.GameData.HasUnlocks() )
-		{
-			Modal = new ModalData("You may select a new character!", EModalType.Acknowledge);
-			//Modal = new ModalData(new Rect( Screen.width - NavButtonSize/5 - ModalSize, Screen.height - NavButtonSize - ModalSize, ModalSize, ModalSize), "Unlock A Character!", EModalType.Acknowledge);
-		}		
+			Modal = new ModalData("\nYou may unlock an additional team mate!", EModalType.Simple, target);
 	}
 	
 	private void AddLine(Vector3 start, Vector3 end )
@@ -140,7 +138,8 @@ public class Menu : MAHUD
 
 				planet.level.id 			 = planet.id;
 				Session.Instance.TargetLevel = planet.level;
-				Application.LoadLevel("Game");
+				
+				LoadLevel("Game");
 			}
 		}
 	}
@@ -277,25 +276,14 @@ public class Menu : MAHUD
 		// Draw the background
 		base.DrawNavBar();
 		
-		GUIStyle style = GUI.skin.customStyles[GUISKIN_BACKBUTTON];
-		/*
-		string label = "";
+		int skin = State == EMenuState.UpgradeStore?GUISKIN_SPACEBUTTON:GUISKIN_BACKBUTTON;
 		
-		switch( State )
+		GUI.enabled 	= (Modal == null || Modal.IsSimple() );
+		NavButtonRect 	= new Rect( Screen.width - NavButtonSize - 2, Screen.height - NavButtonSize - 2, NavButtonSize, NavButtonSize);
+		
+		if( GUI.Button( NavButtonRect, "", GUI.skin.customStyles[skin] ) )
 		{
-			case EMenuState.Map:
-			case EMenuState.TalentTree:
-				label = "Upgrades";
-				break;
-			case EMenuState.UpgradeStore:
-				style = GUI.skin.customStyles[GUISKIN_SPACEBUTTON];
-				label = "Map";
-				break;			
-		}
-		*/
-		GUI.enabled = Modal == null;
-		if( GUI.Button( new Rect( Screen.width - NavButtonSize - 2, Screen.height - NavButtonSize - 2, NavButtonSize, NavButtonSize), "", style ) )
-		{
+			Modal = null;
 			switch( State )
 			{
 				case EMenuState.Map:

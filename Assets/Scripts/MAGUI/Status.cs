@@ -14,6 +14,7 @@ namespace MAGUI
 		public static readonly float HP_BAR_WIDTH = 120;
 
 		private bool wasOnCD = false;
+		public bool disabled = false;
 		
 		
 		/// <summary>
@@ -50,6 +51,9 @@ namespace MAGUI
 			
 			wasOnCD = onCooldown;			
 			GUI.enabled = !onCooldown;
+
+			if( disabled )
+				GUI.enabled = false;
 			
 			
 			

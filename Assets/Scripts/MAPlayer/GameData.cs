@@ -92,6 +92,17 @@ namespace MAPlayer
 			return data;
 		}
 		
+		public void SetTaught(EDefender type)
+		{
+			if( !roster.ContainsKey(""+type) )
+				return;
+			
+			DefenderData data = roster[""+type];
+			data.taughtPower = true;
+			
+			Save();
+		}
+		
 		/// <summary>
 		/// Determines whether this instance has unlocks.
 		/// </summary>
@@ -163,7 +174,10 @@ namespace MAPlayer
 		public void Save(Defender defender)
 		{
 			// Get the defender data for this defender
-			DefenderData dd 	= new DefenderData(defender.type, false);
+			DefenderData dd = new DefenderData(defender.type, false);
+			
+			if( GetDefenderData(defender.type) != null )
+				dd.taughtPower	= GetDefenderData(defender.type).taughtPower;
 			
 			// Save all the defender information
 			Talent [] talents 	= defender.GetComponents<Talent>();
@@ -184,6 +198,8 @@ namespace MAPlayer
 			GameData gd;
 			
 			string data = PlayerPrefs.GetString("data");
+			
+			Debug.LogWarning("DATA:" + data );
 			
 			if( data.Length > 0 )
 				gd = MAUtil.JsonDecode<GameData>(data);

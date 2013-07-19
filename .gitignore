@@ -5,7 +5,6 @@ Temp/
 Temp\
 MassAttack0/
 Assets/Standard Assets/
-#*.sln
 #*.userprefs
 #*.csproj
 #*.unityproj
@@ -20,5 +19,4 @@ Thumbs.db
 Library/EditorUserBuildSettings.asset
 Library/InspectorExpandedItems.asset
 *.csproj
-
 *.sln
